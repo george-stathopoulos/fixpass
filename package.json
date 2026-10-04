@@ -1,0 +1,16 @@
+{
+  "name": "fixpass",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fixpass: safe, temporary support access to WordPress sites, and Spotlight to show exactly where a problem is.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build src/index.js --output-path=build",
+    "start": "wp-scripts start src/index.js --output-path=build",
+    "zip": "npm run build && bash bin/zip.sh"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
+    "@wordpress/scripts": "^30.0.0"
+  }
+}
