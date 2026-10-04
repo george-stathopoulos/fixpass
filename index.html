@@ -1,266 +1,304 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Fixpass: show support where it breaks</title>
-	<meta name="description" content="Fixpass is a free WordPress plugin: Spotlight the exact spot that's broken, and give your support team safe, temporary access, with no password shared.">
-	<meta property="og:title" content="Fixpass: show support where it breaks">
-	<meta property="og:description" content="Spotlight the exact spot that's broken, and give your support team safe, temporary access. A free WordPress plugin.">
-	<meta property="og:type" content="website">
-	<link rel="icon" href="brand/icon.svg" type="image/svg+xml">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-	<a class="skip" href="#main">Skip to content</a>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixpass: show support where it breaks</title>
+<meta name="description" content="Fixpass is a free WordPress plugin: Spotlight the exact spot that’s broken, and give your support team safe, temporary access, with no password shared.">
+<meta name="theme-color" content="#4a3aa7">
+<link rel="canonical" href="https://george-stathopoulos.github.io/fixpass/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fixpass">
+<meta property="og:title" content="Fixpass: show support where it breaks">
+<meta property="og:description" content="Fixpass is a free WordPress plugin: Spotlight the exact spot that’s broken, and give your support team safe, temporary access, with no password shared.">
+<meta property="og:url" content="https://george-stathopoulos.github.io/fixpass/">
+<meta property="og:image" content="https://george-stathopoulos.github.io/fixpass/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="brand/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css?v=1.0.0">
+<link rel="stylesheet" href="assets/home.css?v=1.0.0">
+<script>try{var t=localStorage.getItem('hdh-site-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
 
-	<header class="nav" data-nav>
-		<a class="nav__brand" href="#top" aria-label="Fixpass home">
-			<img src="brand/logo-light.svg" alt="Fixpass" width="150" height="40" class="nav__logo nav__logo--light">
-			<img src="brand/logo.svg" alt="" width="150" height="40" class="nav__logo nav__logo--dark" aria-hidden="true">
-		</a>
-		<nav class="nav__links" aria-label="Main">
+</head>
+<body data-root="" class="is-home">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+	<div class="wrap">
+		<a class="brand" href="./" aria-label="Fixpass home"><img class="logo logo--light" src="brand/logo.svg" alt="Fixpass" width="122" height="60"><img class="logo logo--dark" src="brand/logo-light.svg" alt="" aria-hidden="true" width="122" height="60"></a>
+		<nav id="site-nav" class="nav" aria-label="Main">
 			<a href="#how">How it works</a>
 			<a href="#features">Features</a>
-			<a href="#security">Security</a>
-			<a href="https://github.com/george-stathopoulos/fixpass/tree/main/docs">Docs</a>
+			<a href="#support">For support teams</a>
+			<a href="docs/">Help center</a>
 		</nav>
-		<a class="btn btn--amber btn--sm" href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download free</a>
-	</header>
-
-	<main id="main">
-		<!-- Hero -->
-		<section class="hero" id="top" data-hero>
-			<div class="hero__glow hero__glow--a" data-speed="0.25" aria-hidden="true"></div>
-			<div class="hero__glow hero__glow--b" data-speed="-0.15" aria-hidden="true"></div>
-			<div class="hero__cone" data-cone aria-hidden="true"></div>
-			<div class="hero__inner">
-				<p class="eyebrow">A free WordPress plugin</p>
-				<h1 class="hero__title">
-					<span class="hero__line">Stop
-						<span class="rotator" data-rotator aria-live="off">
-							<span class="rotator__word is-in">describing</span>
-							<span class="rotator__word">screenshotting</span>
-							<span class="rotator__word">explaining</span>
-							<span class="rotator__word">guessing</span>
-						</span>
-						it.</span>
-					<span class="hero__line hero__line--spot"><span class="sweep">Spotlight it.</span></span>
-				</h1>
-				<p class="hero__lede">Point at the exact spot that's broken, and let your support team in safely, with no password shared. Fixpass turns a week of “which page?” emails into one click.</p>
-				<div class="hero__cta">
-					<a class="btn btn--amber" href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download Fixpass</a>
-					<a class="btn btn--ghost" href="#how">See how it works</a>
-				</div>
-				<p class="hero__meta">Free and open source · No account · Nothing leaves your site unless you send it</p>
-			</div>
-			<div class="hero__visual" data-speed="-0.08" aria-hidden="true">
-				<svg viewBox="0 0 520 360" class="browser">
-					<rect x="10" y="10" width="500" height="340" rx="18" class="b-window"/>
-					<rect x="10" y="10" width="500" height="40" rx="18" class="b-bar"/>
-					<rect x="10" y="32" width="500" height="18" class="b-bar"/>
-					<circle cx="38" cy="30" r="6" class="b-dot"/><circle cx="58" cy="30" r="6" class="b-dot"/><circle cx="78" cy="30" r="6" class="b-dot"/>
-					<rect x="352" y="19" width="142" height="22" rx="11" class="b-spot-btn"/>
-					<text x="423" y="34" text-anchor="middle" class="b-spot-text">Spotlight a problem</text>
-					<rect x="44" y="82" width="210" height="16" rx="8" class="b-ink"/>
-					<rect x="44" y="110" width="300" height="10" rx="5" class="b-line"/>
-					<rect x="44" y="130" width="250" height="10" rx="5" class="b-line"/>
-					<rect x="44" y="172" width="196" height="132" rx="12" class="b-card"/>
-					<rect x="264" y="172" width="212" height="132" rx="12" class="b-card"/>
-					<rect x="62" y="194" width="120" height="10" rx="5" class="b-line"/>
-					<rect x="62" y="264" width="96" height="24" rx="12" class="b-btn"/>
-					<rect x="282" y="194" width="140" height="10" rx="5" class="b-line"/>
-					<rect x="282" y="214" width="100" height="10" rx="5" class="b-line"/>
-					<rect x="282" y="264" width="96" height="24" rx="12" class="b-btn b-btn--broken"/>
-					<path class="b-beam" d="M470 -20 L262 238 L394 300 Z"/>
-					<rect x="272" y="254" width="116" height="44" rx="10" class="b-mark"/>
-					<circle cx="272" cy="254" r="11" class="b-num"/><text x="272" y="258.5" text-anchor="middle" class="b-num-text">1</text>
-					<g class="b-note">
-						<rect x="300" y="306" width="190" height="34" rx="10" class="b-note-bg"/>
-						<text x="314" y="327" class="b-note-text">“This button does nothing”</text>
-					</g>
-				</svg>
-			</div>
-			<a class="hero__scroll" href="#lost" aria-label="Scroll down"><span></span></a>
-		</section>
-
-		<!-- Lost in translation -->
-		<section class="lost" id="lost">
-			<div class="wrap">
-				<div class="lost__text reveal">
-					<p class="eyebrow eyebrow--dark">Sound familiar?</p>
-					<h2>Lost in translation.</h2>
-					<p>Customers know something's wrong, but not what to call it. Support knows how to fix it, but can't see it. In between: screenshots of the wrong page, passwords in plain email, and a week of back-and-forth before anyone touches the problem.</p>
-				</div>
-				<div class="chat" data-chat>
-					<div class="chat__msg is-them"><span>The button on the page doesn't work 😕</span></div>
-					<div class="chat__msg is-us"><span>Which page? Which button?</span></div>
-					<div class="chat__msg is-them"><span>The one on the right. I sent a screenshot?</span></div>
-					<div class="chat__msg is-us"><span>That's a different page. Can you send admin login details?</span></div>
-					<div class="chat__msg is-them"><span>Here's my password: ••••••••</span></div>
-					<div class="chat__msg is-us is-late"><span>…three days later: still can't reproduce it.</span></div>
-					<div class="chat__fix">
-						<img src="brand/mark.svg" alt="" width="34" height="34">
-						<div><strong>With Fixpass</strong><span>One spotlighted spot, one safe login link. Support opens the page and sees it.</span></div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- How it works: horizontal scroll -->
-		<section class="how" id="how" data-hscroll>
-			<div class="how__sticky">
-				<div class="how__head wrap">
-					<p class="eyebrow eyebrow--dark">How it works</p>
-					<h2>Four steps. About a minute.</h2>
-					<div class="how__progress" aria-hidden="true"><span data-progress></span></div>
-				</div>
-				<div class="how__track" data-track>
-					<article class="panel">
-						<span class="panel__num">1</span>
-						<div class="panel__art">
-							<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="10" y="10" width="220" height="130" rx="12" class="a-paper"/><rect x="28" y="30" width="110" height="10" rx="5" class="a-ink"/><rect x="28" y="52" width="160" height="8" rx="4" class="a-line"/><rect x="120" y="84" width="92" height="38" rx="9" class="a-mark"/><path d="M228 -10 L112 92 L190 132 Z" class="a-beam"/></svg>
-						</div>
-						<h3>Spotlight it</h3>
-						<p>On the page with the problem, click <strong>Spotlight a problem</strong>. Click the broken part, or drag a box around it, and add a note. Up to five spots.</p>
-					</article>
-					<article class="panel">
-						<span class="panel__num">2</span>
-						<div class="panel__art">
-							<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="40" y="38" width="160" height="74" rx="14" class="a-indigo"/><circle cx="84" cy="75" r="15" fill="none" stroke="#fff" stroke-width="7"/><circle cx="84" cy="75" r="5" class="a-amber"/><path d="M99 71h62a4 4 0 0 1 0 8h-4v8a4 4 0 0 1-8 0v-8h-6v5a4 4 0 0 1-8 0v-5H99z" fill="#fff"/></svg>
-						</div>
-						<h3>Give access</h3>
-						<p>Choose how long support can stay, from a day to a week. A reusable or one-time login link, and a temporary account. No password, ever.</p>
-					</article>
-					<article class="panel">
-						<span class="panel__num">3</span>
-						<div class="panel__art">
-							<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="30" y="18" width="130" height="114" rx="12" class="a-paper"/><rect x="46" y="36" width="70" height="18" rx="9" class="a-indigo"/><rect x="46" y="66" width="96" height="8" rx="4" class="a-line"/><rect x="46" y="82" width="80" height="8" rx="4" class="a-line"/><rect x="46" y="98" width="90" height="8" rx="4" class="a-line"/><rect x="120" y="44" width="96" height="70" rx="12" class="a-amber-soft"/><path d="M146 80l12 12 24-26" fill="none" stroke="#1f1a4d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-						</div>
-						<h3>Copy the details</h3>
-						<p>One button copies everything support needs: the login link, your spots, site health, plugins and themes. Paste it into your reply.</p>
-					</article>
-					<article class="panel">
-						<span class="panel__num">4</span>
-						<div class="panel__art">
-							<svg viewBox="0 0 240 150" aria-hidden="true"><circle cx="78" cy="75" r="44" fill="none" class="a-ring-bg"/><circle cx="78" cy="75" r="44" fill="none" class="a-ring" transform="rotate(-90 78 75)"/><text x="78" y="82" text-anchor="middle" class="a-big">3d</text><path d="M168 34l40 14v32c0 24-18 40-40 48-22-8-40-24-40-48V48z" class="a-indigo"/><path d="M152 82l12 12 22-26" fill="none" stroke="#ffb224" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-						</div>
-						<h3>Support fixes it</h3>
-						<p>Watch the status: you see when support logs in and when they're done. When access ends, their account is deleted. Fixpass can even tidy itself away.</p>
-					</article>
-				</div>
-			</div>
-		</section>
-
-		<!-- Parallax band -->
-		<section class="band" aria-label="No passwords, no screenshots, no guessing">
-			<p class="band__row" data-drift="-0.35">No passwords · No screenshots · No guessing · No passwords · No screenshots · No guessing ·</p>
-			<p class="band__row band__row--outline" data-drift="0.3">Just the spot · Just the fix · Just the spot · Just the fix · Just the spot · Just the fix ·</p>
-		</section>
-
-		<!-- Features -->
-		<section class="features" id="features">
-			<div class="wrap">
-				<div class="section-head reveal">
-					<p class="eyebrow eyebrow--dark">Everything in one plugin</p>
-					<h2>Built for the moment something breaks.</h2>
-				</div>
-				<div class="grid">
-					<article class="card reveal"><span class="card__icon">◎</span><h3>Spotlight</h3><p>Click or drag a box on any page, front end or dashboard. Each spot carries the page, your note, screen size, browser and any errors.</p></article>
-					<article class="card reveal"><span class="card__icon">⚿</span><h3>Safe temporary access</h3><p>A full administrator account for 1 day to a week. Extend by a day, end it any time; it also ends by itself.</p></article>
-					<article class="card reveal"><span class="card__icon">↻</span><h3>Reusable or one-time links</h3><p>Let support come back as often as they need until access ends, or allow a single login. Your call.</p></article>
-					<article class="card reveal"><span class="card__icon">⧉</span><h3>Copy the details</h3><p>Formatted for email or plain text: login link, spots, site health, plugins and themes, ready to paste.</p></article>
-					<article class="card reveal"><span class="card__icon">●</span><h3>Live status</h3><p>Waiting for support, support working on your site, logged out, finished. It updates by itself.</p></article>
-					<article class="card reveal"><span class="card__icon">✦</span><h3>Tidies itself away</h3><p>The support account is deleted when access ends. Tick one box and Fixpass removes itself too.</p></article>
-				</div>
-			</div>
-		</section>
-
-		<!-- For support teams -->
-		<section class="support" id="support">
-			<div class="wrap support__inner">
-				<div class="support__text reveal">
-					<p class="eyebrow">For support teams</p>
-					<h2>Log in and start fixing.</h2>
-					<p>The link lands you on a Support session page with everything the site owner would otherwise have to dig up, visible only to you.</p>
-					<ul class="ticks">
-						<li><strong>The spots,</strong> each with <em>Open and highlight</em>.</li>
-						<li><strong>Site details</strong>: versions, plugins, theme, health flags, recent errors.</li>
-						<li><strong>Debugging</strong>: the debug log with search, caught errors, scheduled tasks.</li>
-						<li><strong>Troubleshooting mode</strong>: switch plugins off in your browser only. Visitors never notice.</li>
-					</ul>
-				</div>
-				<div class="tabs-demo reveal" aria-hidden="true">
-					<div class="tabs-demo__bar"><span class="is-on">Session</span><span>Site details</span><span>Debugging</span><span>Troubleshoot</span></div>
-					<div class="tabs-demo__body">
-						<div class="tabs-demo__row"><span class="dot dot--red">1</span><strong>This button does nothing</strong><em>Open and highlight</em></div>
-						<div class="tabs-demo__row"><span class="dot dot--red">2</span><strong>Price shows £0.00</strong><em>Open and highlight</em></div>
-						<pre>[04-Oct 15:17] PHP Warning: Undefined variable $cart
-  in themes/shop/functions.php on line 42</pre>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Security -->
-		<section class="security" id="security">
-			<div class="wrap">
-				<div class="section-head reveal">
-					<p class="eyebrow eyebrow--dark">Security, without the jargon</p>
-					<h2>Access that's narrow, short and visible.</h2>
-				</div>
-				<div class="sec-grid">
-					<div class="sec reveal"><h3>No passwords</h3><p>Password login is switched off for support accounts. The link is the only way in.</p></div>
-					<div class="sec reveal"><h3>256-bit links</h3><p>Only a fingerprint is stored, never the link. A confirmation page stops email scanners using it.</p></div>
-					<div class="sec reveal"><h3>Always deleted</h3><p>However access ends, the support account is deleted for good, not just switched off.</p></div>
-					<div class="sec reveal"><h3>Can't stay behind</h3><p>Support can't create or promote users, and can't remove Fixpass.</p></div>
-					<div class="sec reveal"><h3>Secrets removed</h3><p>Passwords, keys and email addresses are stripped from the site details support sees.</p></div>
-					<div class="sec reveal"><h3>Nothing sent for you</h3><p>No external services. Details only leave your site when you copy and send them.</p></div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Story -->
-		<section class="story">
-			<div class="wrap story__inner reveal">
-				<img src="brand/mark.svg" alt="" width="72" height="72" class="story__mark">
-				<h2>Why Fixpass exists</h2>
-				<p>Fixpass started from a simple observation: in support, the hardest part is rarely the fix. It's getting to it: understanding what a customer means, finding the page they're on, and getting into the site without passwords flying around in email.</p>
-				<p>Technical teams and their customers speak different languages. Fixpass is the translator: the customer points, support sees, and access is safe and temporary by default. That combination, in one free plugin, is the whole idea.</p>
-			</div>
-		</section>
-
-		<!-- CTA -->
-		<section class="cta" id="download">
-			<div class="cta__cone" aria-hidden="true"></div>
-			<div class="wrap cta__inner reveal">
-				<h2>Show support where it breaks.</h2>
-				<p>Free, open source, and on your site in a minute.</p>
-				<div class="hero__cta">
-					<a class="btn btn--amber" href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download Fixpass</a>
-					<a class="btn btn--ghost" href="https://github.com/george-stathopoulos/fixpass/tree/main/docs">Read the docs</a>
-				</div>
-				<p class="hero__meta">WordPress 6.5+ · PHP 7.4+ · GPL-2.0-or-later</p>
-			</div>
-		</section>
-	</main>
-
-	<footer class="footer">
-		<div class="wrap footer__inner">
-			<img src="brand/logo.svg" alt="Fixpass" width="128" height="34">
-			<nav aria-label="Footer">
-				<a href="https://github.com/george-stathopoulos/fixpass">GitHub</a>
-				<a href="https://github.com/george-stathopoulos/fixpass/tree/main/docs">Documentation</a>
-				<a href="https://github.com/george-stathopoulos/fixpass/issues">Report a problem</a>
-				<a href="https://github.com/george-stathopoulos/fixpass/blob/main/SECURITY.md">Security</a>
-			</nav>
-			<p>Made by <a href="https://profiles.wordpress.org/mindanticipation/">George Stathopoulos</a>. Free software under the GPL.</p>
+		<div class="head-actions">
+			<button class="icon-btn" type="button" data-theme-toggle aria-label="Dark theme" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+			<a class="btn btn-primary btn-sm" href="https://github.com/george-stathopoulos/fixpass/releases/latest"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Download</a>
+			<button class="icon-btn menu-btn" type="button" data-menu-toggle aria-controls="site-nav" aria-expanded="false" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 		</div>
-	</footer>
+	</div>
+</header>
+<main id="main">
+<!-- Hero -->
+<section class="fx-hero" data-hero>
+	<div class="fx-glow fx-glow--a" data-speed="0.22" aria-hidden="true"></div>
+	<div class="fx-glow fx-glow--b" data-speed="-0.12" aria-hidden="true"></div>
+	<div class="fx-cone" data-cone aria-hidden="true"></div>
+	<div class="wrap fx-hero__grid">
+		<div class="fx-hero__text">
+			<p class="fx-eyebrow">A free WordPress plugin</p>
+			<h1 class="fx-title">
+				<span class="fx-line">Stop
+					<span class="fx-rotator" data-rotator aria-live="off">
+						<span class="fx-rotator__word is-in">describing</span>
+						<span class="fx-rotator__word">screenshotting</span>
+						<span class="fx-rotator__word">explaining</span>
+						<span class="fx-rotator__word">guessing</span>
+					</span>
+					it.</span>
+				<span class="fx-line"><span class="fx-marker">Spotlight it.</span></span>
+			</h1>
+			<p class="fx-lede">Point at the exact spot that's broken, and let your support team in safely, with no password shared. Fixpass turns a week of “which page?” emails into one click.</p>
+			<div class="cta-row">
+				<a class="btn btn-primary" href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download Fixpass</a>
+				<a class="btn btn-ghost" href="#how">See how it works</a>
+			</div>
+			<p class="fx-meta">Free and open source · No account · Nothing leaves your site unless you send it</p>
+		</div>
+		<div class="fx-hero__visual" data-speed="-0.06" aria-hidden="true">
+			<svg viewBox="0 0 520 360" class="fx-browser">
+				<rect x="10" y="10" width="500" height="340" rx="18" class="b-window"/>
+				<rect x="10" y="10" width="500" height="40" rx="18" class="b-bar"/>
+				<rect x="10" y="32" width="500" height="18" class="b-bar"/>
+				<circle cx="38" cy="30" r="6" class="b-dot"/><circle cx="58" cy="30" r="6" class="b-dot"/><circle cx="78" cy="30" r="6" class="b-dot"/>
+				<rect x="352" y="19" width="142" height="22" rx="11" class="b-spot-btn"/>
+				<text x="423" y="34" text-anchor="middle" class="b-spot-text">Spotlight a problem</text>
+				<rect x="44" y="82" width="210" height="16" rx="8" class="b-ink"/>
+				<rect x="44" y="110" width="300" height="10" rx="5" class="b-line"/>
+				<rect x="44" y="130" width="250" height="10" rx="5" class="b-line"/>
+				<rect x="44" y="172" width="196" height="132" rx="12" class="b-card"/>
+				<rect x="264" y="172" width="212" height="132" rx="12" class="b-card"/>
+				<rect x="62" y="194" width="120" height="10" rx="5" class="b-line"/>
+				<rect x="62" y="264" width="96" height="24" rx="12" class="b-btn"/>
+				<rect x="282" y="194" width="140" height="10" rx="5" class="b-line"/>
+				<rect x="282" y="214" width="100" height="10" rx="5" class="b-line"/>
+				<rect x="282" y="264" width="96" height="24" rx="12" class="b-btn b-btn--broken"/>
+				<path class="b-beam" d="M470 -20 L262 238 L394 300 Z"/>
+				<rect x="272" y="254" width="116" height="44" rx="10" class="b-mark"/>
+				<circle cx="272" cy="254" r="11" class="b-num"/><text x="272" y="258.5" text-anchor="middle" class="b-num-text">1</text>
+				<g class="b-note">
+					<rect x="300" y="306" width="190" height="34" rx="10" class="b-note-bg"/>
+					<text x="314" y="327" class="b-note-text">“This button does nothing”</text>
+				</g>
+			</svg>
+		</div>
+	</div>
+</section>
 
-	<script src="main.js" defer></script>
+<!-- Lost in translation -->
+<section class="fx-lost" id="lost">
+	<div class="wrap fx-two">
+		<div class="reveal">
+			<span class="kicker">Sound familiar?</span>
+			<h2 class="fx-h2">Lost in translation.</h2>
+			<p class="fx-big">Customers know something's wrong, but not what to call it. Support knows how to fix it, but can't see it. In between: screenshots of the wrong page, passwords in plain email, and a week of back-and-forth before anyone touches the problem.</p>
+		</div>
+		<div class="fx-chat" data-chat>
+			<div class="fx-msg is-them"><span>The button on the page doesn't work 😕</span></div>
+			<div class="fx-msg is-us"><span>Which page? Which button?</span></div>
+			<div class="fx-msg is-them"><span>The one on the right. I sent a screenshot?</span></div>
+			<div class="fx-msg is-us"><span>That's a different page. Can you send admin login details?</span></div>
+			<div class="fx-msg is-them"><span>Here's my password: ••••••••</span></div>
+			<div class="fx-msg is-us is-late"><span>…three days later: still can't reproduce it.</span></div>
+			<div class="fx-fix">
+				<img src="brand/icon.svg" alt="" width="36" height="36">
+				<div><strong>With Fixpass</strong><span>One spotlighted spot, one safe login link. Support opens the page and sees it.</span></div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- How it works: pinned, scrolls sideways -->
+<section class="fx-how" id="how" data-hscroll>
+	<div class="fx-how__sticky">
+		<div class="wrap fx-how__head">
+			<span class="kicker">How it works</span>
+			<h2 class="fx-h2">Four steps. About a minute.</h2>
+			<div class="fx-progress" aria-hidden="true"><span data-progress></span></div>
+		</div>
+		<div class="fx-track" data-track>
+			<article class="fx-panel">
+				<span class="fx-panel__num">1</span>
+				<div class="fx-panel__art"><svg viewBox="0 0 240 150" aria-hidden="true"><rect x="10" y="10" width="220" height="130" rx="12" class="a-paper"/><rect x="28" y="30" width="110" height="10" rx="5" class="a-ink"/><rect x="28" y="52" width="160" height="8" rx="4" class="a-line"/><rect x="120" y="84" width="92" height="38" rx="9" class="a-mark"/><path d="M228 -10 L112 92 L190 132 Z" class="a-beam"/></svg></div>
+				<h3>Spotlight it</h3>
+				<p>On the page with the problem, click <strong>Spotlight a problem</strong>. Click the broken part, or drag a box around it, and add a note. Up to five spots.</p>
+			</article>
+			<article class="fx-panel">
+				<span class="fx-panel__num">2</span>
+				<div class="fx-panel__art"><svg viewBox="0 0 240 150" aria-hidden="true"><rect x="40" y="38" width="160" height="74" rx="14" class="a-indigo"/><circle cx="84" cy="75" r="15" fill="none" stroke="#fff" stroke-width="7"/><circle cx="84" cy="75" r="5" class="a-amber"/><path d="M99 71h62a4 4 0 0 1 0 8h-4v8a4 4 0 0 1-8 0v-8h-6v5a4 4 0 0 1-8 0v-5H99z" fill="#fff"/></svg></div>
+				<h3>Give access</h3>
+				<p>Choose how long support can stay, from a day to a week. A reusable or one-time login link, and a temporary account. No password, ever.</p>
+			</article>
+			<article class="fx-panel">
+				<span class="fx-panel__num">3</span>
+				<div class="fx-panel__art"><svg viewBox="0 0 240 150" aria-hidden="true"><rect x="30" y="18" width="130" height="114" rx="12" class="a-paper"/><rect x="46" y="36" width="70" height="18" rx="9" class="a-indigo"/><rect x="46" y="66" width="96" height="8" rx="4" class="a-line"/><rect x="46" y="82" width="80" height="8" rx="4" class="a-line"/><rect x="46" y="98" width="90" height="8" rx="4" class="a-line"/><rect x="120" y="44" width="96" height="70" rx="12" class="a-amber-soft"/><path d="M146 80l12 12 24-26" fill="none" stroke="#1f1a4d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+				<h3>Copy the details</h3>
+				<p>One button copies everything support needs: the login link, your spots, site health, plugins and themes. Paste it into your reply.</p>
+			</article>
+			<article class="fx-panel">
+				<span class="fx-panel__num">4</span>
+				<div class="fx-panel__art"><svg viewBox="0 0 240 150" aria-hidden="true"><circle cx="78" cy="75" r="44" fill="none" class="a-ring-bg"/><circle cx="78" cy="75" r="44" fill="none" class="a-ring" transform="rotate(-90 78 75)"/><text x="78" y="82" text-anchor="middle" class="a-big">3d</text><path d="M168 34l40 14v32c0 24-18 40-40 48-22-8-40-24-40-48V48z" class="a-indigo"/><path d="M152 82l12 12 22-26" fill="none" stroke="#ffb224" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+				<h3>Support fixes it</h3>
+				<p>Watch the status: you see when support logs in and when they're done. When access ends, their account is deleted. Fixpass can even tidy itself away.</p>
+			</article>
+		</div>
+	</div>
+</section>
+
+<!-- Parallax band -->
+<section class="fx-band" aria-label="No passwords, no screenshots, no guessing">
+	<p class="fx-band__row" data-drift="-0.35">No passwords · No screenshots · No guessing · No passwords · No screenshots · No guessing ·</p>
+	<p class="fx-band__row fx-band__row--outline" data-drift="0.3">Just the spot · Just the fix · Just the spot · Just the fix · Just the spot · Just the fix ·</p>
+</section>
+
+<!-- Features -->
+<section class="fx-section" id="features">
+	<div class="wrap">
+		<div class="fx-head reveal">
+			<span class="kicker">Everything in one plugin</span>
+			<h2 class="fx-h2">Built for the moment something breaks.</h2>
+		</div>
+		<div class="fx-grid">
+			<article class="fx-card reveal"><span class="fx-card__icon">◎</span><h3>Spotlight</h3><p>Click or drag a box on any page, front end or dashboard. Each spot carries the page, your note, screen size, browser and any errors.</p></article>
+			<article class="fx-card reveal"><span class="fx-card__icon">⚿</span><h3>Safe temporary access</h3><p>A full administrator account for 1 day to a week. Extend by a day, end it any time; it also ends by itself.</p></article>
+			<article class="fx-card reveal"><span class="fx-card__icon">↻</span><h3>Reusable or one-time links</h3><p>Let support come back as often as they need until access ends, or allow a single login. Your call.</p></article>
+			<article class="fx-card reveal"><span class="fx-card__icon">⧉</span><h3>Copy the details</h3><p>Formatted for email or plain text: login link, spots, site health, plugins and themes, ready to paste.</p></article>
+			<article class="fx-card reveal"><span class="fx-card__icon">●</span><h3>Live status</h3><p>Waiting for support, support working on your site, logged out, finished. It updates by itself.</p></article>
+			<article class="fx-card reveal"><span class="fx-card__icon">✦</span><h3>Tidies itself away</h3><p>The support account is deleted when access ends. Tick one box and Fixpass removes itself too.</p></article>
+		</div>
+	</div>
+</section>
+
+<!-- For support teams -->
+<section class="fx-support" id="support">
+	<div class="wrap fx-two">
+		<div class="reveal">
+			<span class="kicker">For support teams</span>
+			<h2 class="fx-h2">Log in and start fixing.</h2>
+			<p class="fx-big">The link lands you on a Support session page with everything the site owner would otherwise have to dig up, visible only to you.</p>
+			<ul class="fx-ticks">
+				<li><strong>The spots,</strong> each with <em>Open and highlight</em>.</li>
+				<li><strong>Site details:</strong> versions, plugins, theme, health flags, recent errors.</li>
+				<li><strong>Debugging:</strong> the debug log with search, caught errors, scheduled tasks.</li>
+				<li><strong>Troubleshooting mode:</strong> switch plugins off in your browser only. Visitors never notice.</li>
+			</ul>
+			<p><a class="fx-link" href="docs/for-support-teams/">Read the guide for support teams →</a></p>
+		</div>
+		<div class="fx-tabs reveal" aria-hidden="true">
+			<div class="fx-tabs__bar"><span class="is-on">Session</span><span>Site details</span><span>Debugging</span><span>Troubleshoot</span></div>
+			<div class="fx-tabs__body">
+				<div class="fx-tabs__row"><span class="fx-dot">1</span><strong>This button does nothing</strong><em>Open and highlight</em></div>
+				<div class="fx-tabs__row"><span class="fx-dot">2</span><strong>Price shows £0.00</strong><em>Open and highlight</em></div>
+				<pre>[04-Oct 15:17] PHP Warning: Undefined variable $cart
+  in themes/shop/functions.php on line 42</pre>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Security -->
+<section class="fx-section" id="security">
+	<div class="wrap">
+		<div class="fx-head reveal">
+			<span class="kicker">Security, without the jargon</span>
+			<h2 class="fx-h2">Access that's narrow, short and visible.</h2>
+		</div>
+		<div class="fx-sec">
+			<div class="reveal"><h3>No passwords</h3><p>Password login is switched off for support accounts. The link is the only way in.</p></div>
+			<div class="reveal"><h3>256-bit links</h3><p>Only a fingerprint is stored, never the link. A confirmation page stops email scanners using it.</p></div>
+			<div class="reveal"><h3>Always deleted</h3><p>However access ends, the support account is deleted for good, not just switched off.</p></div>
+			<div class="reveal"><h3>Can't stay behind</h3><p>Support can't create or promote users, and can't remove Fixpass.</p></div>
+			<div class="reveal"><h3>Secrets removed</h3><p>Passwords, keys and email addresses are stripped from the site details support sees.</p></div>
+			<div class="reveal"><h3>Nothing sent for you</h3><p>No external services. Details only leave your site when you copy and send them.</p></div>
+		</div>
+		<p class="reveal" style="margin-top:28px"><a class="fx-link" href="docs/security/">How Fixpass protects access, in detail →</a></p>
+	</div>
+</section>
+
+<!-- Story -->
+<section class="fx-story">
+	<div class="wrap fx-story__inner reveal">
+		<img src="brand/logo-indigo.svg" alt="" width="190" height="94" class="fx-story__logo">
+		<h2 class="fx-h2">Why Fixpass exists</h2>
+		<p class="fx-big">Fixpass started from a simple observation: in support, the hardest part is rarely the fix. It's getting to it: understanding what a customer means, finding the page they're on, and getting into the site without passwords flying around in email.</p>
+		<p class="fx-big">Technical teams and their customers speak different languages. Fixpass is the translator: the customer points, support sees, and access is safe and temporary by default. That combination, in one free plugin, is the whole idea.</p>
+	</div>
+</section>
+
+<!-- Call to action -->
+<section class="fx-cta">
+	<div class="fx-cta__cone" aria-hidden="true"></div>
+	<div class="wrap fx-cta__inner reveal">
+		<h2 class="fx-h2">Show support where it breaks.</h2>
+		<p class="fx-big">Free, open source, and on your site in a minute.</p>
+		<div class="cta-row">
+			<a class="btn btn-primary" href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download Fixpass 1.0.0</a>
+			<a class="btn btn-ghost" href="docs/">Visit the help center</a>
+		</div>
+		<p class="fx-meta">WordPress 6.5+ · PHP 7.4+ · GPL-2.0-or-later</p>
+	</div>
+</section>
+
+</main>
+<footer class="site-foot">
+	<div class="wrap">
+		<div class="foot-grid">
+			<div class="foot-about">
+				<a class="brand" href="./" aria-label="Fixpass home"><img class="logo logo--light" src="brand/logo.svg" alt="Fixpass" width="122" height="60"><img class="logo logo--dark" src="brand/logo-light.svg" alt="" aria-hidden="true" width="122" height="60"></a>
+				<p>Spotlight the exact spot that's broken, and give your support team safe, temporary access, with no password shared. Free and open source (GPL).</p>
+			</div>
+			<div>
+				<h2>Product</h2>
+				<ul>
+					<li><a href="#how">How it works</a></li>
+					<li><a href="#features">Features</a></li>
+					<li><a href="https://github.com/george-stathopoulos/fixpass/releases/latest">Download</a></li>
+					<li><a href="changelog/">Changelog</a></li>
+				</ul>
+			</div>
+			<div>
+				<h2>Help</h2>
+				<ul>
+					<li><a href="docs/">Help center</a></li>
+					<li><a href="docs/getting-started/">Getting started</a></li>
+					<li><a href="docs/for-support-teams/">For support teams</a></li>
+					<li><a href="docs/faq/">FAQ</a></li>
+				</ul>
+			</div>
+			<div>
+				<h2>More projects</h2>
+				<ul>
+					<li><a href="https://george-stathopoulos.github.io/gatehouse/" title="AI governance and cost control for WordPress">Gatehouse</a></li><li><a href="https://george-stathopoulos.github.io/helpdesk-hero/" title="WordPress support with diagnostics and password-free access">Helpdesk Hero</a></li>
+					<li><a href="https://george-stathopoulos.github.io/#projects">All projects</a></li>
+				</ul>
+			</div>
+			<div>
+				<h2>Trust</h2>
+				<ul>
+					<li><a href="docs/security/">Security</a></li>
+					<li><a href="docs/security/#whats-sent-outside-your-site">Privacy</a></li>
+					<li><a href="https://github.com/george-stathopoulos/fixpass/security/advisories/new">Report a vulnerability</a></li>
+					<li><a href="https://github.com/george-stathopoulos/fixpass/issues">Feedback and ideas</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="foot-bottom">
+			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="https://george-stathopoulos.github.io/">George Stathopoulos</a></span>
+			<span>Fixpass 1.0.0 · This website uses no cookies and no tracking.</span>
+		</div>
+	</div>
+</footer>
+<script src="assets/site.js?v=1.0.0" defer></script>
+<script src="assets/home.js?v=1.0.0" defer></script>
 </body>
 </html>
