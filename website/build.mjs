@@ -1,14 +1,15 @@
 /**
  * Builds the Fixpass website into website/dist (bin/publish-site.sh publishes it to GitHub Pages).
  *
- * Pages: home, the Help center generated from ../docs/*.md (so the website and the docs never drift
- * apart), the changelog from readme.txt, and a 404 page. Same layout, footer and project list as
+ * Pages: home, live demo, the Help center generated from ../docs/*.md (so the website and the docs
+ * never drift apart), the changelog from readme.txt, and a 404 page. The live demo is a WordPress
+ * Playground blueprint served from the site itself (demo/), with the plugin zip next to it. Same layout, footer and project list as
  * the other project sites.
  *
- * Run from the repository root: node website/build.mjs
+ * Run from the repository root, after npm run zip: node website/build.mjs
  */
 import MarkdownIt from 'markdown-it';
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 /* ------------------------------------------------------------------ Config */
@@ -36,12 +37,44 @@ const OUT = join( ROOT, 'website/dist' );
 const SRC = join( ROOT, 'website/src' );
 const readme = readFileSync( join( ROOT, 'readme.txt' ), 'utf8' );
 const VERSION = /Stable tag:\s*(\S+)/.exec( readme )[ 1 ];
+const PLAYGROUND = `https://playground.wordpress.net/?blueprint-url=${ encodeURIComponent( SITE.url + 'demo/blueprint.json' ) }`;
 
 rmSync( OUT, { recursive: true, force: true } );
 mkdirSync( OUT, { recursive: true } );
 cpSync( join( SRC, 'assets' ), join( OUT, 'assets' ), { recursive: true } );
-cpSync( join( SRC, 'brand' ), join( OUT, 'brand' ), { recursive: true } );
 writeFileSync( join( OUT, '.nojekyll' ), '' );
+
+// The plugin zip, for the live demo (downloads link to the GitHub release).
+{
+	const from = join( ROOT, 'dist/fixpass.zip' );
+	if ( ! existsSync( from ) ) throw new Error( 'Missing dist/fixpass.zip: run npm run zip first.' );
+	mkdirSync( join( OUT, 'downloads' ), { recursive: true } );
+	cpSync( from, join( OUT, 'downloads/fixpass.zip' ) );
+}
+
+/* ------------------------------------------------------------------ Live demo (WordPress Playground) */
+
+{
+	mkdirSync( join( OUT, 'demo' ), { recursive: true } );
+	cpSync( join( SRC, 'demo-seed.php' ), join( OUT, 'demo/seed.php.txt' ) );
+	const blueprint = {
+		$schema: 'https://playground.wordpress.net/blueprint-schema.json',
+		meta: { title: 'Fixpass demo', author: SITE.author, description: 'A small bakery site with Fixpass installed, and a page with a problem to spotlight.' },
+		landingPage: '/wp-admin/admin.php?page=fixpass',
+		preferredVersions: { php: '8.3', wp: 'latest' },
+		login: true,
+		steps: [
+			{ step: 'setSiteOptions', options: { blogname: 'Bluebird Bakery' } },
+			// A debug log for the support tools to show. Scheduled tasks stay off in the demo, so
+			// "Remove Fixpass when access ends" never removes it while you're trying things.
+			{ step: 'defineWpConfigConsts', consts: { WP_DEBUG: true, WP_DEBUG_LOG: true, WP_DEBUG_DISPLAY: false, DISABLE_WP_CRON: true } },
+			{ step: 'installPlugin', pluginData: { resource: 'url', url: `${ SITE.url }downloads/fixpass.zip` }, options: { activate: true } },
+			{ step: 'writeFile', path: '/wordpress/fixpass-seed.php', data: { resource: 'url', url: `${ SITE.url }demo/seed.php.txt` } },
+			{ step: 'runPHP', code: "<?php require '/wordpress/wp-load.php'; require '/wordpress/fixpass-seed.php';" },
+		],
+	};
+	writeFileSync( join( OUT, 'demo/blueprint.json' ), JSON.stringify( blueprint, null, '\t' ) + '\n' );
+}
 
 /* ------------------------------------------------------------------ Helpers */
 
@@ -56,6 +89,9 @@ const slug = ( t ) =>
 
 const svg = ( d, size = 22 ) => `<svg width="${ size }" height="${ size }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ d }</svg>`;
 const I = {
+	// The Fixpass mark: a spot, with light on it.
+	mark: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="13.5" r="7.2"/><circle cx="10.5" cy="13.5" r="2.6" fill="currentColor" stroke="none"/><path d="M17.2 6.8l2.6-2.6M18.6 10.4h3M13.6 5.4v-3"/></svg>',
+	playSm: svg( '<circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/>', 18 ),
 	sun: svg( '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', 18 ),
 	menu: svg( '<path d="M4 7h16M4 12h16M4 17h16"/>', 20 ),
 	download: svg( '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>', 18 ),
@@ -75,11 +111,12 @@ const NAV = [
 	{ id: 'how', label: 'How it works', href: 'index.html#how' },
 	{ id: 'features', label: 'Features', href: 'index.html#features' },
 	{ id: 'support', label: 'For support teams', href: 'index.html#support' },
+	{ id: 'demo', label: 'Live demo', href: 'demo/' },
 	{ id: 'docs', label: 'Help center', href: 'docs/' },
 ];
 
-function logo( root ) {
-	return `<img class="logo logo--light" src="${ root }brand/logo.svg" alt="Fixpass" width="122" height="60"><img class="logo logo--dark" src="${ root }brand/logo-light.svg" alt="" aria-hidden="true" width="122" height="60">`;
+function logo() {
+	return `<span class="mark">${ I.mark }</span>Fixpass`;
 }
 
 function layout( { title, description, root, current = '', body, canonical = '', extraHead = '', home = false } ) {
@@ -101,7 +138,7 @@ function layout( { title, description, root, current = '', body, canonical = '',
 <meta property="og:url" content="${ SITE.url }${ canonical }">
 <meta property="og:image" content="${ SITE.url }assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${ root }brand/icon.svg" type="image/svg+xml">
+<link rel="icon" href="${ root }assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${ root }assets/site.css?v=${ VERSION }">
 <link rel="stylesheet" href="${ root }assets/home.css?v=${ VERSION }">
 <script>try{var t=localStorage.getItem('hdh-site-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -111,7 +148,7 @@ ${ extraHead }
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-head">
 	<div class="wrap">
-		<a class="brand" href="${ root || './' }" aria-label="Fixpass home">${ logo( root ) }</a>
+		<a class="brand" href="${ root || './' }">${ logo() }</a>
 		<nav id="site-nav" class="nav" aria-label="Main">
 			${ NAV.map( ( n ) => `<a href="${ fix( n.href ) }"${ current === n.id ? ' aria-current="page"' : '' }>${ n.label }</a>` ).join( '\n\t\t\t' ) }
 		</nav>
@@ -129,7 +166,7 @@ ${ body }
 	<div class="wrap">
 		<div class="foot-grid">
 			<div class="foot-about">
-				<a class="brand" href="${ root || './' }" aria-label="Fixpass home">${ logo( root ) }</a>
+				<a class="brand" href="${ root || './' }">${ logo() }</a>
 				<p>Spotlight the exact spot that's broken, and give your support team safe, temporary access, with no password shared. Free and open source (GPL).</p>
 			</div>
 			<div>
@@ -137,6 +174,7 @@ ${ body }
 				<ul>
 					<li><a href="${ fix( 'index.html#how' ) }">How it works</a></li>
 					<li><a href="${ fix( 'index.html#features' ) }">Features</a></li>
+					<li><a href="${ root }demo/">Live demo</a></li>
 					<li><a href="${ SITE.download }">Download</a></li>
 					<li><a href="${ root }changelog/">Changelog</a></li>
 				</ul>
@@ -352,8 +390,55 @@ ${ toc.length > 1 ? `<nav class="on-page" aria-label="On this page" data-spy><h2
 /* ------------------------------------------------------------------ Home */
 
 {
-	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION );
+	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION ).replace( /\{\{mark\}\}/g, I.mark );
 	write( 'index.html', layout( { title: SITE.name, description: 'Fixpass is a free WordPress plugin: Spotlight the exact spot that’s broken, and give your support team safe, temporary access, with no password shared.', root: '', current: '', body, home: true } ) );
+}
+
+/* ------------------------------------------------------------------ Live demo page */
+
+{
+	const r = '../';
+	const steps = [
+		[ '1 · The tour', 'Meet Fixpass', 'The demo opens on the Fixpass page with the welcome tour. On the Spotlight step, the <strong>Spotlight a problem</strong> button glows at the top right.' ],
+		[ '2 · Spotlight', 'Point at the problem', 'Visit the site (<strong>Bluebird Bakery</strong> in the toolbar) and open <strong>Order a cake</strong> from the menu. Click <strong>Spotlight a problem</strong>, click the <strong>Place your order</strong> button or drag a box around it, add a note, and click <strong>Continue</strong>.' ],
+		[ '3 · Give access', 'Let support in', 'Back on the Fixpass page, your spot is listed. Keep the reusable link, choose a length and click <strong>Give access</strong>. Then <strong>Copy details</strong> and paste them somewhere to see what support receives.' ],
+		[ '4 · Be support', 'See their side', 'Open the login link from the details in the same tab and click <strong>Log in as support</strong>. You land on the Support session page: your spot with <strong>Open and highlight</strong>, site details, the debug log and troubleshooting mode.' ],
+		[ '5 · Back as the owner', 'Watch the status', 'Click <strong>Leave session</strong>, then log in again as the site owner (username <code>admin</code>, password <code>password</code>). The Fixpass page shows what support did, and you can extend or end access.' ],
+	];
+	const body = `
+<section class="page-head">
+	<div class="wrap">
+		<span class="kicker">Live demo</span>
+		<h1>Try Fixpass in your browser</h1>
+		<p>The demo runs on <a href="https://wordpress.org/playground/" rel="noopener">WordPress Playground</a>: a small bakery site with Fixpass installed, and a page with a problem to spotlight. It takes about a minute to start. Nothing is installed on your computer, and nothing you do is saved.</p>
+		<div class="cta-row" style="justify-content:flex-start">
+			<a class="btn btn-primary" href="${ PLAYGROUND }" target="_blank" rel="noopener">${ I.playSm } Launch the demo</a>
+			<a class="btn btn-ghost" href="${ r }docs/getting-started/">Read the guide instead</a>
+		</div>
+		<p class="fx-meta">Opens playground.wordpress.net in a new tab. Works best in a desktop browser.</p>
+	</div>
+</section>
+<section class="fx-section" aria-labelledby="tour-title">
+	<div class="wrap">
+		<div class="fx-head"><h2 id="tour-title" class="fx-h2">A five-minute tour</h2><p class="fx-big">Both sides of Fixpass: the site owner who needs help, and the support team that gives it.</p></div>
+		<ol class="fx-steps">
+			${ steps.map( ( [ pill, h, p ] ) => `<li class="fx-step-card"><span class="fx-pill">${ pill }</span><h3>${ h }</h3><p>${ p }</p></li>` ).join( '\n\t\t\t' ) }
+		</ol>
+	</div>
+</section>
+<section class="fx-section fx-section--alt" aria-labelledby="demo-notes">
+	<div class="wrap">
+		<div class="fx-head"><h2 id="demo-notes" class="fx-h2">About the demo</h2></div>
+		<div class="prose">
+			<ul>
+				<li>Everything happens in one browser, so logging in as support logs you out as the owner. On a real site, support uses their own computer.</li>
+				<li>Emails and scheduled tasks are switched off. Access still ends on time: Fixpass checks on every page load.</li>
+				<li>Want to run it locally? The blueprint is at <a href="blueprint.json"><code>demo/blueprint.json</code></a>.</li>
+			</ul>
+		</div>
+	</div>
+</section>`;
+	write( 'demo/index.html', layout( { title: 'Live demo', description: 'Try Fixpass in your browser: a bakery site with a problem to spotlight, running on WordPress Playground.', root: r, current: 'demo', canonical: 'demo/', body } ) );
 }
 
 /* ------------------------------------------------------------------ Changelog */
@@ -383,7 +468,7 @@ ${ toc.length > 1 ? `<nav class="on-page" aria-label="On this page" data-spy><h2
 {
 	const body = `<section class="page-head" style="border:0;text-align:center;padding:120px 0"><div class="wrap"><span class="kicker">404</span><h1>Nothing to spotlight here</h1><p style="margin:0 auto 28px">This page may have moved. Try the help center, or start from the home page.</p><div class="cta-row"><a class="btn btn-primary" href="${ SITE.base }">Home</a><a class="btn btn-ghost" href="${ SITE.base }docs/">Help center</a></div></div></section>`;
 	write( '404.html', layout( { title: 'Page not found', description: 'Page not found.', root: SITE.base, body } ) );
-	const urls = [ '', 'changelog/', 'docs/', ...ORDER.map( ( p ) => `docs/${ p }/` ) ];
+	const urls = [ '', 'demo/', 'changelog/', 'docs/', ...ORDER.map( ( p ) => `docs/${ p }/` ) ];
 	write( 'sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${ urls.map( ( u ) => `<url><loc>${ SITE.url }${ u }</loc></url>` ).join( '\n' ) }\n</urlset>\n` );
 	write( 'robots.txt', `User-agent: *\nAllow: /\nSitemap: ${ SITE.url }sitemap.xml\n` );
 }

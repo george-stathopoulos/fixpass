@@ -1,4 +1,6 @@
-<p><img src="website/src/brand/logo.svg" alt="Fixpass" width="200"></p>
+<p><img src="website/src/assets/favicon.svg" alt="" width="56"></p>
+
+# Fixpass
 
 **Show support where it breaks. Let them in safely. Get it fixed.**
 
