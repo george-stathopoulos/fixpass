@@ -1,5 +1,5 @@
 === Fixpass ===
-Contributors: georgestathopoulos
+Contributors: mindanticipation
 Tags: support, remote access, temporary login, debugging, troubleshooting
 Requires at least: 6.5
 Tested up to: 7.1

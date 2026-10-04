@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name:       Fixpass
- * Plugin URI:        https://github.com/george-stathopoulos/fixpass
+ * Plugin URI:        https://george-stathopoulos.github.io/fixpass/
  * Description:       Give your support team safe, temporary access to your site, and Spotlight the exact spot that's broken. Support gets site details, debugging tools and troubleshooting mode once they log in.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            George Stathopoulos
+ * Author URI:        https://profiles.wordpress.org/mindanticipation/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       fixpass

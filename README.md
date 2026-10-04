@@ -1,6 +1,8 @@
-# Fixpass
+<p><img src="website/brand/logo.svg" alt="Fixpass" width="220"></p>
 
 **Show support where it breaks. Let them in safely. Get it fixed.**
+
+[Website](https://george-stathopoulos.github.io/fixpass/) · [Download](https://github.com/george-stathopoulos/fixpass/releases/latest) · [Documentation](docs/README.md)
 
 Fixpass is a free WordPress plugin for the moment something on your site goes wrong and you need help. It does two things that usually take a long email thread:
 
@@ -66,6 +68,8 @@ npm run zip        # dist/fixpass.zip, ready to upload
 ```
 
 `npm start` rebuilds as you edit. `dev/blueprint.json` is a [WordPress Playground](https://wordpress.org/playground/) blueprint for a test site with sample debug-log lines.
+
+The website is in `website/` (plain HTML, CSS and JavaScript); `bin/publish-site.sh` publishes it to GitHub Pages.
 
 Plugin code: `fixpass.php`, `includes/` (PHP), `assets/spotlight.js` (the Spotlight overlay, plain JavaScript), `src/` (the React admin app), `mu-plugin/` (troubleshooting mode loader).
 
