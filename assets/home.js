@@ -30,7 +30,17 @@
 		parts.forEach( function ( p, i ) {
 			p.style.transitionDelay = i * ( still ? 0 : 380 ) + 'ms';
 		} );
-		io.observe( chat );
+		// Only once most of it is in view, so the conversation plays while you're watching.
+		var chatIo = new IntersectionObserver(
+			function ( entries ) {
+				if ( entries[ 0 ].isIntersecting ) {
+					chat.classList.add( 'is-on' );
+					chatIo.disconnect();
+				}
+			},
+			{ threshold: 0.6 }
+		);
+		chatIo.observe( chat );
 	}
 
 	if ( still ) {
