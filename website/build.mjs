@@ -89,8 +89,6 @@ const slug = ( t ) =>
 
 const svg = ( d, size = 22 ) => `<svg width="${ size }" height="${ size }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ d }</svg>`;
 const I = {
-	// The Fixpass mark: a spot, with light on it.
-	mark: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="13.5" r="7.2"/><circle cx="10.5" cy="13.5" r="2.6" fill="currentColor" stroke="none"/><path d="M17.2 6.8l2.6-2.6M18.6 10.4h3M13.6 5.4v-3"/></svg>',
 	playSm: svg( '<circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/>', 18 ),
 	sun: svg( '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', 18 ),
 	menu: svg( '<path d="M4 7h16M4 12h16M4 17h16"/>', 20 ),
@@ -116,7 +114,7 @@ const NAV = [
 ];
 
 function logo() {
-	return `<span class="mark">${ I.mark }</span>Fixpass`;
+	return 'Fixpass';
 }
 
 function layout( { title, description, root, current = '', body, canonical = '', extraHead = '', home = false } ) {
@@ -390,7 +388,7 @@ ${ toc.length > 1 ? `<nav class="on-page" aria-label="On this page" data-spy><h2
 /* ------------------------------------------------------------------ Home */
 
 {
-	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION ).replace( /\{\{mark\}\}/g, I.mark );
+	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION );
 	write( 'index.html', layout( { title: SITE.name, description: 'Fixpass is a free WordPress plugin: Spotlight the exact spot that’s broken, and give your support team safe, temporary access, with no password shared.', root: '', current: '', body, home: true } ) );
 }
 
