@@ -1,4 +1,4 @@
-<p><img src="website/brand/logo.svg" alt="Fixpass" width="220"></p>
+<p><img src="website/src/brand/logo.svg" alt="Fixpass" width="200"></p>
 
 **Show support where it breaks. Let them in safely. Get it fixed.**
 
@@ -69,7 +69,7 @@ npm run zip        # dist/fixpass.zip, ready to upload
 
 `npm start` rebuilds as you edit. `dev/blueprint.json` is a [WordPress Playground](https://wordpress.org/playground/) blueprint for a test site with sample debug-log lines.
 
-The website is in `website/` (plain HTML, CSS and JavaScript); `bin/publish-site.sh` publishes it to GitHub Pages.
+The website is built by `website/build.mjs` (the homepage, plus a help center generated from `docs/`); `bin/publish-site.sh` builds and publishes it to GitHub Pages.
 
 Plugin code: `fixpass.php`, `includes/` (PHP), `assets/spotlight.js` (the Spotlight overlay, plain JavaScript), `src/` (the React admin app), `mu-plugin/` (troubleshooting mode loader).
 

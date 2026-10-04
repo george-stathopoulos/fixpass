@@ -1,20 +1,11 @@
 /**
- * Fixpass website: rotating headline, pointer spotlight, parallax, sideways "How it works",
+ * Fixpass home page: rotating headline, pointer spotlight, parallax, sideways "How it works",
  * reveal on scroll. Everything stays still for people who prefer reduced motion.
  */
 ( function () {
 	'use strict';
 
 	var still = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-	var nav = document.querySelector( '[data-nav]' );
-
-	// Navigation turns solid once you scroll past the top.
-	function onNav() {
-		nav.classList.toggle( 'is-solid', window.scrollY > 40 );
-	}
-	onNav();
-	window.addEventListener( 'scroll', onNav, { passive: true } );
-
 	// Reveal sections (and the chat) as they come into view.
 	var io = new IntersectionObserver(
 		function ( entries ) {
@@ -35,7 +26,7 @@
 	// The chat appears one message at a time.
 	var chat = document.querySelector( '[data-chat]' );
 	if ( chat ) {
-		var parts = chat.querySelectorAll( '.chat__msg, .chat__fix' );
+		var parts = chat.querySelectorAll( '.fx-msg, .fx-fix' );
 		parts.forEach( function ( p, i ) {
 			p.style.transitionDelay = i * ( still ? 0 : 380 ) + 'ms';
 		} );
@@ -49,7 +40,7 @@
 	// Headline: the word that gets crossed out keeps changing.
 	var rotator = document.querySelector( '[data-rotator]' );
 	if ( rotator ) {
-		var words = rotator.querySelectorAll( '.rotator__word' );
+		var words = rotator.querySelectorAll( '.fx-rotator__word' );
 		var n = 0;
 		// The space resizes to the word showing, so "it." always follows closely.
 		var fit = function () {
