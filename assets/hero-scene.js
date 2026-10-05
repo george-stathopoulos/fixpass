@@ -211,7 +211,7 @@ let litAt=0,fadeTimer=0,first=true;
 function apply(){lit=root.dataset.theme==='light';if(lit)litAt=performance.now();hero.classList.toggle('lit',lit);
 if(!first){hero.classList.add('is-fading');clearTimeout(fadeTimer);fadeTimer=setTimeout(()=>hero.classList.remove('is-fading'),1600)}first=false;styleLayers();kick();if(sw)sw.setAttribute('aria-checked',String(lit));
 document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.setAttribute('aria-pressed',String(!lit)));seenAt=0;hideUntil=0}
-if(sw)sw.addEventListener('click',()=>{root.dataset.theme=lit?'dark':'light';try{localStorage.setItem('hdh-site-theme',root.dataset.theme)}catch(e){}});
+if(sw)sw.addEventListener('click',()=>{root.dataset.theme=lit?'dark':'light';try{sessionStorage.setItem('hdh-site-theme',root.dataset.theme)}catch(e){}});
 new MutationObserver(apply).observe(root,{attributes:true,attributeFilter:['data-theme']});
 // Positions below describe the composition at camera Z=0. Convert them back
 // into world coordinates before perspective projection, preserving real Z.
@@ -245,7 +245,7 @@ else{c.font=(mobile?19:23)+'px monospace';c.fillStyle=lit?'#333':'#d2d2d2';c.glo
 function neon(t){
 // Escaping: it blurs and fades out where it was caught, then fades back in at its new hiding place.
 let at=error,fade,blur=0;
-nnctx.clearRect(0,0,w,h);
+nctx.clearRect(0,0,w,h);
 if(t<hideUntil){if(!fleeFrom)return;const k=Math.min(1,(t-fleeFrom.t)/430);at={x:fleeFrom.x+k*.012,y:fleeFrom.y-k*.006};fade=1-k;blur=k*7}
 else fade=reduced?1:Math.min(1,(t-hideUntil)/700);
 if(fade<=0)return;

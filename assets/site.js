@@ -5,12 +5,13 @@
 	const root = document.documentElement;
 
 	/* Theme ------------------------------------------------------------ */
+	// The theme lasts for this browser session only: the site always opens with the lights off.
 	function store( key, value ) {
 		try {
 			if ( value === undefined ) {
-				return localStorage.getItem( key );
+				return sessionStorage.getItem( key );
 			}
-			localStorage.setItem( key, value );
+			sessionStorage.setItem( key, value );
 		} catch ( e ) {}
 		return null;
 	}
