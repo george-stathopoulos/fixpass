@@ -9,7 +9,8 @@
  * Run from the repository root, after npm run zip: node website/build.mjs
  */
 import MarkdownIt from 'markdown-it';
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, statSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 
 /* ------------------------------------------------------------------ Config */
@@ -43,6 +44,29 @@ rmSync( OUT, { recursive: true, force: true } );
 mkdirSync( OUT, { recursive: true } );
 cpSync( join( SRC, 'assets' ), join( OUT, 'assets' ), { recursive: true } );
 writeFileSync( join( OUT, '.nojekyll' ), '' );
+
+/* ------------------------------------------------------------------ Images */
+
+// Screenshots (made by dev/screenshots.mjs): docs/images/*.png -> assets/img/*.jpg (1800px, sharp on retina screens).
+mkdirSync( join( OUT, 'assets/img' ), { recursive: true } );
+const IMG = {};
+for ( const f of readdirSync( join( ROOT, 'docs/images' ) ) ) {
+	if ( ! f.endsWith( '.png' ) ) continue;
+	const name = f.replace( /\.png$/, '' );
+	const out = join( OUT, 'assets/img', name + '.jpg' );
+	execFileSync( 'sips', [ '-s', 'format', 'jpeg', '-s', 'formatOptions', '82', '-Z', '1800', join( ROOT, 'docs/images', f ), '--out', out ], { stdio: 'ignore' } );
+	const dims = execFileSync( 'sips', [ '-g', 'pixelWidth', '-g', 'pixelHeight', out ], { encoding: 'utf8' } );
+	IMG[ name ] = {
+		w: Number( /pixelWidth: (\d+)/.exec( dims )[ 1 ] ),
+		h: Number( /pixelHeight: (\d+)/.exec( dims )[ 1 ] ),
+	};
+}
+
+function img( name, alt, root ) {
+	const d = IMG[ name ];
+	if ( ! d ) throw new Error( 'Missing screenshot: ' + name );
+	return `<img src="${ root }assets/img/${ name }.jpg" width="${ d.w }" height="${ d.h }" alt="${ alt.replace( /"/g, '&quot;' ) }" loading="lazy" decoding="async">`;
+}
 
 // The plugin zip, for the live demo (downloads link to the GitHub release).
 {
@@ -139,7 +163,7 @@ function layout( { title, description, root, current = '', body, canonical = '',
 <link rel="icon" href="${ root }assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${ root }assets/site.css?v=${ VERSION }">
 <link rel="stylesheet" href="${ root }assets/home.css?v=${ VERSION }">
-<script>try{var t=localStorage.getItem('hdh-site-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
 ${ extraHead }
 </head>
 <body data-root="${ root }"${ home ? ' class="is-home"' : '' }>
@@ -210,7 +234,7 @@ ${ body }
 	</div>
 </footer>
 <script src="${ root }assets/site.js?v=${ VERSION }" defer></script>
-${ home ? `<script src="${ root }assets/home.js?v=${ VERSION }" defer></script>` : '' }
+${ home ? `<script src="${ root }assets/home.js?v=${ VERSION }" defer></script>\n<script src="${ root }assets/hero-scene.js?v=${ VERSION }" defer></script>` : '' }
 </body>
 </html>
 `;
@@ -272,6 +296,16 @@ for ( const name of ORDER ) {
 				else headings.push( { level: tok.tag, id, text: text.replace( /[`*]/g, '' ) } );
 			}
 			( state.tokens[ i ].children || [] ).forEach( ( c ) => {
+				if ( c.type === 'image' ) {
+					const src = c.attrGet( 'src' );
+					const m = /images\/([a-z0-9-]+)\.png$/.exec( src );
+					if ( ! m || ! IMG[ m[ 1 ] ] ) throw new Error( `docs/${ name }.md: missing image ${ src }` );
+					c.attrSet( 'src', `../../assets/img/${ m[ 1 ] }.jpg` );
+					c.attrSet( 'width', String( IMG[ m[ 1 ] ].w ) );
+					c.attrSet( 'height', String( IMG[ m[ 1 ] ].h ) );
+					c.attrSet( 'loading', 'lazy' );
+					c.attrSet( 'decoding', 'async' );
+				}
 				if ( c.type === 'link_open' ) {
 					// The docs use GitHub-friendly links (other-guide.md#section); on the site they're pages.
 					const href = c.attrGet( 'href' );
@@ -286,6 +320,7 @@ for ( const name of ORDER ) {
 	const src = readFileSync( join( ROOT, 'docs', name + '.md' ), 'utf8' );
 	let html = md.render( src );
 	html = html
+		.replace( /<p>(<img [^>]*alt="([^"]*)"[^>]*>)<\/p>/g, '<figure data-zoom>$1<figcaption>$2</figcaption></figure>' )
 		.replace( /<pre>/g, '<pre tabindex="0">' )
 		.replace( /<table>/g, '<table tabindex="0">' )
 		.replace( /<(h[23]) id="([^"]+)">(.*?)<\/\1>/g, '<$1 id="$2">$3<a class="anchor" href="#$2" aria-label="Link to this section">#</a></$1>' );
@@ -388,7 +423,7 @@ ${ toc.length > 1 ? `<nav class="on-page" aria-label="On this page" data-spy><h2
 /* ------------------------------------------------------------------ Home */
 
 {
-	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION );
+	const body = readFileSync( join( SRC, 'home.html' ), 'utf8' ).replace( /\{\{shot:([a-z0-9-]+)\|([^}]+)\}\}/g, ( m, name, caption ) => `<figure class="shot reveal" data-zoom>${ img( name, caption, '' ) }<figcaption>${ caption }</figcaption></figure>` ).replace( /\{\{download\}\}/g, SITE.download ).replace( /\{\{repo\}\}/g, SITE.repo ).replace( /\{\{version\}\}/g, VERSION );
 	write( 'index.html', layout( { title: SITE.name, description: 'Fixpass is a free WordPress plugin: Spotlight the exact spot that’s broken, and give your support team safe, temporary access, with no password shared.', root: '', current: '', body, home: true } ) );
 }
 

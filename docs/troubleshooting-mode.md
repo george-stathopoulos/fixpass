@@ -13,6 +13,8 @@ Only support, logged in with Fixpass, can use it (on the Support session page, *
 5. Change the selection and click **Apply** to narrow it down: switch off half, test, then the other half.
 6. Click **Stop troubleshooting** when you're done.
 
+![Troubleshooting mode: untick plugins to switch them off in your browser only.](images/support-troubleshoot.png)
+
 ## How it works
 
 Fixpass installs a small must-use plugin (`wp-content/mu-plugins/fixpass-troubleshoot.php`) while troubleshooting is in use. For requests carrying your troubleshooting cookie, it filters the list of active plugins (and the theme) before WordPress loads them. Nothing in the site's settings changes.

@@ -8,6 +8,8 @@ When a site owner gives you access with Fixpass, they send you **access details*
 2. A confirmation page shows how long access lasts. Click **Log in as support**. (The extra click stops email security scanners from using the link up.)
 3. You land on the **Support session** page.
 
+![The confirmation page: click Log in as support.](images/support-confirm.png)
+
 A **reusable link** works until access ends. A **one-time link** works once; ask the site owner for a new one to log in again.
 
 You're logged in as a temporary administrator. A notice on every screen, and the **Support session** item in the toolbar, show how long access lasts.
@@ -23,9 +25,13 @@ Four tabs, visible only to you (the site's own administrators don't see them):
   - **Leave session** logs you out. Access stays open; with a reusable link you can come back.
   - **End access** ends access for good when you're done: your account is deleted and you're logged out. The site owner sees "Support revoked access".
 
+![The Session tab: the site owner's spots, and how long access lasts.](images/support-session.png)
+
 ### Site details
 
 What might be causing problems (health flags), and everything about the site's setup: WordPress, PHP and database versions, server, plugins, theme, recent errors and changes, and the end of the debug log. **Copy** puts it all on your clipboard. Passwords, keys and email addresses are removed.
+
+![Site details: health flags and the site's setup.](images/support-details.png)
 
 ### Debugging
 
@@ -35,6 +41,8 @@ Read-only tools:
 - **Errors:** PHP and JavaScript errors Fixpass caught.
 - **Scheduled tasks:** WordPress's cron events, with late ones flagged.
 - **Settings:** the WordPress constants that matter for debugging.
+
+![Debugging: the end of debug.log, with search.](images/support-debug.png)
 
 ### Troubleshoot
 

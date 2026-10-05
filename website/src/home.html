@@ -3,6 +3,13 @@
 	<div class="fx-glow fx-glow--a" data-speed="0.22" aria-hidden="true"></div>
 	<div class="fx-glow fx-glow--b" data-speed="-0.12" aria-hidden="true"></div>
 	<div class="fx-cone" data-cone aria-hidden="true"></div>
+	<div class="fx-scene" data-scene aria-hidden="true"></div>
+	<button class="fx-lights" type="button" role="switch" aria-checked="false" aria-label="Lights (light theme)" data-lights><span class="fx-lights__label">Lights</span><span class="fx-lights__track"><span class="fx-lights__knob"></span></span></button>
+	<svg class="fx-arrow" viewBox="0 0 230 120" aria-hidden="true">
+		<path class="fx-arrow__line" d="M70 98 C96 62 136 112 150 70 C158 46 176 30 208 22"/>
+		<path class="fx-arrow__head" d="M192 10 L210 21 L195 36"/>
+		<text class="fx-arrow__text" x="4" y="112" transform="rotate(-7 4 112)">flip the lights!</text>
+	</svg>
 	<div class="wrap fx-hero__grid">
 		<div class="fx-hero__text">
 			<p class="fx-eyebrow">A free WordPress plugin</p>
@@ -52,6 +59,7 @@
 			</svg>
 		</div>
 	</div>
+	<p class="fx-scene-hint" aria-hidden="true">Move your light to look around. Something keeps running away.</p>
 </section>
 
 <!-- Lost in translation -->
@@ -134,6 +142,23 @@
 			<article class="fx-card reveal"><span class="fx-card__icon">●</span><h3>Live status</h3><p>Waiting for support, support working on your site, logged out, finished. It updates by itself.</p></article>
 			<article class="fx-card reveal"><span class="fx-card__icon">✦</span><h3>Tidies itself away</h3><p>The support account is deleted when access ends. Tick one box and Fixpass removes itself too.</p></article>
 		</div>
+	</div>
+</section>
+
+<!-- Screenshots -->
+<section class="fx-section fx-section--alt" id="screenshots">
+	<div class="wrap">
+		<div class="fx-head reveal">
+			<span class="kicker">See it in action</span>
+			<h2 class="fx-h2">The real screens, start to finish.</h2>
+		</div>
+		<div class="fx-gallery gallery">
+			{{shot:spotlight-note|Point at the problem: click the broken part and add a note.}}
+			{{shot:access-open|Give access, then copy the details into your reply.}}
+			{{shot:support-session|Support lands on the Session page with your spots.}}
+			{{shot:status-working-dark|Watch the status as support works, in light or dark.}}
+		</div>
+		<p class="fx-gallery__more reveal"><a class="fx-link" href="docs/">More screenshots in the help center →</a></p>
 	</div>
 </section>
 

@@ -11,6 +11,12 @@ Spotlight lets you point at a problem on the page itself, instead of describing 
 5. Add a short note if you like ("wrong price", "button does nothing").
 6. **Add another spot** for up to 5 spots, all on the same page, or click **Continue**.
 
+![The first time, a short card explains how Spotlight works.](images/spotlight-intro.png)
+
+![Spotlight is on: the part under the pointer is outlined. Click it, or drag a box.](images/spotlight-pick.png)
+
+![Add a note, then click Continue, or add another spot.](images/spotlight-note.png)
+
 **Continue** takes you to the Fixpass page with your spots listed under **Spots**, ready for [Give access](giving-access.md).
 
 ## While Spotlight is on
@@ -32,6 +38,8 @@ Nothing on your screen is recorded or uploaded: no screenshots, no video. Suppor
 ## What support sees
 
 Each spot has an **Open and highlight** link. It opens the page and draws a box where you pointed. If the page has changed and the exact element is gone, the box shows where it was.
+
+![Support opens the page with the spot highlighted.](images/support-highlight.png)
 
 Spots for pages in the dashboard need support to be logged in first.
 

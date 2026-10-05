@@ -377,7 +377,464 @@
 	}
 }
 
+/* ------------------------------------------------------------------ Hero scene */
+
+/* Hand-drawn WordPress trouble on several depth planes (assets/hero-scene.js). */
+.fx-scene,
+.fx-scene canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+/* The Lights switch is the site's theme switch. */
+.fx-lights {
+	position: absolute;
+	z-index: 2;
+	top: 20px;
+	right: 24px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 7px 7px 7px 16px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--surface) 82%, transparent);
+	color: var(--ink);
+	font: 700 12px/1 var(--font);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	cursor: pointer;
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--shadow);
+	transition: border-color 0.3s;
+}
+
+.fx-lights:hover {
+	border-color: var(--accent-line);
+}
+
+.fx-lights:focus-visible {
+	outline: 3px solid var(--accent);
+	outline-offset: 3px;
+}
+
+.fx-lights__track {
+	position: relative;
+	width: 52px;
+	height: 30px;
+	border-radius: 999px;
+	background: #3a3a3e;
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+	transition: background 0.3s;
+}
+
+.fx-lights__knob {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: #e9e7e1;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+	transition: transform 0.3s cubic-bezier(0.3, 1.4, 0.5, 1), background 0.3s;
+}
+
+.fx-lights[aria-checked="true"] .fx-lights__track {
+	background: var(--accent);
+}
+
+.fx-lights[aria-checked="true"] .fx-lights__knob {
+	background: #fff;
+	transform: translateX(22px);
+}
+
+/* In the dark, a slow amber pulse invites a click. */
+.fx-lights[aria-checked="false"] .fx-lights__track {
+	animation: fx-lights 2.4s ease-in-out infinite;
+}
+
+@keyframes fx-lights {
+	50% {
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 6px rgba(255, 178, 36, 0.3);
+	}
+}
+
+.fx-scene-hint {
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	bottom: 20px;
+	margin: 0;
+	color: var(--muted);
+	font: 12px/1.4 var(--mono);
+	letter-spacing: 0.06em;
+	text-align: center;
+	transform: translateX(-50%);
+	transition: opacity 0.5s;
+	pointer-events: none;
+}
+
+:root[data-theme="light"] .fx-scene-hint {
+	opacity: 0;
+}
+
+@media (max-width: 700px) {
+	.fx-lights {
+		top: 14px;
+		right: 16px;
+		padding: 5px 5px 5px 12px;
+	}
+
+	.fx-scene-hint {
+		width: calc(100% - 32px);
+	}
+}
+
+.fx-title {
+	margin: 0;
+	font-size: clamp(42px, 7vw, 86px);
+	font-weight: 800;
+	line-height: 1.04;
+	letter-spacing: -0.035em;
+}
+
+@media (min-width: 901px) {
+	.fx-title {
+		font-size: clamp(42px, 4.3vw, 70px);
+	}
+
+	.fx-line {
+		white-space: nowrap;
+	}
+}
+
+.fx-line {
+	display: block;
+}
+
+.fx-rotator {
+	position: relative;
+	display: inline-grid;
+	justify-items: start;
+	margin-right: 0.24em;
+	color: var(--muted);
+	vertical-align: bottom;
+	transition: width 0.5s ease;
+}
+
+.fx-rotator__word {
+	grid-area: 1 / 1;
+	opacity: 0;
+	transform: translateY(0.45em);
+	filter: blur(6px);
+	transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+	text-decoration: line-through;
+	text-decoration-color: var(--red);
+	text-decoration-thickness: 0.07em;
+}
+
+.fx-rotator__word.is-in {
+	opacity: 1;
+	transform: none;
+	filter: none;
+}
+
+.fx-rotator__word.is-out {
+	opacity: 0;
+	transform: translateY(-0.45em);
+	filter: blur(6px);
+}
+
+/* "Spotlight it.": an amber highlighter sweeps in behind the words. */
+.fx-marker {
+	position: relative;
+	z-index: 0;
+	color: var(--accent);
+}
+
+.fx-marker::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: -0.08em;
+	right: -0.08em;
+	bottom: 0.06em;
+	height: 0.42em;
+	border-radius: 0.12em;
+	background: var(--amber);
+	opacity: 0.55;
+	transform: scaleX(0);
+	transform-origin: left;
+	animation: fx-marker 1.1s 0.5s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+}
+
+@keyframes fx-marker {
+	to {
+		transform: scaleX(1);
+	}
+}
+
+.fx-lede {
+	max-width: 560px;
+	margin: 22px 0 0;
+	color: var(--ink-2);
+	font-size: 19px;
+	line-height: 1.6;
+}
+
+.fx-hero .cta-row {
+	justify-content: flex-start;
+	margin-top: 28px;
+}
+
+/* Lights out (dark theme): the scene plays, text is white, the illustration waits in the dark. */
+/* Switching the lights fades the whole hero over 1.5s, both ways. The darkness is a layer
+   over the light background, so it can fade (gradients can't). */
+.fx-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: #080808;
+	opacity: 0;
+	transition: opacity 1.5s ease;
+	pointer-events: none;
+}
+
+:root[data-theme="dark"] .fx-hero::before {
+	opacity: 1;
+}
+
+.fx-glow,
+.fx-cone,
+.fx-hero__visual {
+	transition: opacity 1.5s ease, filter 1.5s ease, visibility 0s;
+}
+
+:root[data-theme="dark"] .fx-glow,
+:root[data-theme="dark"] .fx-cone,
+:root[data-theme="dark"] .fx-hero__visual {
+	opacity: 0;
+	visibility: hidden;
+	filter: blur(10px);
+	transition: opacity 1.5s ease, filter 1.5s ease, visibility 0s 1.5s;
+}
+
+/* Text colours fade only while the lights are switching (is-fading is set for 1.5s by hero-scene.js),
+   so hover effects stay quick the rest of the time. */
+.fx-hero.is-fading .fx-eyebrow,
+.fx-hero.is-fading .fx-title,
+.fx-hero.is-fading .fx-marker,
+.fx-hero.is-fading .fx-marker::before,
+.fx-hero.is-fading .fx-lede,
+.fx-hero.is-fading .fx-meta,
+.fx-hero.is-fading .fx-lights {
+	transition: color 1.5s ease, background-color 1.5s ease, border-color 1.5s ease, opacity 1.5s ease;
+}
+
+.fx-hero.is-fading .fx-rotator {
+	transition: width 0.5s ease, color 1.5s ease;
+}
+
+.fx-hero.is-fading .fx-rotator__word {
+	transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease, color 1.5s ease, text-decoration-color 1.5s ease;
+}
+
+.fx-hero.is-fading .btn {
+	transition: color 1.5s ease, background-color 1.5s ease, border-color 1.5s ease;
+}
+
+.fx-hero__text::before {
+	transition: opacity 1.5s ease;
+}
+
+.fx-hero__text {
+	position: relative;
+}
+
+/* A soft pool of darkness under the text keeps it readable over the drawings. */
+.fx-hero__text::before {
+	opacity: 0;
+}
+
+:root[data-theme="dark"] .fx-hero__text::before {
+	opacity: 1;
+}
+
+.fx-hero__text::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: -90px -140px;
+	background: radial-gradient(closest-side, rgba(8, 8, 8, 0.92), rgba(8, 8, 8, 0.75) 55%, transparent);
+	pointer-events: none;
+}
+
+:root[data-theme="dark"] .fx-hero .fx-eyebrow {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+
+:root[data-theme="dark"] .fx-hero .fx-title,
+:root[data-theme="dark"] .fx-hero .fx-marker,
+:root[data-theme="dark"] .fx-hero .fx-lede,
+:root[data-theme="dark"] .fx-hero .fx-meta,
+:root[data-theme="dark"] .fx-hero .fx-scene-hint,
+:root[data-theme="dark"] .fx-hero .fx-lights {
+	color: #fff;
+}
+
+/* The crossed-out word is the one exception: bright yellow, line and all. */
+:root[data-theme="dark"] .fx-hero .fx-rotator {
+	color: #ffd43b;
+}
+
+:root[data-theme="dark"] .fx-hero .fx-rotator__word {
+	text-decoration-color: #ffd43b;
+}
+
+:root[data-theme="dark"] .fx-hero .fx-marker::before {
+	opacity: 0.3;
+}
+
+:root[data-theme="dark"] .fx-hero .btn-primary {
+	background: #4a3aa7;
+	color: #fff;
+}
+
+:root[data-theme="dark"] .fx-hero .btn-ghost {
+	border-color: rgba(255, 255, 255, 0.45);
+	background: transparent;
+	color: #fff;
+}
+
+/* Lights on: the drawings fade away and the illustration slowly fades back in. */
+.fx-scene {
+	transition: opacity 1.5s ease;
+}
+
+:root[data-theme="light"] .fx-scene {
+	opacity: 0;
+}
+
+
+/* A dotted, playful arrow points at the Lights switch while the lights are out. */
+.fx-arrow {
+	position: absolute;
+	z-index: 2;
+	top: 44px;
+	right: 168px;
+	width: 230px;
+	overflow: visible;
+	color: #fff;
+	pointer-events: none;
+	transform-origin: 70% 0;
+}
+
+/* Lights off: the arrow drops in from under the menu like a cartoon, bounces, then bobs. */
+:root[data-theme="dark"] .fx-arrow {
+	animation: fx-arrow-drop 1s 0.5s cubic-bezier(0.3, 0, 0.4, 1) both, fx-arrow-bob 2.6s 1.6s ease-in-out infinite;
+}
+
+@keyframes fx-arrow-drop {
+	0% {
+		transform: translateY(-190px) rotate(-10deg) scaleY(1.15);
+	}
+
+	55% {
+		transform: translateY(12px) rotate(3deg) scale(1.08, 0.86);
+	}
+
+	72% {
+		transform: translateY(-14px) rotate(-2deg) scale(0.97, 1.04);
+	}
+
+	86% {
+		transform: translateY(4px) rotate(1deg) scale(1.02, 0.97);
+	}
+
+	100% {
+		transform: none;
+	}
+}
+
+.fx-arrow__line,
+.fx-arrow__head {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 3.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.fx-arrow__line {
+	stroke-dasharray: 0.5 10;
+	animation: fx-arrow-march 1.2s linear infinite;
+}
+
+.fx-arrow__text {
+	fill: currentColor;
+	font: 700 21px "Comic Sans MS", "Chalkboard SE", "Marker Felt", "Segoe Print", cursive;
+}
+
+@keyframes fx-arrow-march {
+	to {
+		stroke-dashoffset: -21;
+	}
+}
+
+@keyframes fx-arrow-bob {
+	50% {
+		transform: translate(5px, -4px) rotate(-2deg);
+	}
+}
+
+.fx-arrow,
+.fx-scene-hint {
+	transition: opacity 1.5s ease;
+}
+
+:root[data-theme="light"] .fx-arrow {
+	opacity: 0;
+}
+
+@media (max-width: 700px) {
+	.fx-arrow {
+		top: 34px;
+		right: 136px;
+		width: 160px;
+	}
+}
+
 /* ------------------------------------------------------------------ Sections */
+
+/* Screenshots on the home page (zoom on click, from site.js). */
+.fx-gallery {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 32px;
+}
+
+.fx-gallery .shot img {
+	cursor: zoom-in;
+}
+
+.fx-gallery__more {
+	margin: 36px 0 0;
+	text-align: center;
+}
+
+@media (max-width: 760px) {
+	.fx-gallery {
+		grid-template-columns: 1fr;
+		gap: 24px;
+	}
+}
+
 
 .fx-two {
 	display: grid;

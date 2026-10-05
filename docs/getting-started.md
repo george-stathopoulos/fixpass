@@ -16,6 +16,10 @@ After activation you land on the **Fixpass** page with a four-step tour:
 3. **Spotlight:** pointing at a problem. The **Spotlight a problem** button in the toolbar glows while you're on this step, so you know where it is.
 4. **You're in control:** the status, extending and ending access.
 
+![The first step of the tour.](images/tour-welcome.png)
+
+![The Spotlight step: the Spotlight a problem button glows in the toolbar.](images/tour-spotlight.png)
+
 On the last step, **Don't show this again** (ticked by default) hides the tour until Fixpass is reinstalled. **Skip the tour** hides it for this visit only. You can open it again any time with **Take the tour**, at the top and bottom of the Fixpass page.
 
 ## Your first support request
@@ -28,6 +32,8 @@ On the last step, **Don't show this again** (ticked by default) hides the tour u
 When support is done, or when access runs out, the support account is deleted. If you left **Remove Fixpass when access ends** ticked, Fixpass then removes itself too.
 
 ## Where things are
+
+![The Fixpass page: give support access, and switch Spotlight on or off.](images/home.png)
 
 - **Fixpass** in the admin menu: everything for the site owner.
 - **Spotlight a problem** in the toolbar: on every page of the site and the dashboard, for administrators, while Spotlight is on and no support access is open.
