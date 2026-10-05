@@ -17,7 +17,7 @@
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../assets/site.css?v=1.0.0">
 <link rel="stylesheet" href="../../assets/home.css?v=1.0.0">
-<script>try{var t=localStorage.getItem('hdh-site-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
 <script src="../../assets/search-index.js?v=1.0.0" defer></script>
 </head>
 <body data-root="../../">
@@ -67,6 +67,7 @@
 <li>A confirmation page shows how long access lasts. Click <strong>Log in as support</strong>. (The extra click stops email security scanners from using the link up.)</li>
 <li>You land on the <strong>Support session</strong> page.</li>
 </ol>
+<figure data-zoom><img src="../../assets/img/support-confirm.jpg" alt="The confirmation page: click Log in as support." width="1800" height="1125" loading="lazy" decoding="async"><figcaption>The confirmation page: click Log in as support.</figcaption></figure>
 <p>A <strong>reusable link</strong> works until access ends. A <strong>one-time link</strong> works once; ask the site owner for a new one to log in again.</p>
 <p>You're logged in as a temporary administrator. A notice on every screen, and the <strong>Support session</strong> item in the toolbar, show how long access lasts.</p>
 <h2 id="the-support-session-page">The Support session page<a class="anchor" href="#the-support-session-page" aria-label="Link to this section">#</a></h2>
@@ -81,8 +82,10 @@
 </ul>
 </li>
 </ul>
+<figure data-zoom><img src="../../assets/img/support-session.jpg" alt="The Session tab: the site owner's spots, and how long access lasts." width="1800" height="1276" loading="lazy" decoding="async"><figcaption>The Session tab: the site owner's spots, and how long access lasts.</figcaption></figure>
 <h3 id="site-details">Site details<a class="anchor" href="#site-details" aria-label="Link to this section">#</a></h3>
 <p>What might be causing problems (health flags), and everything about the site's setup: WordPress, PHP and database versions, server, plugins, theme, recent errors and changes, and the end of the debug log. <strong>Copy</strong> puts it all on your clipboard. Passwords, keys and email addresses are removed.</p>
+<figure data-zoom><img src="../../assets/img/support-details.jpg" alt="Site details: health flags and the site's setup." width="1800" height="1276" loading="lazy" decoding="async"><figcaption>Site details: health flags and the site's setup.</figcaption></figure>
 <h3 id="debugging">Debugging<a class="anchor" href="#debugging" aria-label="Link to this section">#</a></h3>
 <p>Read-only tools:</p>
 <ul>
@@ -91,6 +94,7 @@
 <li><strong>Scheduled tasks:</strong> WordPress's cron events, with late ones flagged.</li>
 <li><strong>Settings:</strong> the WordPress constants that matter for debugging.</li>
 </ul>
+<figure data-zoom><img src="../../assets/img/support-debug.jpg" alt="Debugging: the end of debug.log, with search." width="1800" height="1276" loading="lazy" decoding="async"><figcaption>Debugging: the end of debug.log, with search.</figcaption></figure>
 <h3 id="troubleshoot">Troubleshoot<a class="anchor" href="#troubleshoot" aria-label="Link to this section">#</a></h3>
 <p><a href="../troubleshooting-mode/">Troubleshooting mode</a>: switch plugins off, or use a default theme, in your browser only.</p>
 <h2 id="what-you-cant-do">What you can't do<a class="anchor" href="#what-you-cant-do" aria-label="Link to this section">#</a></h2>
