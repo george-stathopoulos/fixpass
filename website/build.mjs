@@ -38,6 +38,8 @@ const OUT = join( ROOT, 'website/dist' );
 const SRC = join( ROOT, 'website/src' );
 const readme = readFileSync( join( ROOT, 'readme.txt' ), 'utf8' );
 const VERSION = /Stable tag:\s*(\S+)/.exec( readme )[ 1 ];
+// Asset links change on every build, so browsers never keep a stale script or stylesheet.
+const ASSET_V = VERSION + '.' + Date.now().toString( 36 );
 const PLAYGROUND = `https://playground.wordpress.net/?blueprint-url=${ encodeURIComponent( SITE.url + 'demo/blueprint.json' ) }`;
 
 rmSync( OUT, { recursive: true, force: true } );
@@ -161,9 +163,9 @@ function layout( { title, description, root, current = '', body, canonical = '',
 <meta property="og:image" content="${ SITE.url }assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${ root }assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${ root }assets/site.css?v=${ VERSION }">
-<link rel="stylesheet" href="${ root }assets/home.css?v=${ VERSION }">
-<script>try{var t=localStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
+<link rel="stylesheet" href="${ root }assets/site.css?v=${ ASSET_V }">
+<link rel="stylesheet" href="${ root }assets/home.css?v=${ ASSET_V }">
+<script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
 ${ extraHead }
 </head>
 <body data-root="${ root }"${ home ? ' class="is-home"' : '' }>
@@ -233,8 +235,8 @@ ${ body }
 		</div>
 	</div>
 </footer>
-<script src="${ root }assets/site.js?v=${ VERSION }" defer></script>
-${ home ? `<script src="${ root }assets/home.js?v=${ VERSION }" defer></script>\n<script src="${ root }assets/hero-scene.js?v=${ VERSION }" defer></script>` : '' }
+<script src="${ root }assets/site.js?v=${ ASSET_V }" defer></script>
+${ home ? `<script src="${ root }assets/home.js?v=${ ASSET_V }" defer></script>\n<script src="${ root }assets/hero-scene.js?v=${ ASSET_V }" defer></script>` : '' }
 </body>
 </html>
 `;
@@ -353,7 +355,7 @@ function searchBox( id, placeholder ) {
 </div>`;
 }
 
-const SEARCH_SCRIPT = ( root ) => `<script src="${ root }assets/search-index.js?v=${ VERSION }" defer></script>`;
+const SEARCH_SCRIPT = ( root ) => `<script src="${ root }assets/search-index.js?v=${ ASSET_V }" defer></script>`;
 
 function docsNav( current ) {
 	return `<aside class="docs-nav" aria-label="Help center">
