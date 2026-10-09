@@ -163,6 +163,7 @@ function layout( { title, description, root, current = '', body, canonical = '',
 <meta property="og:image" content="${ SITE.url }assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${ root }assets/favicon.svg" type="image/svg+xml">
+<!-- Cloudflare Web Analytics: counts visits anonymously, no cookies --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "64332b427a604e879f82853393ebdb0d"}'></script><!-- End Cloudflare Web Analytics -->
 <link rel="stylesheet" href="${ root }assets/site.css?v=${ ASSET_V }">
 <link rel="stylesheet" href="${ root }assets/home.css?v=${ ASSET_V }">
 <script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
@@ -231,7 +232,7 @@ ${ body }
 		</div>
 		<div class="foot-bottom">
 			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="${ SITE.authorUrl }">${ SITE.author }</a></span>
-			<span>Fixpass ${ VERSION } · This website uses no cookies and no tracking.</span>
+			<span>Fixpass ${ VERSION } · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
 		</div>
 	</div>
 </footer>
