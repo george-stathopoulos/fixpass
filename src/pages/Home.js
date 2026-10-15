@@ -1,5 +1,5 @@
 /**
- * The site owner's screen: 1. give access, 2. copy the details, the access status, and Spotlight.
+ * The site owner's screen: choose "Show the problem, then give access" or "Just give access", then copy the details, and the access status.
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { useState, useEffect } from '@wordpress/element';
@@ -10,17 +10,16 @@ import {
 	PageHead,
 	Button,
 	Pill,
-	Switch,
 	Loading,
 	ErrorNotice,
 	useToast,
 } from '../ui/components/ui';
 import { Check, KeyValues, confirmAction } from '../ui/components/kit';
-import SpotlightDemo from '../ui/components/SpotlightDemo';
 import { copyRich, copyText } from '../lib/copy';
 import { message } from '../components/common';
 import PageFoot from '../components/PageFoot';
 import Onboarding from './Onboarding';
+import Start from './Start';
 
 // The latest access, as the site owner sees it: [ pill tone, label ].
 const STATUS = {
@@ -142,7 +141,7 @@ export default function Home() {
 	const [ cleanup, setCleanup ] = useState( true );
 	const [ reusable, setReusable ] = useState( true );
 	const [ spots, setSpots ] = useState( [] );
-	// The message from step 1, kept while the page is open: its link isn't stored anywhere.
+	// The message from giving access, kept while the page is open: its link isn't stored anywhere.
 	const [ msg, setMsg ] = useState( null );
 	const [ manual, setManual ] = useState( '' );
 	const [ busy, setBusy ] = useState( '' );
@@ -152,6 +151,20 @@ export default function Home() {
 	const [ touring, setTouring ] = useState( () =>
 		hashSpots().length ? false : null
 	);
+	// What the owner chose to start with: null (not yet), 'spot' (Spotlight, then access) or
+	// 'access'. Arriving with spots from Spotlight means they chose Spotlight.
+	const [ mode, setMode ] = useState( () => {
+		try {
+			if ( window.sessionStorage.getItem( 'fxp-start' ) === 'spot' ) {
+				window.sessionStorage.removeItem( 'fxp-start' );
+				return 'spot';
+			}
+		} catch ( e ) {}
+		return hashSpots().length ? 'spot' : null;
+	} );
+
+	// Spots coming back from Spotlight are fetched first, so the screen doesn't flash the guide.
+	const [ spotsLoading, setSpotsLoading ] = useState( () => hashSpots().length > 0 );
 
 	// Spots picked on a page: "Continue" lands here with #/?spot=…
 	useEffect( () => {
@@ -161,7 +174,10 @@ export default function Home() {
 				ids.map( ( id ) =>
 					send( `admin/spot/${ id }` ).catch( () => null )
 				)
-			).then( ( list ) => setSpots( list.filter( Boolean ) ) );
+			).then( ( list ) => {
+				setSpots( list.filter( Boolean ) );
+				setSpotsLoading( false );
+			} );
 		}
 	}, [] );
 
@@ -174,6 +190,27 @@ export default function Home() {
 		const id = window.setInterval( reload, 30000 );
 		return () => window.clearInterval( id );
 	}, [ live, reload ] );
+
+	// Until a spot is picked, point at the real toolbar button.
+	const needsSpot = !! (
+		data &&
+		data.spotlight &&
+		! live &&
+		mode === 'spot' &&
+		! spots.length
+	);
+	const tourOpen =
+		touring === true || ( touring === null && data && ! data.onboarded );
+	useEffect( () => {
+		const button = document.getElementById(
+			'wp-admin-bar-fixpass-spotlight'
+		);
+		if ( ! button || ! needsSpot || tourOpen ) {
+			return;
+		}
+		button.classList.add( 'fxp-glow' );
+		return () => button.classList.remove( 'fxp-glow' );
+	}, [ needsSpot, tourOpen ] );
 
 	if ( error && ! data ) {
 		return <ErrorNotice error={ error } onRetry={ reload } />;
@@ -228,7 +265,7 @@ export default function Home() {
 			}
 		);
 
-	// The message to copy: from step 1 if this page still has it, otherwise rebuilt by the
+	// The message to copy: from giving access if this page still has it, otherwise rebuilt by the
 	// server (a reusable link comes back the same; a one-time link is replaced).
 	const getMessage = async () => {
 		if ( msg ) {
@@ -306,172 +343,49 @@ export default function Home() {
 
 	const setSpotlight = ( enabled ) =>
 		send( 'admin/spotlight', 'POST', { enabled } )
+			.then( ( r ) => {
+				try {
+					if ( enabled ) {
+						window.sessionStorage.setItem( 'fxp-start', 'spot' );
+					}
+				} catch ( e ) {}
+				return r;
+			} )
 			.then( () => window.location.reload() )
 			.catch( ( e ) => toast( message( e ), 'alert' ) );
 
-	return (
-		<>
-			<PageHead
-				title={ __( 'Get help with your site', 'fixpass' ) }
-				lede={ __(
-					'Give your support team safe, temporary access to this site, with no password shared, and show them exactly where the problem is.',
-					'fixpass'
-				) }
-			>
+	const giveForm = (
+		<div className="hdh-stack" style={ { gap: 16 } }>
+			<div className="hdh-row">
+				<select
+					className="hdh-input hdh-select"
+					style={ { width: 'auto' } }
+					aria-label={ __( 'Access length', 'fixpass' ) }
+					value={ length }
+					onChange={ ( e ) =>
+						setHours( parseInt( e.target.value, 10 ) )
+					}
+				>
+					{ data.durations.map( ( d ) => (
+						<option key={ d.hours } value={ d.hours }>
+							{ d.label }
+						</option>
+					) ) }
+				</select>
 				<Button
-					variant="ghost"
-					icon="play"
-					onClick={ () => setTouring( true ) }
+					variant="primary"
+					icon="key"
+					disabled={ !! busy }
+					onClick={ give }
 				>
-					{ __( 'Take the tour', 'fixpass' ) }
+					{ busy === 'give'
+						? __( 'Giving access…', 'fixpass' )
+						: __( 'Give access', 'fixpass' ) }
 				</Button>
-			</PageHead>
-
-			<div className="hdh-stack" style={ { gap: 18 } }>
-				{ data.removing && (
-					<div className="hdh-policy-note">
-						<span>
-							{ __(
-								'As you asked, Fixpass removes itself in about a minute, now that access has ended.',
-								'fixpass'
-							) }
-						</span>
-					</div>
-				) }
-
-				<Card
-					title={
-						<StepTitle num="1" done={ live }>
-							{ live
-								? __( 'Access given', 'fixpass' )
-								: __( 'Give support access', 'fixpass' ) }
-						</StepTitle>
-					}
-					sub={
-						live ? (
-							<>
-								{ __(
-									'Support access stays open for the next',
-									'fixpass'
-								) }{ ' ' }
-								<Countdown
-									expires={ access.expires_at }
-									drift={ drift }
-									onEnd={ reload }
-								/>
-								.
-							</>
-						) : (
-							__(
-								'Full administrator access for your support team, for the time you choose. End it any time; it also ends by itself.',
-								'fixpass'
-							)
-						)
-					}
-				>
-					{ live ? (
-						<div className="hdh-stack">
-							<div>
-								<Pill tone={ copied ? 'good' : 'warning' } dot>
-									{ copied
-										? __( 'Details copied', 'fixpass' )
-										: __(
-												'Not sent yet: copy the details in step 2',
-												'fixpass'
-										  ) }
-								</Pill>
-							</div>
-							<div className="hdh-row">
-								<Button
-									icon="clock"
-									disabled={ !! busy || ! access.can_extend }
-									title={
-										access.can_extend
-											? undefined
-											: __(
-													'Access can last up to 30 days from when it was given.',
-													'fixpass'
-											  )
-									}
-									onClick={ extend }
-								>
-									{ __( 'Extend +24h', 'fixpass' ) }
-								</Button>
-								<Button
-									variant="danger"
-									icon="x"
-									disabled={ !! busy }
-									onClick={ revoke }
-								>
-									{ __( 'End access now', 'fixpass' ) }
-								</Button>
-							</div>
-							{ access.cleanup && (
-								<p
-									className="hdh-muted"
-									style={ { margin: 0 } }
-								>
-									{ __(
-										'Fixpass removes itself when this access ends.',
-										'fixpass'
-									) }
-								</p>
-							) }
-						</div>
-					) : (
-						<div className="hdh-stack" style={ { gap: 16 } }>
-							<div className="hdh-share-part">
-								<strong>{ __( 'Spots', 'fixpass' ) }</strong>
-								{ spots.length ? (
-									<ul
-										className="hdh-plain-list"
-										style={ { marginTop: 6 } }
-									>
-										{ spots.map( ( p, i ) => (
-											<li key={ p.id }>
-												<span className="hdh-picked-spot__num">
-													{ i + 1 }
-												</span>
-												{ p.label || p.title }{ ' ' }
-												<button
-													type="button"
-													className="hdh-link-button"
-													onClick={ () =>
-														setSpots(
-															spots.filter(
-																( x ) =>
-																	x.id !==
-																	p.id
-															)
-														)
-													}
-												>
-													{ __(
-														'Remove',
-														'fixpass'
-													) }
-												</button>
-											</li>
-										) ) }
-									</ul>
-								) : (
-									<p
-										className="hdh-muted"
-										style={ { margin: '4px 0 0' } }
-									>
-										{ data.spotlight
-											? __(
-													'Optional: to show support where the problem is, go to that page and click Spotlight a problem in the toolbar. You’ll come back here.',
-													'fixpass'
-											  )
-											: __(
-													'Optional: turn on Spotlight below to point at the problem on the page.',
-													'fixpass'
-											  ) }
-									</p>
-								) }
-							</div>
-
+			</div>
+			<details className="fxp-more">
+				<summary>{ __( 'More options', 'fixpass' ) }</summary>
+				<div className="hdh-stack" style={ { gap: 16, marginTop: 12 } }>
 							<fieldset className="fxp-choice">
 								<legend>
 									{ __( 'Login link', 'fixpass' ) }
@@ -529,44 +443,131 @@ export default function Home() {
 								) }
 							/>
 
+				</div>
+			</details>
+		</div>
+	);
+
+	return (
+		<>
+			<PageHead
+				title={ __( 'Get help with your site', 'fixpass' ) }
+				lede={ __(
+					'Give your support team safe, temporary access to this site, with no password shared, and show them exactly where the problem is.',
+					'fixpass'
+				) }
+			>
+				<Button
+					variant="ghost"
+					icon="play"
+					onClick={ () => setTouring( true ) }
+				>
+					{ __( 'Take the tour', 'fixpass' ) }
+				</Button>
+			</PageHead>
+
+			<div className="hdh-stack" style={ { gap: 18 } }>
+				{ data.removing && (
+					<div className="hdh-policy-note">
+						<span>
+							{ __(
+								'As you asked, Fixpass removes itself in about a minute, now that access has ended.',
+								'fixpass'
+							) }
+						</span>
+					</div>
+				) }
+
+				{ live ? (
+					<Card
+						title={
+							<StepTitle num="1" done>
+								{ __( 'Access given', 'fixpass' ) }
+							</StepTitle>
+						}
+						sub={
+							<>
+								{ __(
+									'Support access stays open for the next',
+									'fixpass'
+								) }{ ' ' }
+								<Countdown
+									expires={ access.expires_at }
+									drift={ drift }
+									onEnd={ reload }
+								/>
+								.
+							</>
+						}
+					>
+						<div className="hdh-stack">
+							<div>
+								<Pill tone={ copied ? 'good' : 'warning' } dot>
+									{ copied
+										? __( 'Details copied', 'fixpass' )
+										: __(
+												'Not sent yet: copy the details below',
+												'fixpass'
+										  ) }
+								</Pill>
+							</div>
 							<div className="hdh-row">
-								<select
-									className="hdh-input hdh-select"
-									style={ { width: 'auto' } }
-									aria-label={ __(
-										'Access length',
-										'fixpass'
-									) }
-									value={ length }
-									onChange={ ( e ) =>
-										setHours(
-											parseInt( e.target.value, 10 )
-										)
-									}
-								>
-									{ data.durations.map( ( d ) => (
-										<option
-											key={ d.hours }
-											value={ d.hours }
-										>
-											{ d.label }
-										</option>
-									) ) }
-								</select>
 								<Button
-									variant="primary"
-									icon="key"
-									disabled={ !! busy }
-									onClick={ give }
+									icon="clock"
+									disabled={ !! busy || ! access.can_extend }
+									title={
+										access.can_extend
+											? undefined
+											: __(
+													'Access can last up to 30 days from when it was given.',
+													'fixpass'
+											  )
+									}
+									onClick={ extend }
 								>
-									{ busy === 'give'
-										? __( 'Giving access…', 'fixpass' )
-										: __( 'Give access', 'fixpass' ) }
+									{ __( 'Extend +24h', 'fixpass' ) }
+								</Button>
+								<Button
+									variant="danger"
+									icon="x"
+									disabled={ !! busy }
+									onClick={ revoke }
+								>
+									{ __( 'End access now', 'fixpass' ) }
 								</Button>
 							</div>
+							{ access.cleanup && (
+								<p
+									className="hdh-muted"
+									style={ { margin: 0 } }
+								>
+									{ __(
+										'Fixpass removes itself when this access ends.',
+										'fixpass'
+									) }
+								</p>
+							) }
 						</div>
-					) }
-				</Card>
+					</Card>
+				) : spotsLoading ? (
+					<Loading />
+				) : (
+					<Start
+						mode={ mode }
+						setMode={ ( m ) => {
+							// Just access: nothing of an earlier Spotlight round goes with it.
+							if ( m === 'access' ) {
+								setSpots( [] );
+							}
+							setMode( m );
+						} }
+						data={ data }
+						spots={ spots }
+						setSpots={ setSpots }
+						setSpotlight={ setSpotlight }
+						form={ giveForm }
+					/>
+				) }
 
 				{ live && (
 					<Card
@@ -681,72 +682,6 @@ export default function Home() {
 					</Card>
 				) }
 
-				{ ! live && (
-					<Card
-						title={ __( 'Spotlight', 'fixpass' ) }
-						sub={ __(
-							'Show your support exactly where the problem is, instead of describing it.',
-							'fixpass'
-						) }
-						action={
-							<Switch
-								label={ __(
-									'Spotlight in the toolbar',
-									'fixpass'
-								) }
-								checked={ data.spotlight }
-								onChange={ setSpotlight }
-							/>
-						}
-					>
-						<button
-							type="button"
-							className="fxp-foot__info is-left"
-							aria-expanded={ spotlightInfo }
-							onClick={ () =>
-								setSpotlightInfo( ! spotlightInfo )
-							}
-						>
-							<span className="fxp-foot__i" aria-hidden="true">
-								i
-							</span>
-							{ spotlightInfo
-								? __( 'Hide how Spotlight works', 'fixpass' )
-								: __( 'How Spotlight works', 'fixpass' ) }
-						</button>
-						{ spotlightInfo && (
-							<>
-								<SpotlightDemo />
-								<ul className="fxp-rules">
-									<li>
-										{ __(
-											'Go to the page with the problem and click Spotlight a problem in the toolbar at the top.',
-											'fixpass'
-										) }
-									</li>
-									<li>
-										{ __(
-											'Click the problem, or drag a box around it. Add a note, and up to 5 spots, all on that page.',
-											'fixpass'
-										) }
-									</li>
-									<li>
-										{ __(
-											'While Spotlight is on, the page is paused: links and buttons don’t work, so you can’t go to another page. Press Esc to stop.',
-											'fixpass'
-										) }
-									</li>
-									<li>
-										{ __(
-											'Continue brings you back here with your spots, ready for step 1. Nothing on your screen is recorded.',
-											'fixpass'
-										) }
-									</li>
-								</ul>
-							</>
-						) }
-					</Card>
-				) }
 			</div>
 
 			<PageFoot onTour={ () => setTouring( true ) } />

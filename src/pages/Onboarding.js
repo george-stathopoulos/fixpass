@@ -1,5 +1,5 @@
 /**
- * The welcome tour: four short steps, each with a small animation. Shown until the site owner
+ * The welcome tour: four short steps (show the problem first, then give access), each with a small animation. Shown until the site owner
  * ticks "Don't show this again" (kept until Fixpass is reinstalled).
  */
 import { __ } from '@wordpress/i18n';
@@ -281,31 +281,11 @@ const STEPS = [
 		),
 		points: [
 			__(
-				'Takes a minute: give access, copy the details, send them to your support team.',
+				'Choose “Show the problem, then give access” (recommended) or “Just give access”, then send the details to your support team.',
 				'fixpass'
 			),
 			__(
 				'Access ends by itself, and you can end it any time.',
-				'fixpass'
-			),
-		],
-	},
-	{
-		id: 'access',
-		label: __( 'Give access', 'fixpass' ),
-		Scene: LinkScene,
-		title: __( 'Give access in two steps', 'fixpass' ),
-		text: __(
-			'Choose how long support can stay (1 day to a week), then hand over the details.',
-			'fixpass'
-		),
-		points: [
-			__(
-				'1. Give access. The reusable link is best: support can come back as often as they need.',
-				'fixpass'
-			),
-			__(
-				'2. Copy the details, and paste them into a reply to your support team.',
 				'fixpass'
 			),
 		],
@@ -316,20 +296,40 @@ const STEPS = [
 		Scene: SpotlightDemo,
 		title: __( 'Show exactly where it hurts', 'fixpass' ),
 		text: __(
-			'Spotlight lets you point at the problem on the page itself, so support sees it straight away.',
+			'Spotlight lets you point at the problem on the page itself, so support sees it straight away and doesn’t need to ask you questions. You’ll pick it with “Show the problem, then give access”.',
 			'fixpass'
 		),
 		points: [
 			__(
-				'On the page with the problem, click Spotlight a problem at the top right of the toolbar (it’s glowing now).',
+				'Go to the page with the problem and click Spotlight a problem at the top right of the toolbar (it’s glowing now).',
 				'fixpass'
 			),
 			__(
-				'Click the problem or drag a box around it. Up to 5 spots, all on that page.',
+				'Click the problem or drag a box around it, and add a short note. Up to 5 spots, all on that page.',
 				'fixpass'
 			),
 			__(
 				'While Spotlight is on, the page is paused: links don’t work, so you can’t go to another page. Press Esc to stop.',
+				'fixpass'
+			),
+		],
+	},
+	{
+		id: 'access',
+		label: __( 'Give access', 'fixpass' ),
+		Scene: LinkScene,
+		title: __( 'Then give access', 'fixpass' ),
+		text: __(
+			'Choose how long support can stay (1 day to a week), then hand over the details.',
+			'fixpass'
+		),
+		points: [
+			__(
+				'Give access. The reusable link is best: support can come back as often as they need.',
+				'fixpass'
+			),
+			__(
+				'Copy the details, and paste them into a reply to your support team. They include your spot.',
 				'fixpass'
 			),
 		],

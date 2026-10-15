@@ -1,6 +1,6 @@
 {
   "name": "fixpass",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Fixpass: safe, temporary support access to WordPress sites, and Spotlight to show exactly where a problem is.",
   "license": "GPL-2.0-or-later",

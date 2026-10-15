@@ -25,6 +25,7 @@ Once support logs in, they get a Support session page with your spots, full site
 | **Support session** | Support sees your spots, site details, the debug log, errors, scheduled tasks and troubleshooting mode. Only support sees these. |
 | **Troubleshooting mode** | Switch plugins off, or use a default theme, for support's browser only. |
 | **Clean up** | The support account is deleted when access ends. Optionally, Fixpass removes itself too. |
+| **Two ways to start** | "Show the problem, then give access" (recommended) or "Just give access". |
 | **Welcome tour** | A short animated tour the first time, and any time after. |
 
 ## Install
@@ -37,10 +38,11 @@ Requires WordPress 6.5 or later and PHP 7.4 or later.
 
 ## Quick start
 
-1. If you can see the problem, go to that page and click **Spotlight a problem** in the toolbar. Click it or drag a box around it, then **Continue**.
-2. On the Fixpass page, choose how long support can stay and click **Give access**.
-3. Click **Copy details** and paste them into a reply to your support team.
-4. Watch the status: you'll see when support logs in and when they're done.
+1. On the Fixpass page choose **Show the problem, then give access** (recommended) or **Just give access**.
+2. With the first, open the page with the problem and click **Spotlight a problem** in the toolbar. Click the problem or drag a box around it, add a note, then **Continue**. You land back on the Fixpass page with your spots.
+3. Choose how long support can stay and click **Give access**.
+4. Click **Copy details** and paste them into a reply to your support team.
+5. Watch the status: you'll see when support logs in and when they're done.
 
 ## Documentation
 

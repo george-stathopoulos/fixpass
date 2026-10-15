@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Fixpass troubleshooting mode
  * Description: Disables chosen plugins for one browser session only, so support can test for conflicts without affecting visitors. Added by Fixpass and removed automatically when troubleshooting ends.
- * Version:     1.0.0
+ * Version:     1.0.1
  * License:     GPL-2.0-or-later
  *
  * @package Fixpass

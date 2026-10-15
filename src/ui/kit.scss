@@ -3006,3 +3006,147 @@
 		animation: none;
 	}
 }
+
+/* Start screen: two big choices */
+.hdh-root .fxp-pick__q {
+	margin: 4px 0 0;
+	font-size: 17px;
+	font-weight: 650;
+}
+
+.hdh-root .fxp-pick {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: 1fr 1fr;
+
+	@media (max-width: 860px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.hdh-root .fxp-pick__btn {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 20px;
+	border: 2px solid var(--hdh-border);
+	border-radius: 14px;
+	background: var(--hdh-surface);
+	color: var(--hdh-ink);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+
+	&:first-child {
+		border-color: var(--hdh-accent);
+	}
+
+	&:hover,
+	&:focus-visible {
+		border-color: var(--hdh-accent);
+		box-shadow: 0 6px 20px rgba(74, 58, 167, 0.15);
+		transform: translateY(-1px);
+	}
+
+	.fxp-pick__icon {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 56px;
+		height: 56px;
+		border-radius: 14px;
+		background: var(--hdh-accent-soft);
+		color: var(--hdh-accent);
+	}
+
+	.fxp-pick__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 6px;
+		font-size: 13.5px;
+		line-height: 1.45;
+		color: var(--hdh-muted);
+
+		strong {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 8px;
+			color: var(--hdh-ink);
+			font-size: 16px;
+		}
+
+		em {
+			color: var(--hdh-accent);
+			font-size: 12.5px;
+			font-style: normal;
+			font-weight: 600;
+		}
+	}
+
+	.fxp-pick__go {
+		flex: none;
+		color: var(--hdh-muted);
+	}
+}
+
+.hdh-root .fxp-pick__foot {
+	margin: 0;
+	font-size: 12.5px;
+}
+
+/* Spotlight guide */
+.hdh-root .fxp-todo {
+	display: grid;
+	gap: 14px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		gap: 12px;
+		margin: 0;
+		list-style: none;
+	}
+
+	li > span:last-child {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		color: var(--hdh-muted);
+		font-size: 13.5px;
+		line-height: 1.45;
+
+		strong {
+			color: var(--hdh-ink);
+			font-size: 14.5px;
+		}
+	}
+
+	.fxp-todo__n {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		background: var(--hdh-accent);
+		color: #fff;
+		font-size: 13px;
+		font-weight: 700;
+	}
+}
+
+.hdh-root .fxp-more summary {
+	cursor: pointer;
+	color: var(--hdh-muted);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.hdh-root .fxp-pick__go svg {
+	transform: rotate(-90deg);
+}

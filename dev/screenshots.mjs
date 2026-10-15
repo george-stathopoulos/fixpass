@@ -87,21 +87,27 @@ const owner = await newContext();
 const page = await owner.newPage();
 await logIn( page );
 
-// The tour: welcome, then the Spotlight step (the toolbar button glows).
+// The tour: welcome, then the Spotlight step (the toolbar button glows), access, control.
 await page.goto( FIXPASS );
 await page.waitForSelector( '.fxp-tour__title' );
 await settle( page );
 await shot( page, 'tour-welcome' );
 await page.getByRole( 'button', { name: 'Next' } ).click();
-await page.getByRole( 'button', { name: 'Next' } ).click();
 await settle( page, 1200 );
 await shot( page, 'tour-spotlight' );
+await page.getByRole( 'button', { name: 'Next' } ).click();
 await page.getByRole( 'button', { name: 'Next' } ).click();
 await settle( page );
 // Last step: "Don't show this again" is ticked by default; finish the tour.
 await page.getByRole( 'button', { name: 'Let’s go' } ).click();
 await settle( page, 1200 );
+// The start screen: two big choices.
 await shot( page, 'home', { fullPage: true } );
+
+// "Show the problem, then give access": the three-step guide.
+await page.getByRole( 'button', { name: /Show the problem, then give access/ } ).click();
+await settle( page, 1200 );
+await shot( page, 'start-spotlight', { fullPage: true } );
 
 // Spotlight on the page with the problem.
 await page.goto( `${ BASE }/order-a-cake/` );

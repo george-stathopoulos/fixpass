@@ -400,7 +400,7 @@ ${ toc.length > 1 ? `<nav class="on-page" aria-label="On this page" data-spy><h2
 	const popular = [
 		[ 'getting-started', 'your-first-support-request', 'Your first support request' ],
 		[ 'spotlight', 'spotlight-a-problem', 'Spotlight a problem' ],
-		[ 'giving-access', 'step-1-give-access', 'Reusable or one-time link?' ],
+		[ 'giving-access', 'give-access', 'Reusable or one-time link?' ],
 		[ 'giving-access', 'the-status', 'What the status means' ],
 		[ 'for-support-teams', 'log-in', 'Log in as support' ],
 		[ 'security', 'the-link', 'How the login link is protected' ],

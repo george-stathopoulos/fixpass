@@ -6,6 +6,9 @@ No. Fixpass runs entirely on your site. Nothing is sent anywhere until you copy 
 **Who is "support"?**
 Whoever helps you with your site: a developer, an agency, a plugin or theme vendor's support team. Fixpass doesn't connect to any particular company.
 
+**Do I have to use Spotlight?**
+No. Choose **Just give access** and describe the problem in your message. Spotlight is recommended because support sees exactly what you mean, without back and forth.
+
 **Which link should I use, reusable or one-time?**
 Reusable, in most cases: support often needs to log in more than once over a few days. Choose one-time if you want the strictest option; support then asks you for a new link each time.
 
@@ -19,7 +22,7 @@ Click **Extend +24h**. One access can last up to 30 days from when it was given.
 No: one support access at a time. Ending access deletes the account, so the next one starts clean.
 
 **The Spotlight button isn't in my toolbar.**
-It shows for administrators while Spotlight is on (the switch on the Fixpass page) and while no support access is open. It also needs the toolbar itself to be showing (Users → Profile → Show Toolbar when viewing site).
+It shows for administrators while Spotlight is on (see the line under the two big buttons on the Fixpass page) and while no support access is open. It also needs the toolbar itself to be showing (Users → Profile → Show Toolbar when viewing site).
 
 **I clicked Spotlight and now I can't click links.**
 That's on purpose: while Spotlight is on, your clicks pick spots. Press **Esc** or click **Cancel**.

@@ -4,7 +4,7 @@ Tags: support, remote access, temporary login, debugging, troubleshooting
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ Documentation: https://github.com/george-stathopoulos/fixpass/tree/main/docs
 
 1. Install and activate Fixpass from Plugins → Add New, or upload the zip.
 2. Fixpass opens with a short tour.
-3. To get help: Spotlight the problem (optional), choose how long support can stay, click Give access, then Copy details and send them to your support team.
+3. To get help, choose "Show the problem, then give access" (recommended) or "Just give access". With the first, you point at the problem on your site, add a note, then give access. Then copy the details and send them to your support team.
 
 == Frequently Asked Questions ==
 
@@ -68,6 +68,12 @@ Every support account, Fixpass's tables and settings, the troubleshooting must-u
 Fixpass doesn't send data to any external service. The access details (login link, spots, site health, plugins and themes) only leave your site when you copy and send them. Spots keep the page address, your note, your screen size and browser, and errors on that page, for 90 days. Passwords, keys and email addresses are removed from the site details support sees.
 
 == Changelog ==
+
+= 1.0.1 =
+* New: the Fixpass page now starts with two big choices, "Show the problem, then give access" (recommended) and "Just give access". The first walks you through Spotlight, shows your spots, and then gives access.
+* New: the welcome tour starts with Spotlight and explains the two choices.
+* Fix: the Fixpass page stayed on "Loading…" on WordPress 6.5, which has no JSX runtime script. It is now bundled.
+* Fix: a clear message instead of an endless "Loading…" if the plugin's built files are missing (for example after installing GitHub's "Download ZIP").
 
 = 1.0.0 =
 * First release: support access with reusable or one-time links, Spotlight, copyable access details, live status, Support session with site details, debugging tools and troubleshooting mode, welcome tour.

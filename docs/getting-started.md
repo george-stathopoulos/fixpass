@@ -12,8 +12,8 @@ Fixpass needs WordPress 6.5 or later and PHP 7.4 or later. Only administrators c
 After activation you land on the **Fixpass** page with a four-step tour:
 
 1. **Welcome:** what Fixpass does.
-2. **Give access:** the two steps to get support in.
-3. **Spotlight:** pointing at a problem. The **Spotlight a problem** button in the toolbar glows while you're on this step, so you know where it is.
+2. **Spotlight:** pointing at a problem. The **Spotlight a problem** button in the toolbar glows while you're on this step, so you know where it is.
+3. **Give access:** how long support can stay, and handing over the details.
 4. **You're in control:** the status, extending and ending access.
 
 ![The first step of the tour.](images/tour-welcome.png)
@@ -24,16 +24,19 @@ On the last step, **Don't show this again** (ticked by default) hides the tour u
 
 ## Your first support request
 
-1. **Show the problem (optional).** Go to the page where something is wrong and click **Spotlight a problem** in the toolbar. Click the broken part, or drag a box around it, add a note, then click **Continue**. See [Spotlight](spotlight.md).
-2. **Give access.** On the Fixpass page, choose a length (3 days by default) and click **Give access**. See [Giving support access](giving-access.md).
-3. **Copy the details.** Click **Copy details** and paste them into a reply to your support team: an email, a ticket or a chat.
-4. **Watch the status.** The page shows when support logs in, logs out or finishes, and updates by itself.
+1. **Choose how to start.** The Fixpass page shows two big buttons: **Show the problem, then give access** (recommended) and **Just give access** (the quickest, for when the whole site is down or you can't open the page).
+2. **Show the problem (if you chose that).** Open the page where something is wrong and click **Spotlight a problem** in the toolbar. Click the broken part, or drag a box around it, add a note, then click **Continue**. You come back to the Fixpass page with your spots listed. See [Spotlight](spotlight.md).
+3. **Give access.** Choose a length (3 days by default) and click **Give access**. See [Giving support access](giving-access.md).
+4. **Copy the details.** Click **Copy details** and paste them into a reply to your support team: an email, a ticket or a chat.
+5. **Watch the status.** The page shows when support logs in, logs out or finishes, and updates by itself.
 
 When support is done, or when access runs out, the support account is deleted. If you left **Remove Fixpass when access ends** ticked, Fixpass then removes itself too.
 
 ## Where things are
 
-![The Fixpass page: give support access, and switch Spotlight on or off.](images/home.png)
+![The Fixpass page: choose how to ask for help.](images/home.png)
+
+![Show the problem: three steps, then back to the Fixpass page with your spots.](images/start-spotlight.png)
 
 - **Fixpass** in the admin menu: everything for the site owner.
 - **Spotlight a problem** in the toolbar: on every page of the site and the dashboard, for administrators, while Spotlight is on and no support access is open.

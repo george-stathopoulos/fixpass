@@ -4,8 +4,8 @@ Spotlight lets you point at a problem on the page itself, instead of describing 
 
 ## Spotlight a problem
 
-1. Go to the page with the problem: any page of your site, or of the dashboard.
-2. Click **Spotlight a problem** in the toolbar at the top.
+1. On the Fixpass page, choose **Show the problem, then give access**, then go to the page with the problem: any page of your site, or of the dashboard. (You can also go straight to the page and click the toolbar button.)
+2. Click **Spotlight a problem** in the toolbar at the top. It glows while the Fixpass page is guiding you.
 3. The first time, a short card explains how it works. Tick **Don't show this again** if you don't need it next time.
 4. **Click** the part of the page that's wrong, or **drag a box** around an area.
 5. Add a short note if you like ("wrong price", "button does nothing").
@@ -17,7 +17,7 @@ Spotlight lets you point at a problem on the page itself, instead of describing 
 
 ![Add a note, then click Continue, or add another spot.](images/spotlight-note.png)
 
-**Continue** takes you to the Fixpass page with your spots listed under **Spots**, ready for [Give access](giving-access.md).
+**Continue** takes you back to the Fixpass page with your spots listed ("spots ready to send"), and the form to [give access](giving-access.md) right below.
 
 ## While Spotlight is on
 
@@ -45,6 +45,6 @@ Spots for pages in the dashboard need support to be logged in first.
 
 ## Turn Spotlight off
 
-On the Fixpass page, use the switch on the **Spotlight** card. Spotlight is on by default.
+On the Fixpass page, under the two big buttons, click **Turn it off** next to "Spotlight is on". Spotlight is on by default. If it's off, **Show the problem, then give access** turns it on again.
 
 The toolbar button is hidden while support access is open: the status is all you need then.
