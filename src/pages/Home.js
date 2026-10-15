@@ -141,6 +141,11 @@ export default function Home() {
 	// Ticked by default: once support is done, Fixpass tidies itself away.
 	const [ cleanup, setCleanup ] = useState( true );
 	const [ reusable, setReusable ] = useState( true );
+	// Whether support may extend access themselves, and up to when: a number of days from now
+	// ('7', '14', '30') or 'date' for a specific date.
+	const [ allowExtend, setAllowExtend ] = useState( false );
+	const [ extendLimit, setExtendLimit ] = useState( '7' );
+	const [ extendDate, setExtendDate ] = useState( '' );
 	const [ spots, setSpots ] = useState( [] );
 	// The message from giving access, kept while the page is open: its link isn't stored anywhere.
 	const [ msg, setMsg ] = useState( null );
@@ -267,14 +272,25 @@ export default function Home() {
 			.finally( () => setBusy( '' ) );
 	};
 
-	const give = () =>
-		run(
+	// The limits that make sense for the chosen length: later than when access ends.
+	const limitDays = [ 7, 14, 30 ].filter( ( d ) => d * 24 > length );
+	const limit = allowExtend && extendLimit !== 'date' && ! limitDays.includes( parseInt( extendLimit, 10 ) ) ? String( limitDays[ 0 ] ) : extendLimit;
+
+	const give = () => {
+		if ( allowExtend && limit === 'date' && ! extendDate ) {
+			toast( __( 'Choose the date support can extend access up to.', 'fixpass' ), 'alert' );
+			return;
+		}
+		return run(
 			'give',
 			send( 'admin/link', 'POST', {
 				hours: length,
 				pins: spots.map( ( p ) => p.id ).join( ',' ),
 				cleanup,
 				reusable,
+				extend: allowExtend,
+				extend_days: limit === 'date' ? 0 : parseInt( limit, 10 ),
+				extend_date: allowExtend && limit === 'date' ? extendDate : '',
 			} ),
 			( r ) => {
 				setMsg( r );
@@ -282,6 +298,7 @@ export default function Home() {
 				reload();
 			}
 		);
+	};
 
 	// The message to copy: from giving access if this page still has it, otherwise rebuilt by the
 	// server (a reusable link comes back the same; a one-time link is replaced).
@@ -423,6 +440,66 @@ export default function Home() {
 								</label>
 							</fieldset>
 
+							<div className="hdh-stack" style={ { gap: 10 } }>
+								<Check
+									checked={ allowExtend }
+									onChange={ setAllowExtend }
+									label={ __(
+										'Let support extend access themselves',
+										'fixpass'
+									) }
+									desc={ __(
+										'Support can add 1 or 24 hours at a time, up to the limit you choose. You get an email each time. Leave this off to decide yourself.',
+										'fixpass'
+									) }
+								/>
+								{ allowExtend && (
+									<div className="hdh-row">
+										<label htmlFor="fxp-ext-limit">
+											{ __( 'Up to', 'fixpass' ) }
+										</label>
+										<select
+											id="fxp-ext-limit"
+											className="hdh-input hdh-select"
+											style={ { width: 'auto' } }
+											value={ limit }
+											onChange={ ( e ) =>
+												setExtendLimit( e.target.value )
+											}
+										>
+											{ limitDays.map( ( d ) => (
+												<option key={ d } value={ d }>
+													{ d === 7
+														? __( '1 week from now', 'fixpass' )
+														: sprintf(
+																/* translators: %d: number of days */
+																__( '%d days from now', 'fixpass' ),
+																d
+														  ) }
+												</option>
+											) ) }
+											<option value="date">
+												{ __( 'A specific date…', 'fixpass' ) }
+											</option>
+										</select>
+										{ limit === 'date' && (
+											<input
+												type="date"
+												className="hdh-input"
+												style={ { width: 'auto' } }
+												aria-label={ __( 'Last day support can extend to', 'fixpass' ) }
+												min={ new Date( Date.now() + 86400000 ).toISOString().slice( 0, 10 ) }
+												max={ new Date( Date.now() + 30 * 86400000 ).toISOString().slice( 0, 10 ) }
+												value={ extendDate }
+												onChange={ ( e ) =>
+													setExtendDate( e.target.value )
+												}
+											/>
+										) }
+									</div>
+								) }
+							</div>
+
 							<Check
 								checked={ cleanup }
 								onChange={ setCleanup }
@@ -555,6 +632,21 @@ export default function Home() {
 									{ __( 'End access now', 'fixpass' ) }
 								</Button>
 							</div>
+							<p className="hdh-muted" style={ { margin: 0 } }>
+								{ access.allow_extend
+									? sprintf(
+											/* translators: %s: date and time */
+											__(
+												'Support can extend access themselves, up to %s. You get an email each time.',
+												'fixpass'
+											),
+											when( access.extend_until )
+									  )
+									: __(
+											'Support can’t extend access themselves. You can extend it with the button above.',
+											'fixpass'
+									  ) }
+							</p>
 							{ access.cleanup && (
 								<p
 									className="hdh-muted"

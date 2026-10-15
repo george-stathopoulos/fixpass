@@ -25,7 +25,8 @@ Once support logs in, they get a Support session page with your spots, full site
 | **Support session** | Support sees your spots, site details, the debug log, errors, scheduled tasks and troubleshooting mode. Only support sees these. |
 | **Troubleshooting mode** | Switch plugins off, or use a default theme, for support's browser only. |
 | **Clean up** | The support account is deleted when access ends. Optionally, Fixpass deactivates and deletes itself too (with its history). |
-| **Access history** | See when access was given, extended and ended, when support logged in and out, and what they did. Download (CSV), delete, or choose how long it's kept. |
+| **Support can extend** | Optional: support adds 1 or 24 hours at a time, up to a limit you set (a number of days or a date). You're emailed each time. |
+| **Access history** | See who did what (you, support, Fixpass): access given, extended and ended, logins, and what support did. Download (CSV), delete, or choose how long it's kept. |
 | **Two ways to start** | "Show the problem, then give access" (recommended) or "Just give access". |
 | **Welcome tour** | A short animated tour the first time, and any time after. |
 

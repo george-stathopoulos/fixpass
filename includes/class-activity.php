@@ -264,7 +264,9 @@ final class Fixpass_Activity {
 	 */
 	public static function rest_write( $result, $server, $request ) {
 		$grant = self::grant();
-		if ( $grant && 'GET' !== $request->get_method() && 0 !== strpos( $request->get_route(), '/wp/v2/posts' ) && 0 !== strpos( $request->get_route(), '/wp/v2/pages' ) ) {
+		// Not Fixpass's own screens (extending, leaving...): they are logged as what they are.
+		$own = 0 === strpos( $request->get_route(), '/' . Fixpass_REST::NS . '/' );
+		if ( $grant && ! $own && 'GET' !== $request->get_method() && 0 !== strpos( $request->get_route(), '/wp/v2/posts' ) && 0 !== strpos( $request->get_route(), '/wp/v2/pages' ) ) {
 			Fixpass_Monitor::record( 'activity', 'rest_write', $request->get_method() . ' ' . $request->get_route(), array(), $grant );
 		}
 		return $result;
@@ -280,6 +282,73 @@ final class Fixpass_Activity {
 		if ( $grant_id ) {
 			Fixpass_Monitor::record( 'access', 'support_logout', '', array(), $grant_id );
 		}
+	}
+
+	/**
+	 * A log row for the site owner: who did it, what happened in plain words, and how much it
+	 * matters. Access events (given, extended, ended, logins) are "key"; what support did on the
+	 * site is not.
+	 *
+	 * @param array $row Log row (details decoded).
+	 * @return array { who: owner|support|system, actor, text, tone: good|info|bad|'', key }
+	 */
+	public static function owner_line( array $row ) {
+		$d       = (array) $row['details'];
+		$support = ! empty( $d['by'] ) ? (string) $d['by'] : __( 'Support', 'fixpass' );
+		$you     = __( 'You', 'fixpass' );
+		$system  = __( 'Fixpass', 'fixpass' );
+		$hours   = (int) ( $d['hours'] ?? 0 );
+		$length  = 0 === $hours % 24 && $hours >= 24
+			/* translators: %d: number of days */
+			? sprintf( _n( '%d day', '%d days', $hours / 24, 'fixpass' ), $hours / 24 )
+			/* translators: %d: number of hours */
+			: sprintf( _n( '%d hour', '%d hours', $hours, 'fixpass' ), $hours );
+		$line    = static function ( $who, $actor, $text, $tone = '', $key = true ) {
+			return compact( 'who', 'actor', 'text', 'tone', 'key' );
+		};
+
+		switch ( $row['action'] ) {
+			case 'access_granted':
+				/* translators: %s: length, e.g. "3 days" */
+				return $line( 'owner', $you, sprintf( __( 'Gave support access for %s', 'fixpass' ), $length ), 'good' );
+			case 'access_changed':
+				/* translators: %s: length */
+				return $line( 'owner', $you, sprintf( __( 'Renewed access: it now ends %s from now', 'fixpass' ), $length ), 'good' );
+			case 'link_issued':
+				return $line( 'owner', $you, __( 'Made a new login link', 'fixpass' ), '', false );
+			case 'shared_copied':
+				return $line( 'owner', $you, __( 'Copied the access details, to send to support', 'fixpass' ), '', false );
+			case 'access_extended':
+				if ( ! empty( $d['by_support'] ) ) {
+					/* translators: %s: length */
+					return $line( 'support', $support, sprintf( __( 'Extended access by %s (you allowed this)', 'fixpass' ), $length ), 'info' );
+				}
+				/* translators: %s: length */
+				return $line( 'owner', $you, sprintf( __( 'Extended access by %s', 'fixpass' ), $length ), 'info' );
+			case 'support_login':
+				return $line( 'support', $support, __( 'Logged in', 'fixpass' ), 'good' );
+			case 'support_logout':
+				return $line( 'support', $support, __( 'Logged out', 'fixpass' ), '' );
+			case 'access_ended_support':
+				return $line( 'support', $support, __( 'Ended access: they are done. The support account was deleted', 'fixpass' ), 'bad' );
+			case 'access_revoked':
+				if ( 'deactivated' === ( $d['reason'] ?? '' ) ) {
+					return $line( 'system', $system, __( 'Access ended because Fixpass was deactivated. The support account was deleted', 'fixpass' ), 'bad' );
+				}
+				return $line( 'owner', $you, __( 'Ended access. The support account was deleted', 'fixpass' ), 'bad' );
+			case 'access_expired':
+				return $line( 'system', $system, __( 'Access ran out, as planned. The support account was deleted', 'fixpass' ), 'bad' );
+			case 'access_ended_deleted':
+				return $line( 'system', $system, __( 'Access ended because the support account was deleted', 'fixpass' ), 'bad' );
+			case 'access_ended_closed':
+				return $line( 'system', $system, __( 'Access ended. The support account was deleted', 'fixpass' ), 'bad' );
+			case 'safe_mode_on':
+				return $line( 'support', $support, __( 'Started troubleshooting mode (switches plugins off in their browser only)', 'fixpass' ), '', false );
+			case 'safe_mode_off':
+				return $line( 'support', $support, __( 'Stopped troubleshooting mode', 'fixpass' ), '', false );
+		}
+		// Everything else happened while support was logged in: what they looked at and changed.
+		return $line( 'support', $support, self::describe( $row ), '', false );
 	}
 
 	/**
@@ -373,6 +442,10 @@ final class Fixpass_Activity {
 			case 'access_ended_closed':
 				return __( 'Support access ended because no open tickets need it; support accounts deleted', 'fixpass' );
 			case 'access_extended':
+				if ( ! empty( $d['by_support'] ) ) {
+					/* translators: %d: hours */
+					return sprintf( _n( 'Support extended access by %d hour', 'Support extended access by %d hours', (int) ( $d['hours'] ?? 0 ), 'fixpass' ), $d['hours'] ?? 0 );
+				}
 				/* translators: %d: hours */
 				return sprintf( __( 'Support access extended by %d hours', 'fixpass' ), $d['hours'] ?? 0 );
 			case 'extension_requested':

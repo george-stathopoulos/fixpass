@@ -20,6 +20,7 @@ Choose the options, then a length (**1, 2, 3 (the default) or 5 days, or a week*
 - **Login link:**
   - **Reusable link** (recommended): support can log in as often as they need until access ends. Best when they check, change and re-check over a few days.
   - **One-time link:** works for a single login. The most secure choice; if support needs to log in again, they ask you for a new link.
+- **Let support extend access themselves** (off by default): support can add **1 or 24 hours** at a time from their Support session page, up to a limit you set: **1 week**, **2 weeks** or **30 days from now**, or **a specific date** (never more than 30 days from when access was given). You get an email each time, and each extension is in the access history. Leave it off if you'd rather decide yourself.
 - **Delete Fixpass when access ends** (ticked by default): once access has ended, for whatever reason, Fixpass deactivates and deletes itself about a minute later. **The access history is deleted with it**, so download the history first if you want a copy. Untick it to keep Fixpass installed.
 
 One support access can be open at a time.
@@ -69,9 +70,15 @@ After access ends, **Last support access** shows how it ended:
 
 ![The access history: when access was given, when support logged in, and what they did.](images/access-history.png)
 
-Below the status, **Access history** lists what happened: when access was given, extended and ended, when support logged in and out, and what they did on the site (changes, and optionally the pages they looked at).
+Below the status, **Access history** lists what happened, with **who did it**:
 
-- **Download (CSV):** saves the whole history as a spreadsheet file.
+- **You** (purple): you gave access, extended it, ended it, copied the details.
+- **Support** (amber): they logged in or out, extended access (if you allowed it), ended it when they were done, started troubleshooting mode, and what they changed on the site. Tick **Include every page support looked at** to see those too.
+- **Fixpass** (grey): access ran out as planned, or ended because the support account was deleted or Fixpass was deactivated.
+
+Access events stand out, with a coloured edge: green for access given and logins, blue for extensions, red for access ending. The things support did on the site are listed in smaller text between them.
+
+- **Download (CSV):** saves the whole history as a spreadsheet file, with columns for the time, who did it, what happened and the IP address of logins.
 - **Delete history:** removes the record of past access and what support did, and the access that has ended. It can't be undone. Access that is open right now keeps its own history.
 - **Keep the history for:** 30, 90 (the default) or 365 days. Older entries are deleted automatically.
 
@@ -80,6 +87,7 @@ If **Delete Fixpass when access ends** is ticked, the history is deleted along w
 ## Extend or end access
 
 - **Extend +24h** adds a day. One access can last at most 30 days from when it was given.
+- If you allowed it, support can extend by 1 or 24 hours themselves (see above).
 - **End access now** ends it straight away: the support account is deleted and the link stops working.
 
 However access ends, the support account is deleted for good.

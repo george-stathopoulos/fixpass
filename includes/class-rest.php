@@ -39,6 +39,7 @@ final class Fixpass_REST {
 			array( '/admin/activity/clear', 'POST', 'activity_clear', $owner ),
 			array( '/admin/retention', 'POST', 'retention', $owner ),
 			array( '/admin/session', 'GET', 'session', $support ),
+			array( '/admin/session/extend', 'POST', 'extend_session', $support ),
 			array( '/admin/session/leave', 'POST', 'leave_session', $support ),
 			array( '/admin/session/end', 'POST', 'end_session', $support ),
 			array( '/admin/health', 'GET', 'health', $support ),
@@ -92,6 +93,8 @@ final class Fixpass_REST {
 				'copied'     => ! empty( $g['copied_at'] ),
 				'cleanup'    => ! empty( $g['cleanup'] ),
 				'reusable'   => ! empty( $g['reusable'] ),
+				'allow_extend' => ! empty( $g['allow_extend'] ),
+				'extend_until' => ! empty( $g['allow_extend'] ) ? self::iso( gmdate( 'Y-m-d H:i:s', Fixpass_Access::extend_limit( $g ) ) ) : null,
 				// Extending stops 30 days after access was created.
 				'can_extend' => strtotime( $g['expires_at'] . ' UTC' ) < strtotime( $g['created_at'] . ' UTC' ) + Fixpass_Policy::MAX_TOTAL_DAYS * DAY_IN_SECONDS,
 			) : null,
@@ -106,7 +109,19 @@ final class Fixpass_REST {
 	 * @return array|WP_Error
 	 */
 	public static function link( WP_REST_Request $request ) {
-		$out = Fixpass_Share::create( absint( $request->get_param( 'hours' ) ), explode( ',', (string) $request->get_param( 'pins' ) ), rest_sanitize_boolean( $request->get_param( 'cleanup' ) ), null === $request->get_param( 'reusable' ) || rest_sanitize_boolean( $request->get_param( 'reusable' ) ) );
+		$hours  = absint( $request->get_param( 'hours' ) );
+		$extend = array();
+		if ( rest_sanitize_boolean( $request->get_param( 'extend' ) ) ) {
+			$until = Fixpass_Access::parse_extend_limit( absint( $request->get_param( 'extend_days' ) ), sanitize_text_field( (string) $request->get_param( 'extend_date' ) ), $hours );
+			if ( is_wp_error( $until ) ) {
+				return self::bad( $until );
+			}
+			$extend = array(
+				'allow' => true,
+				'until' => $until,
+			);
+		}
+		$out = Fixpass_Share::create( $hours, explode( ',', (string) $request->get_param( 'pins' ) ), rest_sanitize_boolean( $request->get_param( 'cleanup' ) ), null === $request->get_param( 'reusable' ) || rest_sanitize_boolean( $request->get_param( 'reusable' ) ), $extend );
 		return is_wp_error( $out ) ? self::bad( $out ) : $out;
 	}
 
@@ -181,12 +196,15 @@ final class Fixpass_REST {
 				'limit'      => 300,
 			)
 		) as $row ) {
-			$d        = (array) $row['details'];
+			$line     = Fixpass_Activity::owner_line( $row );
 			$events[] = array(
 				'id'    => (int) $row['id'],
 				'time'  => self::iso( $row['created_at'] ),
-				'event' => Fixpass_Activity::describe( $row ),
-				'by'    => isset( $d['by'] ) ? (string) $d['by'] : '',
+				'who'   => $line['who'],
+				'actor' => $line['actor'],
+				'event' => $line['text'],
+				'tone'  => $line['tone'],
+				'key'   => $line['key'],
 				'ip'    => 'support_login' === $row['action'] ? (string) $row['ip'] : '',
 				// Pages support only looked at: hidden unless asked for.
 				'minor' => 'page_view' === $row['action'],
@@ -240,8 +258,20 @@ final class Fixpass_REST {
 			'site'    => wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ),
 			'user'    => wp_get_current_user()->display_name,
 			'expires' => self::iso( $grant['expires_at'] ),
+			'extend'  => Fixpass_Access::extend_info( $grant ),
 			'shared'  => Fixpass_Share::last(),
 		);
+	}
+
+	/**
+	 * Support extends their access by 1 or 24 hours, when the site owner allowed it.
+	 *
+	 * @param WP_REST_Request $request hours.
+	 * @return array|WP_Error
+	 */
+	public static function extend_session( WP_REST_Request $request ) {
+		$out = Fixpass_Access::extend_by_support( Fixpass_Access::current_grant_id(), absint( $request->get_param( 'hours' ) ) );
+		return is_wp_error( $out ) ? self::bad( $out ) : self::session();
 	}
 
 	/**

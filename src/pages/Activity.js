@@ -20,11 +20,11 @@ function csvCell( value ) {
 
 function downloadCsv( events ) {
 	const lines = [
-		[ 'Time (UTC)', 'Event', 'By', 'IP address' ]
+		[ 'Time (UTC)', 'Who', 'What happened', 'IP address' ]
 			.map( csvCell )
 			.join( ',' ),
 		...events.map( ( e ) =>
-			[ e.time, e.event, e.by, e.ip ].map( csvCell ).join( ',' )
+			[ e.time, e.actor, e.event, e.ip ].map( csvCell ).join( ',' )
 		),
 	];
 	const url = URL.createObjectURL(
@@ -100,7 +100,7 @@ export default function Activity( { refreshKey, retention, onChanged } ) {
 		<Card
 			title={ __( 'Access history', 'fixpass' ) }
 			sub={ __(
-				'What happened with support access on your site: when access was given, extended and ended, when support logged in and out, and what they did.',
+				'Who did what: you, support, and Fixpass itself. Access given, extended and ended stand out; what support looked at and changed is listed in between.',
 				'fixpass'
 			) }
 		>
@@ -110,24 +110,35 @@ export default function Activity( { refreshKey, retention, onChanged } ) {
 						checked={ pages }
 						onChange={ setPages }
 						label={ __(
-							'Include pages support looked at',
+							'Include every page support looked at',
 							'fixpass'
 						) }
 					/>
 				) }
 				<ul className="fxp-history">
 					{ list.slice( 0, shown ).map( ( e ) => (
-						<li key={ e.id }>
+						<li
+							key={ e.id }
+							className={ [
+								e.key ? 'is-key' : '',
+								e.tone ? `is-${ e.tone }` : '',
+							]
+								.filter( Boolean )
+								.join( ' ' ) }
+						>
 							<time dateTime={ e.time }>{ when( e.time ) }</time>
-							<span>
+							<span className={ `fxp-who is-${ e.who }` }>
+								{ e.actor }
+							</span>
+							<span className="fxp-history__what">
 								{ e.event }
-								{ e.by && (
+								{ e.ip && (
 									<span className="hdh-muted">
 										{ ' ' }
 										{ sprintf(
-											/* translators: %s: name */
-											__( '(%s)', 'fixpass' ),
-											e.by
+											/* translators: %s: IP address */
+											__( '(IP %s)', 'fixpass' ),
+											e.ip
 										) }
 									</span>
 								) }

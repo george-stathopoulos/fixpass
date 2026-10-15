@@ -50,6 +50,12 @@ The debugging tools only read; they never change `wp-config.php`. One caution if
 
 [Troubleshooting mode](troubleshooting-mode.md): switch plugins off, or use a default theme, in your browser only.
 
+## Need more time?
+
+On the **Session** page, **This session** shows when your access ends. If the site owner allowed it when they gave access, **Extend +1 hour** and **Extend +24 hours** add time, up to the limit they set (shown under the buttons). The site owner gets an email each time, and your extension appears in their access history. If extending isn't allowed, or you've reached the limit, the page says so: ask the owner to extend access. You stay logged in when you extend.
+
+![Extend access by 1 or 24 hours, when the site owner allowed it.](images/support-extend.png)
+
 ## What you can't do
 
 You're a full administrator, with two exceptions that protect the site owner:

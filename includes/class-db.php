@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Fixpass_DB {
 
-	const VERSION = '4';
+	const VERSION = '5';
 	const OPTION  = 'fixpass_db';
 
 	/**
@@ -64,6 +64,8 @@ final class Fixpass_DB {
 			copied_at datetime NULL,
 			reusable tinyint(1) NOT NULL DEFAULT 0,
 			link_nonce varchar(64) NOT NULL DEFAULT '',
+			allow_extend tinyint(1) NOT NULL DEFAULT 0,
+			extend_until datetime NULL,
 			PRIMARY KEY  (id),
 			KEY user_id (user_id),
 			KEY token_hash (token_hash)

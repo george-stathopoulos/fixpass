@@ -16,7 +16,7 @@ Reusable, in most cases: support often needs to log in more than once over a few
 Yes: click **Copy details** again. A reusable link comes back the same. A one-time link is replaced, and the old one stops working.
 
 **Support needs more time.**
-Click **Extend +24h**. One access can last up to 30 days from when it was given. After that, end it and give access again.
+Click **Extend +24h**, or tick **Let support extend access themselves** when you give access, so they can add 1 or 24 hours up to a limit you choose. One access can last up to 30 days from when it was given. After that, end it and give access again.
 
 **Can I give access to two support teams at once?**
 No: one support access at a time. Ending access deletes the account, so the next one starts clean.
@@ -43,7 +43,7 @@ Every support account, Fixpass's tables and settings, the troubleshooting must-u
 It runs about a minute after access ends, on the next visit to the site. On hosts that ask for FTP details to change files, Fixpass can deactivate itself but not delete its files; delete it from the Plugins screen.
 
 **Can I see what support did, and delete it?**
-Yes: **Access history** on the Fixpass page lists it. You can download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days. Deleting Fixpass itself deletes the history too.
+Yes: **Access history** on the Fixpass page lists it, showing who did each thing (you, support or Fixpass). You can download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days. Deleting Fixpass itself deletes the history too.
 
 **Is it multisite-compatible?**
 Fixpass works per site. Network-wide use hasn't been tested.

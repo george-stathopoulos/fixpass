@@ -181,6 +181,14 @@ final class Fixpass_Access {
 			if ( is_wp_error( $changed ) ) {
 				return $changed;
 			}
+			$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				Fixpass_DB::table( 'grants' ),
+				array(
+					'allow_extend' => empty( $args['allow_extend'] ) ? 0 : 1,
+					'extend_until' => empty( $args['allow_extend'] ) || empty( $args['extend_until'] ) ? null : $args['extend_until'],
+				),
+				array( 'id' => (int) $active['id'] )
+			);
 			$url = self::new_link( (int) $active['id'] );
 			do_action( 'fixpass_access_changed', (int) $active['id'], 'changed' );
 			return array(
@@ -210,6 +218,8 @@ final class Fixpass_Access {
 				'status'        => 'waiting',
 				'cleanup'       => empty( $args['cleanup'] ) ? 0 : 1,
 				'reusable'      => empty( $args['reusable'] ) ? 0 : 1,
+				'allow_extend'  => empty( $args['allow_extend'] ) ? 0 : 1,
+				'extend_until'  => empty( $args['allow_extend'] ) || empty( $args['extend_until'] ) ? null : $args['extend_until'],
 			)
 		);
 		$grant_id = (int) $wpdb->insert_id;
@@ -575,7 +585,7 @@ final class Fixpass_Access {
 				'closed'        => 'access_ended_closed',
 				'deleted'       => 'access_ended_deleted',
 			);
-			Fixpass_Monitor::record( 'access', $actions[ $reason ] ?? 'access_revoked', '', array_filter( array( 'by' => $by ) ), $grant_id );
+			Fixpass_Monitor::record( 'access', $actions[ $reason ] ?? 'access_revoked', '', array_filter( array( 'by' => $by, 'reason' => $reason ) ), $grant_id );
 		}
 		// Every account created for this access goes: the team account and each supporter's own.
 		$user_ids = array_unique( array_filter( array_merge( array( (int) $grant['user_id'] ), self::users_for_grant( (int) $grant_id ) ) ) );
@@ -605,6 +615,151 @@ final class Fixpass_Access {
 			wp_schedule_single_event( time() + MINUTE_IN_SECONDS, Fixpass_Plugin::SELF_REMOVE );
 		}
 		do_action( 'fixpass_access_changed', $grant_id, $reason );
+	}
+
+	/**
+	 * The latest time access may be extended to: the owner's limit, and never more than 30 days
+	 * from when access was created.
+	 *
+	 * @param array $grant Grant.
+	 * @return int Unix time.
+	 */
+	public static function extend_limit( array $grant ) {
+		$ceiling = strtotime( $grant['created_at'] . ' UTC' ) + Fixpass_Policy::MAX_TOTAL_DAYS * DAY_IN_SECONDS;
+		$until   = ! empty( $grant['extend_until'] ) ? strtotime( $grant['extend_until'] . ' UTC' ) : $ceiling;
+		return min( $ceiling, $until );
+	}
+
+	/**
+	 * What support may do about the end time, for the Support session page.
+	 *
+	 * @param array $grant Grant.
+	 * @return array { allowed, until (ISO or null), room }
+	 */
+	public static function extend_info( array $grant ) {
+		$allowed = ! empty( $grant['allow_extend'] ) && ! self::is_permanent( $grant );
+		$limit   = self::extend_limit( $grant );
+		return array(
+			'allowed' => $allowed,
+			'until'   => $allowed ? gmdate( 'c', $limit ) : null,
+			'room'    => $allowed && $limit > strtotime( $grant['expires_at'] . ' UTC' ),
+		);
+	}
+
+	/**
+	 * The owner's limit for extensions, from the form: a number of days from now, or a date.
+	 *
+	 * @param int    $days  Days from now (0 for none).
+	 * @param string $date  A date (YYYY-MM-DD), in the site's timezone, or ''.
+	 * @param int    $hours Access length in hours.
+	 * @return string|WP_Error MySQL UTC time.
+	 */
+	public static function parse_extend_limit( $days, $date, $hours ) {
+		$ceiling = time() + Fixpass_Policy::MAX_TOTAL_DAYS * DAY_IN_SECONDS;
+		if ( '' !== $date ) {
+			if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
+				return new WP_Error( 'fixpass_limit', __( 'Choose a valid date for the limit.', 'fixpass' ), array( 'status' => 400 ) );
+			}
+			try {
+				$ts = ( new DateTimeImmutable( $date . ' 23:59:59', wp_timezone() ) )->getTimestamp();
+			} catch ( Exception $e ) {
+				return new WP_Error( 'fixpass_limit', __( 'Choose a valid date for the limit.', 'fixpass' ), array( 'status' => 400 ) );
+			}
+		} else {
+			$ts = time() + max( 1, (int) $days ) * DAY_IN_SECONDS;
+		}
+		$ts = min( $ts, $ceiling );
+		if ( $ts <= time() + (int) $hours * HOUR_IN_SECONDS ) {
+			return new WP_Error( 'fixpass_limit', __( 'The limit for extending must be later than when access ends. Choose a later date.', 'fixpass' ), array( 'status' => 400 ) );
+		}
+		return gmdate( 'Y-m-d H:i:s', $ts );
+	}
+
+	/**
+	 * Support extends access by 1 or 24 hours, when the owner allowed it, up to the owner's limit.
+	 *
+	 * @param int $grant_id Grant.
+	 * @param int $hours    1 or 24.
+	 * @return array|WP_Error The grant.
+	 */
+	public static function extend_by_support( $grant_id, $hours ) {
+		global $wpdb;
+		$grant = self::get( $grant_id );
+		if ( ! self::is_active( $grant ) ) {
+			return new WP_Error( 'fixpass_inactive', __( 'Support access is not active.', 'fixpass' ), array( 'status' => 400 ) );
+		}
+		if ( empty( $grant['allow_extend'] ) || self::is_permanent( $grant ) ) {
+			return new WP_Error( 'fixpass_extend', __( 'The site owner didn’t allow support to extend access. Ask them to extend it.', 'fixpass' ), array( 'status' => 403 ) );
+		}
+		$hours = (int) $hours;
+		if ( ! in_array( $hours, array( 1, 24 ), true ) ) {
+			return new WP_Error( 'fixpass_extend', __( 'Extend by 1 or 24 hours.', 'fixpass' ), array( 'status' => 400 ) );
+		}
+		$current = strtotime( $grant['expires_at'] . ' UTC' );
+		$limit   = self::extend_limit( $grant );
+		$new     = min( $limit, max( time(), $current ) + $hours * HOUR_IN_SECONDS );
+		if ( $new <= $current ) {
+			return new WP_Error( 'fixpass_extend', __( 'Access already reaches the limit the site owner set. Ask them to extend it.', 'fixpass' ), array( 'status' => 400 ) );
+		}
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			Fixpass_DB::table( 'grants' ),
+			array(
+				'expires_at'        => gmdate( 'Y-m-d H:i:s', $new ),
+				'extension_request' => null,
+			),
+			array( 'id' => (int) $grant_id )
+		);
+		Fixpass_Monitor::record(
+			'access',
+			'access_extended',
+			'',
+			array(
+				'hours'      => $hours,
+				'by_support' => true,
+				'until'      => gmdate( 'c', $new ),
+			),
+			(int) $grant_id
+		);
+		self::$current = false;
+		self::refresh_login( get_current_user_id(), $new );
+		wp_mail(
+			Fixpass_Settings::notify_email(),
+			/* translators: %s: site name */
+			sprintf( __( '[%s] Support extended access', 'fixpass' ), wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ),
+			sprintf(
+				/* translators: 1: hours, 2: new end time, 3: URL */
+				__( "Support extended access by %1\$d hours. Access now ends %2\$s.\n\nYou allowed this when you gave access. You can end access at any time: %3\$s", 'fixpass' ),
+				$hours,
+				wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $new ),
+				admin_url( 'admin.php?page=' . Fixpass_Admin::SLUG )
+			)
+		);
+		do_action( 'fixpass_access_changed', (int) $grant_id, 'extended' );
+		return self::get( $grant_id );
+	}
+
+	/**
+	 * Keep the support user logged in until the new end time: the session and login cookie would
+	 * otherwise still stop at the old one. The same session token is reused, so the page keeps working.
+	 *
+	 * @param int $user_id    User.
+	 * @param int $expires_at New end time (Unix).
+	 */
+	private static function refresh_login( $user_id, $expires_at ) {
+		if ( ! $user_id || get_current_user_id() !== (int) $user_id ) {
+			return;
+		}
+		$token = wp_get_session_token();
+		if ( ! $token ) {
+			return;
+		}
+		$manager = WP_Session_Tokens::get_instance( $user_id );
+		$session = $manager->get( $token );
+		if ( $session ) {
+			$session['expiration'] = $expires_at;
+			$manager->update( $token, $session );
+		}
+		wp_set_auth_cookie( $user_id, false, '', $token );
 	}
 
 	/**

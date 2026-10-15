@@ -4,7 +4,7 @@ Tags: support, remote access, temporary login, debugging, troubleshooting
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,11 @@ Every support account, Fixpass's tables and settings, the troubleshooting must-u
 Fixpass doesn't send data to any external service. The access details (login link, spots, site health, plugins and themes) only leave your site when you copy and send them. Spots keep the page address, your note, your screen size and browser, and errors on that page, for 90 days. Passwords, keys and email addresses are removed from the site details support sees.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: let support extend access themselves. Optional, off by default: support can add 1 or 24 hours at a time from their Support session page, up to a limit you set (1 week, 2 weeks or 30 days from now, or a specific date). You get an email each time, and support stays logged in.
+* New: the access history now says who did what (you, support or Fixpass), in plain words. Access given, extended and ended stand out with colour; what support did is shown in smaller text between them. The CSV has a "Who" column.
+* Fix: Fixpass's own screens no longer clutter the history with lines like "Saved data through the REST API".
 
 = 1.0.3 =
 * New: Access history on the Fixpass page: when access was given, extended and ended, when support logged in and out, and what support did. Download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days.

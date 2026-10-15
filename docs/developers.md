@@ -62,10 +62,11 @@ Namespace `fixpass/v1`. All routes need a logged-in user and the standard `X-WP-
 | Route | Method | |
 |---|---|---|
 | `/admin/state` | GET | Access status, lengths, Spotlight on or off |
-| `/admin/link` | POST | Give access: `hours`, `pins` (comma-separated spot IDs), `reusable`, `cleanup`. Returns the access details (`subject`, `html`, `text`) |
+| `/admin/link` | POST | Give access: `hours`, `pins` (comma-separated spot IDs), `reusable`, `cleanup`, `extend` (support may extend), `extend_days` (7, 14 or 30) or `extend_date` (YYYY-MM-DD). Returns the access details (`subject`, `html`, `text`) |
 | `/admin/copy` | POST | Mark the details copied; `fresh=1` rebuilds them (and the link) |
 | `/admin/extend` | POST | +24 hours, up to 30 days from when access was given |
 | `/admin/end` | POST | End access now |
+| `/admin/session/extend` | POST | Support only, when allowed: `hours` 1 or 24, up to the owner's limit |
 | `/admin/spotlight` | POST | `enabled`: Spotlight on or off |
 | `/admin/onboarding` | POST | `done`: hide or show the welcome tour |
 | `/admin/spot` | POST | Save spots from the overlay |

@@ -27,9 +27,10 @@ final class Fixpass_Share {
 	 * @param string[] $ids      Spot IDs.
 	 * @param bool     $cleanup  Remove Fixpass when access ends.
 	 * @param bool     $reusable The link works until access ends (otherwise once).
+	 * @param array    $extend   allow (support may extend) and until (the limit, MySQL UTC time).
 	 * @return array|WP_Error Message, as for copy().
 	 */
-	public static function create( $hours, array $ids, $cleanup, $reusable = true ) {
+	public static function create( $hours, array $ids, $cleanup, $reusable = true, array $extend = array() ) {
 		$ids     = array_slice( array_filter( array_map( 'sanitize_key', $ids ) ), 0, 5 );
 		$created = Fixpass_Access::create(
 			array(
@@ -37,6 +38,8 @@ final class Fixpass_Share {
 				'note'    => __( 'Support link', 'fixpass' ),
 				'cleanup'  => (bool) $cleanup,
 				'reusable' => (bool) $reusable,
+				'allow_extend' => ! empty( $extend['allow'] ),
+				'extend_until' => $extend['until'] ?? null,
 			)
 		);
 		if ( is_wp_error( $created ) ) {
@@ -148,7 +151,10 @@ final class Fixpass_Share {
 					__( 'Granted', 'fixpass' )      => wp_date( $format, strtotime( $grant['created_at'] . ' UTC' ) ),
 					__( 'Expires', 'fixpass' )      => wp_date( $format, strtotime( $grant['expires_at'] . ' UTC' ) ),
 					__( 'Access level', 'fixpass' ) => __( 'Full administrator', 'fixpass' ),
-				),
+				) + ( ! empty( $grant['allow_extend'] ) ? array(
+					/* translators: %s: date and time */
+					__( 'Extending', 'fixpass' ) => sprintf( __( 'You can extend access by 1 or 24 hours on your Support session page, up to %s.', 'fixpass' ), wp_date( $format, Fixpass_Access::extend_limit( $grant ) ) ),
+				) : array() ),
 			),
 		);
 		foreach ( $spots as $n => $pin ) {

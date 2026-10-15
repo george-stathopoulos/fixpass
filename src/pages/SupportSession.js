@@ -22,6 +22,7 @@ import { message } from '../components/common';
 export default function SupportSession() {
 	const { data, error, reload } = useApi( 'admin/session' );
 	const [ ending, setEnding ] = useState( false );
+	const [ extending, setExtending ] = useState( 0 );
 	const toast = useToast();
 	if ( error && ! data ) {
 		return <ErrorNotice error={ error } onRetry={ reload } />;
@@ -30,6 +31,16 @@ export default function SupportSession() {
 		return <Loading />;
 	}
 	const spots = data.shared.spots;
+	const extend = ( hours ) => {
+		setExtending( hours );
+		send( 'admin/session/extend', 'POST', { hours } )
+			.then( () => {
+				reload();
+				toast( __( 'Access extended. The site owner has been told.', 'fixpass' ) );
+			} )
+			.catch( ( e ) => toast( message( e ), 'alert' ) )
+			.finally( () => setExtending( 0 ) );
+	};
 	const leave = () => {
 		setEnding( true );
 		send( 'admin/session/leave', 'POST', {} )
@@ -190,6 +201,55 @@ export default function SupportSession() {
 									],
 								] }
 							/>
+							<div className="hdh-stack" style={ { gap: 8 } }>
+								<strong>{ __( 'Need more time?', 'fixpass' ) }</strong>
+								{ data.extend.allowed ? (
+									<>
+										<div className="hdh-row">
+											<Button
+												icon="clock"
+												disabled={ ! data.extend.room || !! extending }
+												onClick={ () => extend( 1 ) }
+											>
+												{ __( 'Extend +1 hour', 'fixpass' ) }
+											</Button>
+											<Button
+												icon="clock"
+												disabled={ ! data.extend.room || !! extending }
+												onClick={ () => extend( 24 ) }
+											>
+												{ __( 'Extend +24 hours', 'fixpass' ) }
+											</Button>
+										</div>
+										<p className="hdh-muted" style={ { margin: 0 } }>
+											{ data.extend.room
+												? sprintf(
+														/* translators: %s: date and time */
+														__(
+															'The site owner allowed this, up to %s. They are told each time.',
+															'fixpass'
+														),
+														when( data.extend.until )
+												  )
+												: sprintf(
+														/* translators: %s: date and time */
+														__(
+															'You’ve reached the limit the site owner set (%s). Ask them to extend access.',
+															'fixpass'
+														),
+														when( data.extend.until )
+												  ) }
+										</p>
+									</>
+								) : (
+									<p className="hdh-muted" style={ { margin: 0 } }>
+										{ __(
+											'The site owner didn’t allow support to extend access. If you need more time, ask them to extend it.',
+											'fixpass'
+										) }
+									</p>
+								) }
+							</div>
 							<div className="hdh-session-exit">
 								<Button
 									icon="login"

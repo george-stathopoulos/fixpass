@@ -131,6 +131,9 @@ await shot( page, 'spotlight-note', { keepMouse: true } );
 await page.locator( '.fxp-pin-panel .fxp-pin-btn.is-primary' ).click();
 await page.waitForURL( /page=fixpass/ );
 await settle( page, 1500 );
+// Let support extend access themselves (off by default), up to 1 week from now.
+await page.getByText( 'Let support extend access themselves' ).click();
+await settle( page, 500 );
 await shot( page, 'give-access', { fullPage: true } );
 
 // Give access, then copy the details (the clipboard holds the login link support will use).
@@ -162,6 +165,11 @@ await sp.waitForURL( /wp-admin/ );
 await settle( sp, 1500 );
 await shot( sp, 'support-session', { fullPage: true } );
 
+// Support extends access by an hour (the owner allowed it); the owner is told.
+await sp.getByRole( 'button', { name: /Extend \+1 hour/ } ).click();
+await settle( sp, 1500 );
+await shot( sp, 'support-extend', { fullPage: true } );
+
 // Open and highlight: the page with the owner's spot drawn on it.
 const [ highlighted ] = await Promise.all( [
 	support.waitForEvent( 'page', { timeout: 5000 } ).catch( () => null ),
@@ -192,6 +200,11 @@ for ( const [ tab, name ] of [
 await page.goto( FIXPASS );
 await settle( page, 2000 );
 await shot( page, 'status-working' );
+
+// The owner extends too, so the history shows who did what.
+await page.getByRole( 'button', { name: /Extend \+24h/ } ).click();
+await page.getByText( 'Extended access by 1 day', { exact: true } ).waitFor( { timeout: 20000 } );
+await settle( page, 800 );
 
 // The access history: given, extended, logged in, and what support did.
 await page.getByRole( 'heading', { name: 'Access history' } ).scrollIntoViewIfNeeded();
