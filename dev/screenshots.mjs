@@ -193,6 +193,10 @@ await page.goto( FIXPASS );
 await settle( page, 2000 );
 await shot( page, 'status-working' );
 
+// The access history: given, extended, logged in, and what support did.
+await page.getByRole( 'heading', { name: 'Access history' } ).scrollIntoViewIfNeeded();
+await element( page.locator( '.hdh-card' ).filter( { has: page.getByRole( 'heading', { name: 'Access history' } ) } ), 'access-history', 6 );
+
 // The same page in the dark theme.
 const dark = await newContext( { theme: 'dark' } );
 const dp = await dark.newPage();

@@ -4,7 +4,7 @@ Tags: support, remote access, temporary login, debugging, troubleshooting
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Once support logs in, they get a Support session page with your spots, full site
 * However access ends, the support account is deleted.
 * Nothing is sent outside your site unless you send it.
 
-Optionally, Fixpass removes itself when access ends.
+Optionally, Fixpass deactivates and deletes itself when access ends, together with its access history.
 
 Documentation: https://github.com/george-stathopoulos/fixpass/tree/main/docs
 
@@ -68,6 +68,15 @@ Every support account, Fixpass's tables and settings, the troubleshooting must-u
 Fixpass doesn't send data to any external service. The access details (login link, spots, site health, plugins and themes) only leave your site when you copy and send them. Spots keep the page address, your note, your screen size and browser, and errors on that page, for 90 days. Passwords, keys and email addresses are removed from the site details support sees.
 
 == Changelog ==
+
+= 1.0.3 =
+* New: Access history on the Fixpass page: when access was given, extended and ended, when support logged in and out, and what support did. Download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days.
+* New: the Spotlight button keeps pulsing on your site, with a hint beside it, after you choose "Show the problem, then give access".
+* New: the Fixpass page checks for support logging in every few seconds, and as soon as you return to the tab.
+* Change: the login link choice and the delete option are always visible, and shown before the Give access button.
+* Change: "Remove Fixpass when access ends" is now "Delete Fixpass when access ends", and says that the access history is deleted with it.
+* Change: Skip the tour now hides the tour for good (take it again any time from the page).
+* Change: shorter time estimates on the two start buttons.
 
 = 1.0.2 =
 * Fix: in troubleshooting mode, Fixpass switched itself off for support (it showed as inactive and couldn't be activated) when the plugin folder wasn't called "fixpass", for example after installing GitHub's "Download ZIP". Fixpass now always stays on, whatever its folder is called.

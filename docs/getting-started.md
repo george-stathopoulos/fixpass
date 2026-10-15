@@ -20,7 +20,7 @@ After activation you land on the **Fixpass** page with a four-step tour:
 
 ![The Spotlight step: the Spotlight a problem button glows in the toolbar.](images/tour-spotlight.png)
 
-On the last step, **Don't show this again** (ticked by default) hides the tour until Fixpass is reinstalled. **Skip the tour** hides it for this visit only. You can open it again any time with **Take the tour**, at the top and bottom of the Fixpass page.
+On the last step, **Don't show this again** (ticked by default) hides the tour until Fixpass is reinstalled. **Skip the tour** hides it too. You can open it again any time with **Take the tour**, at the top and bottom of the Fixpass page.
 
 ## Your first support request
 
@@ -30,7 +30,7 @@ On the last step, **Don't show this again** (ticked by default) hides the tour u
 4. **Copy the details.** Click **Copy details** and paste them into a reply to your support team: an email, a ticket or a chat.
 5. **Watch the status.** The page shows when support logs in, logs out or finishes, and updates by itself.
 
-When support is done, or when access runs out, the support account is deleted. If you left **Remove Fixpass when access ends** ticked, Fixpass then removes itself too.
+When support is done, or when access runs out, the support account is deleted. If you left **Delete Fixpass when access ends** ticked, Fixpass then deactivates and deletes itself, and the access history with it (download it first if you want a copy).
 
 ## Where things are
 

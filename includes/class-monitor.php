@@ -95,6 +95,9 @@ final class Fixpass_Monitor {
 			$where[]  = 'grant_id = %d';
 			$params[] = (int) $args['grant_id'];
 		}
+		if ( ! empty( $args['grant_only'] ) ) {
+			$where[] = 'grant_id > 0';
+		}
 		if ( ! empty( $args['since'] ) ) {
 			$where[]  = 'created_at >= %s';
 			$params[] = $args['since'];
@@ -115,8 +118,23 @@ final class Fixpass_Monitor {
 	 */
 	public static function prune() {
 		global $wpdb;
-		$days = max( 7, (int) Fixpass_Settings::get( 'retention_days' ) );
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s', Fixpass_DB::table( 'log' ), Fixpass_DB::now( -$days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$days   = max( 7, (int) Fixpass_Settings::get( 'retention_days' ) );
+		$cutoff = Fixpass_DB::now( -$days * DAY_IN_SECONDS );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s', Fixpass_DB::table( 'log' ), $cutoff ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// Access that ended before the cutoff goes too (never one that is still open).
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE revoked_at IS NOT NULL AND revoked_at < %s', Fixpass_DB::table( 'grants' ), $cutoff ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	}
+
+	/**
+	 * Delete the access history: what happened with support access and what support did, and the
+	 * access that has ended. Open access keeps its own history. Errors caught on the site stay.
+	 */
+	public static function clear_history() {
+		global $wpdb;
+		$open = Fixpass_Access::active();
+		$keep = $open ? (int) $open['id'] : 0;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE grant_id > 0 AND grant_id <> %d AND type IN ( 'access', 'activity', 'change' )", Fixpass_DB::table( 'log' ), $keep ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE revoked_at IS NOT NULL AND id <> %d', Fixpass_DB::table( 'grants' ), $keep ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**

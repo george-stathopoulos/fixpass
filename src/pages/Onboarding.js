@@ -438,7 +438,7 @@ export default function Onboarding( { onDone } ) {
 						<button
 							type="button"
 							className="hdh-link-button"
-							onClick={ () => onDone( false ) }
+							onClick={ () => onDone( true ) }
 						>
 							{ __( 'Skip the tour', 'fixpass' ) }
 						</button>

@@ -89,7 +89,7 @@ Namespace `fixpass/v1`. All routes need a logged-in user and the standard `X-WP-
 | Where | What |
 |---|---|
 | `{prefix}fixpass_grants` | One row per access: role, length, link hash, status, timestamps |
-| `{prefix}fixpass_log` | Errors caught, support activity and access events; pruned after 90 days |
+| `{prefix}fixpass_log` | Errors caught, support activity and access events; pruned after 90 days by default (the site owner can choose 30, 90 or 365) |
 | `fixpass_settings` | Spotlight on or off |
 | `fixpass_pins` | Spots (kept 90 days) |
 | `fixpass_last_shared` | Which spots went with the latest link |

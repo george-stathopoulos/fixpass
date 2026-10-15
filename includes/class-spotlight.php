@@ -102,6 +102,8 @@ final class Fixpass_Spotlight {
 				'i18n'      => array(
 					'pick'      => __( 'Click the part of the page that has the problem, or drag a box around it. Links are paused while Spotlight is on. Press Esc to cancel.', 'fixpass' ),
 					'cancel'    => __( 'Cancel', 'fixpass' ),
+					'guideHint' => __( 'Click here, then click the problem on this page', 'fixpass' ),
+					'guideStop' => __( 'Hide this hint', 'fixpass' ),
 					'introTitle'   => __( 'How Spotlight works', 'fixpass' ),
 					'intro1'       => __( 'Click the part of the page that has the problem, or drag a box around an area.', 'fixpass' ),
 					'intro2'       => __( 'Add a short note if you like. You can mark up to 5 spots, all on this page.', 'fixpass' ),

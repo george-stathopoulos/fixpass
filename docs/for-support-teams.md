@@ -42,6 +42,8 @@ Read-only tools:
 - **Scheduled tasks:** WordPress's cron events, with late ones flagged.
 - **Settings:** the WordPress constants that matter for debugging.
 
+The debugging tools only read; they never change `wp-config.php`. One caution if the site owner turns on `WP_DEBUG_DISPLAY`: PHP notices are then printed into admin pages and can disturb redirects such as the login. Prefer `WP_DEBUG_LOG` (written to `debug.log`, which you can read here) with display off.
+
 ![Debugging: the end of debug.log, with search.](images/support-debug.png)
 
 ### Troubleshoot

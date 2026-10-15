@@ -591,7 +591,72 @@
 		}
 	}
 
+	// Guided by the Fixpass page ("Show the problem"): keep the toolbar button pulsing, with a hint
+	// beside it, so the owner knows what to click. Remembered for this browser tab until they use
+	// the button, hide the hint, or come back to the Fixpass page.
+	var GUIDE = 'fxpGuide';
+
+	function guideKept() {
+		try {
+			return window.sessionStorage.getItem( GUIDE ) === '1';
+		} catch ( e ) {
+			return false;
+		}
+	}
+
+	function guideKeep( on ) {
+		try {
+			if ( on ) {
+				window.sessionStorage.setItem( GUIDE, '1' );
+			} else {
+				window.sessionStorage.removeItem( GUIDE );
+			}
+		} catch ( e ) {}
+	}
+
+	function guideEnd() {
+		guideKeep( false );
+		var li = document.getElementById( 'wp-admin-bar-fixpass-spotlight' );
+		if ( li ) {
+			li.classList.remove( 'fxp-glow' );
+		}
+		var hint = document.querySelector( '.' + PREFIX + '-hint' );
+		if ( hint ) {
+			hint.remove();
+		}
+	}
+
+	function guideShow() {
+		var li = document.getElementById( 'wp-admin-bar-fixpass-spotlight' );
+		if ( ! li || /[?&]page=fixpass/.test( window.location.search ) ) {
+			return;
+		}
+		li.classList.add( 'fxp-glow' );
+		var hint = el( 'div', PREFIX + '-hint' );
+		hint.setAttribute( 'role', 'status' );
+		hint.appendChild( el( 'span', '', t.guideHint || 'Click here, then click the problem on this page' ) );
+		var close = el( 'button', PREFIX + '-hint__x', '×' );
+		close.type = 'button';
+		close.setAttribute( 'aria-label', t.guideStop || 'Hide this hint' );
+		close.addEventListener( 'click', guideEnd );
+		hint.appendChild( close );
+		document.body.appendChild( hint );
+		function place() {
+			var r = li.getBoundingClientRect();
+			hint.style.top = Math.round( r.bottom + 12 ) + 'px';
+			hint.style.right = Math.max( 8, Math.round( window.innerWidth - r.right ) ) + 'px';
+		}
+		place();
+		window.addEventListener( 'resize', place );
+	}
+
 	ready( function () {
+		if ( cfg.can && /[?&]fxp_guide=1/.test( window.location.search ) ) {
+			guideKeep( true );
+		}
+		if ( cfg.can && guideKept() ) {
+			guideShow();
+		}
 		if ( cfg.pin ) {
 			// Wait for late layout (images, fonts) so the spot is where it was.
 			window.setTimeout( function () {
@@ -604,6 +669,7 @@
 				var a = e.target.closest && e.target.closest( '#wp-admin-bar-fixpass-spotlight a' );
 				if ( a ) {
 					e.preventDefault();
+					guideEnd();
 					start();
 				}
 			} );

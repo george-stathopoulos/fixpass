@@ -20,6 +20,7 @@ import { message } from '../components/common';
 import PageFoot from '../components/PageFoot';
 import Onboarding from './Onboarding';
 import Start from './Start';
+import Activity from './Activity';
 
 // The latest access, as the site owner sees it: [ pill tone, label ].
 const STATUS = {
@@ -166,6 +167,13 @@ export default function Home() {
 	// Spots coming back from Spotlight are fetched first, so the screen doesn't flash the guide.
 	const [ spotsLoading, setSpotsLoading ] = useState( () => hashSpots().length > 0 );
 
+	// Back on this page: the site's Spotlight hint has done its job.
+	useEffect( () => {
+		try {
+			window.sessionStorage.removeItem( 'fxpGuide' );
+		} catch ( e ) {}
+	}, [] );
+
 	// Spots picked on a page: "Continue" lands here with #/?spot=…
 	useEffect( () => {
 		const ids = hashSpots();
@@ -182,13 +190,23 @@ export default function Home() {
 	}, [] );
 
 	const live = !! ( data && data.access && data.access.active );
-	// While access is open, the status refreshes by itself (support logging in, ending access).
+	// While access is open, the status refreshes by itself (support logging in, ending access):
+	// every few seconds, and straight away when this tab is looked at again.
 	useEffect( () => {
 		if ( ! live ) {
 			return;
 		}
-		const id = window.setInterval( reload, 30000 );
-		return () => window.clearInterval( id );
+		const onVisible = () => {
+			if ( ! document.hidden ) {
+				reload();
+			}
+		};
+		document.addEventListener( 'visibilitychange', onVisible );
+		const id = window.setInterval( reload, 10000 );
+		return () => {
+			window.clearInterval( id );
+			document.removeEventListener( 'visibilitychange', onVisible );
+		};
 	}, [ live, reload ] );
 
 	// Until a spot is picked, point at the real toolbar button.
@@ -356,36 +374,7 @@ export default function Home() {
 
 	const giveForm = (
 		<div className="hdh-stack" style={ { gap: 16 } }>
-			<div className="hdh-row">
-				<select
-					className="hdh-input hdh-select"
-					style={ { width: 'auto' } }
-					aria-label={ __( 'Access length', 'fixpass' ) }
-					value={ length }
-					onChange={ ( e ) =>
-						setHours( parseInt( e.target.value, 10 ) )
-					}
-				>
-					{ data.durations.map( ( d ) => (
-						<option key={ d.hours } value={ d.hours }>
-							{ d.label }
-						</option>
-					) ) }
-				</select>
-				<Button
-					variant="primary"
-					icon="key"
-					disabled={ !! busy }
-					onClick={ give }
-				>
-					{ busy === 'give'
-						? __( 'Giving access…', 'fixpass' )
-						: __( 'Give access', 'fixpass' ) }
-				</Button>
-			</div>
-			<details className="fxp-more">
-				<summary>{ __( 'More options', 'fixpass' ) }</summary>
-				<div className="hdh-stack" style={ { gap: 16, marginTop: 12 } }>
+			<div className="hdh-stack" style={ { gap: 16 } }>
 							<fieldset className="fxp-choice">
 								<legend>
 									{ __( 'Login link', 'fixpass' ) }
@@ -438,13 +427,43 @@ export default function Home() {
 								checked={ cleanup }
 								onChange={ setCleanup }
 								label={ __(
-									'Remove Fixpass when access ends',
+									'Delete Fixpass when access ends',
+									'fixpass'
+								) }
+								desc={ __(
+									'Fixpass deactivates and deletes itself about a minute after access ends, and the access history is deleted with it. Download the history first if you want a copy.',
 									'fixpass'
 								) }
 							/>
 
 				</div>
-			</details>
+			<div className="hdh-row">
+				<select
+					className="hdh-input hdh-select"
+					style={ { width: 'auto' } }
+					aria-label={ __( 'Access length', 'fixpass' ) }
+					value={ length }
+					onChange={ ( e ) =>
+						setHours( parseInt( e.target.value, 10 ) )
+					}
+				>
+					{ data.durations.map( ( d ) => (
+						<option key={ d.hours } value={ d.hours }>
+							{ d.label }
+						</option>
+					) ) }
+				</select>
+				<Button
+					variant="primary"
+					icon="key"
+					disabled={ !! busy }
+					onClick={ give }
+				>
+					{ busy === 'give'
+						? __( 'Giving access…', 'fixpass' )
+						: __( 'Give access', 'fixpass' ) }
+				</Button>
+			</div>
 		</div>
 	);
 
@@ -471,7 +490,7 @@ export default function Home() {
 					<div className="hdh-policy-note">
 						<span>
 							{ __(
-								'As you asked, Fixpass removes itself in about a minute, now that access has ended.',
+								'As you asked, Fixpass deactivates and deletes itself in about a minute, now that access has ended. The access history is deleted with it.',
 								'fixpass'
 							) }
 						</span>
@@ -542,7 +561,7 @@ export default function Home() {
 									style={ { margin: 0 } }
 								>
 									{ __(
-										'Fixpass removes itself when this access ends.',
+										'Fixpass deletes itself when this access ends, and the access history goes with it. Download the history first if you want a copy.',
 										'fixpass'
 									) }
 								</p>
@@ -682,6 +701,13 @@ export default function Home() {
 					</Card>
 				) }
 
+				<Activity
+					refreshKey={ `${ access ? access.status : '' }|${
+						access ? access.expires_at : ''
+					}|${ access ? access.ended_at : '' }` }
+					retention={ data.retention_days }
+					onChanged={ reload }
+				/>
 			</div>
 
 			<PageFoot onTour={ () => setTouring( true ) } />

@@ -35,6 +35,9 @@ final class Fixpass_REST {
 			array( '/admin/extend', 'POST', 'extend', $owner ),
 			array( '/admin/spotlight', 'POST', 'spotlight', $owner ),
 			array( '/admin/onboarding', 'POST', 'onboarding', $owner ),
+			array( '/admin/activity', 'GET', 'activity', $owner ),
+			array( '/admin/activity/clear', 'POST', 'activity_clear', $owner ),
+			array( '/admin/retention', 'POST', 'retention', $owner ),
 			array( '/admin/session', 'GET', 'session', $support ),
 			array( '/admin/session/leave', 'POST', 'leave_session', $support ),
 			array( '/admin/session/end', 'POST', 'end_session', $support ),
@@ -74,6 +77,7 @@ final class Fixpass_REST {
 		$g      = $latest ? $latest[0] : null;
 		return array(
 			'spotlight'     => Fixpass_Settings::spotlight_enabled(),
+			'retention_days' => Fixpass_Settings::get( 'retention_days' ),
 			// The welcome tour stays hidden once dismissed, until Fixpass is reinstalled.
 			'onboarded'     => (bool) get_option( 'fixpass_onboarded' ),
 			'durations'     => $durations,
@@ -159,6 +163,58 @@ final class Fixpass_REST {
 	 */
 	public static function onboarding( WP_REST_Request $request ) {
 		update_option( 'fixpass_onboarded', rest_sanitize_boolean( $request->get_param( 'done' ) ), false );
+		return self::state();
+	}
+
+	/**
+	 * The access history for the site owner: access given, extended, ended, when support logged
+	 * in and out, and what support did. Newest first.
+	 *
+	 * @return array { events[] }
+	 */
+	public static function activity() {
+		$events = array();
+		foreach ( Fixpass_Monitor::query(
+			array(
+				'type'       => array( 'access', 'activity', 'change' ),
+				'grant_only' => true,
+				'limit'      => 300,
+			)
+		) as $row ) {
+			$d        = (array) $row['details'];
+			$events[] = array(
+				'id'    => (int) $row['id'],
+				'time'  => self::iso( $row['created_at'] ),
+				'event' => Fixpass_Activity::describe( $row ),
+				'by'    => isset( $d['by'] ) ? (string) $d['by'] : '',
+				'ip'    => 'support_login' === $row['action'] ? (string) $row['ip'] : '',
+				// Pages support only looked at: hidden unless asked for.
+				'minor' => 'page_view' === $row['action'],
+			);
+		}
+		return array( 'events' => $events );
+	}
+
+	/**
+	 * Delete the access history.
+	 *
+	 * @return array
+	 */
+	public static function activity_clear() {
+		Fixpass_Monitor::clear_history();
+		return self::state();
+	}
+
+	/**
+	 * How long the access history is kept.
+	 *
+	 * @param WP_REST_Request $request days.
+	 * @return array|WP_Error
+	 */
+	public static function retention( WP_REST_Request $request ) {
+		if ( ! Fixpass_Settings::set_retention( absint( $request->get_param( 'days' ) ) ) ) {
+			return new WP_Error( 'fixpass_retention', __( 'Choose 30, 90 or 365 days.', 'fixpass' ), array( 'status' => 400 ) );
+		}
 		return self::state();
 	}
 

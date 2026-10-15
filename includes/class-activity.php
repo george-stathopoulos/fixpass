@@ -386,6 +386,8 @@ final class Fixpass_Activity {
 				return __( 'Support access expired', 'fixpass' );
 			case 'support_login':
 				return __( 'Support logged in', 'fixpass' );
+			case 'shared_copied':
+				return __( 'Access details copied, to send to support', 'fixpass' );
 			case 'link_issued':
 				/* translators: %s: agent name */
 				return sprintf( __( 'New login link issued for %s', 'fixpass' ), ! empty( $d['agent'] ) ? $d['agent'] : __( 'support', 'fixpass' ) );

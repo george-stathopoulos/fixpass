@@ -3150,3 +3150,43 @@
 .hdh-root .fxp-pick__go svg {
 	transform: rotate(-90deg);
 }
+
+/* Access history */
+.hdh-root .fxp-history {
+	display: grid;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: grid;
+		grid-template-columns: 130px 1fr;
+		gap: 12px;
+		margin: 0;
+		padding: 9px 0;
+		border-top: 1px solid var(--hdh-border);
+		font-size: 13.5px;
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	time {
+		color: var(--hdh-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	@media (max-width: 600px) {
+		li {
+			grid-template-columns: 1fr;
+			gap: 2px;
+		}
+	}
+}
+
+.hdh-root .fxp-history__keep {
+	margin: 0;
+	font-size: 12.5px;
+}

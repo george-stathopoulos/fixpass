@@ -15,12 +15,12 @@ Picking the first shows three short steps (go to the page, click **Spotlight a p
 
 ## Give access
 
-Choose a length (**1, 2, 3 (the default) or 5 days, or a week**) and click **Give access**. Under **More options**:
+Choose the options, then a length (**1, 2, 3 (the default) or 5 days, or a week**), and click **Give access**:
 
 - **Login link:**
   - **Reusable link** (recommended): support can log in as often as they need until access ends. Best when they check, change and re-check over a few days.
   - **One-time link:** works for a single login. The most secure choice; if support needs to log in again, they ask you for a new link.
-- **Remove Fixpass when access ends** (ticked by default): once access has ended, for whatever reason, Fixpass deactivates and deletes itself about a minute later. Untick it if you want to keep Fixpass installed.
+- **Delete Fixpass when access ends** (ticked by default): once access has ended, for whatever reason, Fixpass deactivates and deletes itself about a minute later. **The access history is deleted with it**, so download the history first if you want a copy. Untick it to keep Fixpass installed.
 
 One support access can be open at a time.
 
@@ -49,7 +49,7 @@ While access is open, the page shows:
 | Support logged out | Support logged out; access is still open. |
 | Support ended the session | Support clicked **Leave session**; access is still open. |
 
-The page refreshes the status every 30 seconds, and counts down to when access ends.
+The page refreshes the status by itself every few seconds (and as soon as you come back to the tab), and counts down to when access ends. You don't need to reload it.
 
 ![Support has logged in: the status says Support is working on your site.](images/status-working.png)
 
@@ -64,6 +64,18 @@ After access ends, **Last support access** shows how it ended:
 | Access expired | The time ran out. |
 | Access ended: the support account was deleted | Someone deleted the support account (for example on the Users screen). |
 | Access ended: Fixpass was deactivated | Fixpass was deactivated while access was open. |
+
+## Access history
+
+![The access history: when access was given, when support logged in, and what they did.](images/access-history.png)
+
+Below the status, **Access history** lists what happened: when access was given, extended and ended, when support logged in and out, and what they did on the site (changes, and optionally the pages they looked at).
+
+- **Download (CSV):** saves the whole history as a spreadsheet file.
+- **Delete history:** removes the record of past access and what support did, and the access that has ended. It can't be undone. Access that is open right now keeps its own history.
+- **Keep the history for:** 30, 90 (the default) or 365 days. Older entries are deleted automatically.
+
+If **Delete Fixpass when access ends** is ticked, the history is deleted along with Fixpass.
 
 ## Extend or end access
 

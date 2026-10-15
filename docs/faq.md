@@ -39,8 +39,11 @@ Any open access ends and the support account is deleted. Your settings are kept 
 **What does uninstalling remove?**
 Every support account, Fixpass's tables and settings, the troubleshooting must-use plugin and Fixpass's scheduled tasks.
 
-**"Remove Fixpass when access ends" didn't remove it.**
+**"Delete Fixpass when access ends" didn't delete it.**
 It runs about a minute after access ends, on the next visit to the site. On hosts that ask for FTP details to change files, Fixpass can deactivate itself but not delete its files; delete it from the Plugins screen.
+
+**Can I see what support did, and delete it?**
+Yes: **Access history** on the Fixpass page lists it. You can download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days. Deleting Fixpass itself deletes the history too.
 
 **Is it multisite-compatible?**
 Fixpass works per site. Network-wide use hasn't been tested.

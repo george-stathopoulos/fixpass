@@ -81,7 +81,7 @@ export default function Start( {
 						) }
 						meta={
 							data.spotlight
-								? __( 'Takes about 2 minutes', 'fixpass' )
+								? __( 'Takes about a minute', 'fixpass' )
 								: __(
 										'Turns on Spotlight first, which takes a moment',
 										'fixpass'
@@ -98,7 +98,7 @@ export default function Start( {
 							'Quickest. Support logs in and looks around, and you describe the problem in your message. Good when the whole site is down or you can’t open the page.',
 							'fixpass'
 						) }
-						meta={ __( 'Takes about 30 seconds', 'fixpass' ) }
+						meta={ __( 'Takes a few seconds', 'fixpass' ) }
 						onClick={ () => setMode( 'access' ) }
 					/>
 				</div>
@@ -197,9 +197,20 @@ export default function Start( {
 								variant="primary"
 								icon="external"
 								onClick={ () => {
-									window.location.href =
+									// The site keeps the Spotlight button pulsing, with a hint.
+									try {
+										window.sessionStorage.setItem(
+											'fxpGuide',
+											'1'
+										);
+									} catch ( e ) {}
+									const url = new URL(
 										( window.hdhBoot || {} ).homeUrl ||
-										'/';
+											'/',
+										window.location.origin
+									);
+									url.searchParams.set( 'fxp_guide', '1' );
+									window.location.href = url.toString();
 								} }
 							>
 								{ __( 'Open my site', 'fixpass' ) }
