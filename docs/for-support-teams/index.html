@@ -16,10 +16,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <!-- Cloudflare Web Analytics: counts visits anonymously, no cookies --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "64332b427a604e879f82853393ebdb0d"}'></script><!-- End Cloudflare Web Analytics -->
-<link rel="stylesheet" href="../../assets/site.css?v=1.0.2.mv9h9fdu">
-<link rel="stylesheet" href="../../assets/home.css?v=1.0.2.mv9h9fdu">
+<link rel="stylesheet" href="../../assets/site.css?v=1.0.3.mv9i570u">
+<link rel="stylesheet" href="../../assets/home.css?v=1.0.3.mv9i570u">
 <script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
-<script src="../../assets/search-index.js?v=1.0.2.mv9h9fdu" defer></script>
+<script src="../../assets/search-index.js?v=1.0.3.mv9i570u" defer></script>
 </head>
 <body data-root="../../">
 <a class="skip" href="#main">Skip to content</a>
@@ -95,6 +95,7 @@
 <li><strong>Scheduled tasks:</strong> WordPress's cron events, with late ones flagged.</li>
 <li><strong>Settings:</strong> the WordPress constants that matter for debugging.</li>
 </ul>
+<p>The debugging tools only read; they never change <code>wp-config.php</code>. One caution if the site owner turns on <code>WP_DEBUG_DISPLAY</code>: PHP notices are then printed into admin pages and can disturb redirects such as the login. Prefer <code>WP_DEBUG_LOG</code> (written to <code>debug.log</code>, which you can read here) with display off.</p>
 <figure data-zoom><img src="../../assets/img/support-debug.jpg" alt="Debugging: the end of debug.log, with search." width="1800" height="1276" loading="lazy" decoding="async"><figcaption>Debugging: the end of debug.log, with search.</figcaption></figure>
 <h3 id="troubleshoot">Troubleshoot<a class="anchor" href="#troubleshoot" aria-label="Link to this section">#</a></h3>
 <p><a href="../troubleshooting-mode/">Troubleshooting mode</a>: switch plugins off, or use a default theme, in your browser only.</p>
@@ -164,11 +165,11 @@
 		</div>
 		<div class="foot-bottom">
 			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="https://george-stathopoulos.github.io/">George Stathopoulos</a></span>
-			<span>Fixpass 1.0.2 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
+			<span>Fixpass 1.0.3 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
 		</div>
 	</div>
 </footer>
-<script src="../../assets/site.js?v=1.0.2.mv9h9fdu" defer></script>
+<script src="../../assets/site.js?v=1.0.3.mv9i570u" defer></script>
 
 </body>
 </html>
