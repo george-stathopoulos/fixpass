@@ -16,8 +16,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <!-- Cloudflare Web Analytics: counts visits anonymously, no cookies --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "64332b427a604e879f82853393ebdb0d"}'></script><!-- End Cloudflare Web Analytics -->
-<link rel="stylesheet" href="../assets/site.css?v=1.0.1.mv9g9555">
-<link rel="stylesheet" href="../assets/home.css?v=1.0.1.mv9g9555">
+<link rel="stylesheet" href="../assets/site.css?v=1.0.2.mv9h9fdu">
+<link rel="stylesheet" href="../assets/home.css?v=1.0.2.mv9h9fdu">
 <script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
 
 </head>
@@ -45,6 +45,7 @@
 <section class="page-head"><div class="wrap"><span class="kicker">Changelog</span><h1>What's new</h1><p>Every Fixpass release, newest first.</p></div></section>
 <div class="wrap" style="padding:64px 24px 120px">
 	<div class="prose">
+		<section class="release"><h2 id="v1-0-2">Version 1.0.2</h2><ul><li>Fix: in troubleshooting mode, Fixpass switched itself off for support (it showed as inactive and couldn't be activated) when the plugin folder wasn't called &quot;fixpass&quot;, for example after installing GitHub's &quot;Download ZIP&quot;. Fixpass now always stays on, whatever its folder is called.</li><li>Change: support can no longer install or delete themes, which could break the site for visitors. To try a default theme, support uses troubleshooting mode, which only changes their own browser.</li></ul></section>
 		<section class="release"><h2 id="v1-0-1">Version 1.0.1</h2><ul><li>New: the Fixpass page now starts with two big choices, &quot;Show the problem, then give access&quot; (recommended) and &quot;Just give access&quot;. The first walks you through Spotlight, shows your spots, and then gives access.</li><li>New: the welcome tour starts with Spotlight and explains the two choices.</li><li>Fix: the Fixpass page stayed on &quot;Loading…&quot; on WordPress 6.5, which has no JSX runtime script. It is now bundled.</li><li>Fix: a clear message instead of an endless &quot;Loading…&quot; if the plugin's built files are missing (for example after installing GitHub's &quot;Download ZIP&quot;).</li></ul></section>
 		<section class="release"><h2 id="v1-0-0">Version 1.0.0</h2><ul><li>First release: support access with reusable or one-time links, Spotlight, copyable access details, live status, Support session with site details, debugging tools and troubleshooting mode, welcome tour.</li></ul></section>
 	</div>
@@ -96,11 +97,11 @@
 		</div>
 		<div class="foot-bottom">
 			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="https://george-stathopoulos.github.io/">George Stathopoulos</a></span>
-			<span>Fixpass 1.0.1 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
+			<span>Fixpass 1.0.2 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
 		</div>
 	</div>
 </footer>
-<script src="../assets/site.js?v=1.0.1.mv9g9555" defer></script>
+<script src="../assets/site.js?v=1.0.2.mv9h9fdu" defer></script>
 
 </body>
 </html>
