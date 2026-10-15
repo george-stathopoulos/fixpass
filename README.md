@@ -29,7 +29,7 @@ Once support logs in, they get a Support session page with your spots, full site
 
 ## Install
 
-1. Download `fixpass.zip` from the [latest release](https://github.com/george-stathopoulos/fixpass/releases/latest), or build it yourself (see [Development](#development)).
+1. Download `fixpass.zip` from the [latest release](https://github.com/george-stathopoulos/fixpass/releases/latest) (under **Assets**), or build it yourself (see [Development](#development)). Don't use GitHub's green **Code → Download ZIP**; that is the source, and Fixpass needs its built files.
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, choose the zip, then **Activate**.
 3. You land on **Fixpass**, with a short tour.
 

@@ -50,6 +50,10 @@ final class Fixpass_Admin {
 	 * Mount point for the app.
 	 */
 	public static function render() {
+		if ( ! file_exists( FIXPASS_DIR . 'build/index.js' ) ) {
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Fixpass is missing its built files, so it can’t start. Install fixpass.zip from the latest release on GitHub (under Assets), not the “Download ZIP” of the source code.', 'fixpass' ) . '</p></div>';
+			return;
+		}
 		echo '<div id="fxp-root" class="hdh-root"><div class="hdh-boot" role="status">' . esc_html__( 'Loading…', 'fixpass' ) . '</div></div>';
 	}
 
