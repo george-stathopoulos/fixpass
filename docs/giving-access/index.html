@@ -16,10 +16,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <!-- Cloudflare Web Analytics: counts visits anonymously, no cookies --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "64332b427a604e879f82853393ebdb0d"}'></script><!-- End Cloudflare Web Analytics -->
-<link rel="stylesheet" href="../../assets/site.css?v=1.0.3.mv9i570u">
-<link rel="stylesheet" href="../../assets/home.css?v=1.0.3.mv9i570u">
+<link rel="stylesheet" href="../../assets/site.css?v=1.1.0.mv9iqkub">
+<link rel="stylesheet" href="../../assets/home.css?v=1.1.0.mv9iqkub">
 <script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
-<script src="../../assets/search-index.js?v=1.0.3.mv9i570u" defer></script>
+<script src="../../assets/search-index.js?v=1.1.0.mv9iqkub" defer></script>
 </head>
 <body data-root="../../">
 <a class="skip" href="#main">Skip to content</a>
@@ -69,7 +69,7 @@
 <li><strong>Just give access:</strong> the quickest, about 30 seconds. Good when the whole site is down, or you can't open the page. You describe the problem in your message.</li>
 </ul>
 <p>Picking the first shows three short steps (go to the page, click <strong>Spotlight a problem</strong>, click <strong>Continue</strong>). When you come back, your spots are listed with a <strong>Remove</strong> link for any you don't want to send, and the access form is right below.</p>
-<figure data-zoom><img src="../../assets/img/give-access.jpg" alt="Your spots are ready to send. Choose a length and click Give access." width="1800" height="1221" loading="lazy" decoding="async"><figcaption>Your spots are ready to send. Choose a length and click Give access.</figcaption></figure>
+<figure data-zoom><img src="../../assets/img/give-access.jpg" alt="Your spots are ready to send. Choose a length and click Give access." width="1800" height="1378" loading="lazy" decoding="async"><figcaption>Your spots are ready to send. Choose a length and click Give access.</figcaption></figure>
 <h2 id="give-access">Give access<a class="anchor" href="#give-access" aria-label="Link to this section">#</a></h2>
 <p>Choose the options, then a length (<strong>1, 2, 3 (the default) or 5 days, or a week</strong>), and click <strong>Give access</strong>:</p>
 <ul>
@@ -79,6 +79,7 @@
 <li><strong>One-time link:</strong> works for a single login. The most secure choice; if support needs to log in again, they ask you for a new link.</li>
 </ul>
 </li>
+<li><strong>Let support extend access themselves</strong> (off by default): support can add <strong>1 or 24 hours</strong> at a time from their Support session page, up to a limit you set: <strong>1 week</strong>, <strong>2 weeks</strong> or <strong>30 days from now</strong>, or <strong>a specific date</strong> (never more than 30 days from when access was given). You get an email each time, and each extension is in the access history. Leave it off if you'd rather decide yourself.</li>
 <li><strong>Delete Fixpass when access ends</strong> (ticked by default): once access has ended, for whatever reason, Fixpass deactivates and deletes itself about a minute later. <strong>The access history is deleted with it</strong>, so download the history first if you want a copy. Untick it to keep Fixpass installed.</li>
 </ul>
 <p>One support access can be open at a time.</p>
@@ -90,7 +91,7 @@
 </ul>
 <p>Paste the details into a reply to your support team. This always reaches them, because it doesn't depend on your site sending email.</p>
 <p>If your browser blocks copying, the text appears in a box so you can copy it yourself.</p>
-<figure data-zoom><img src="../../assets/img/access-open.jpg" alt="Access is open: copy the details and paste them into a reply to your support team." width="1800" height="1230" loading="lazy" decoding="async"><figcaption>Access is open: copy the details and paste them into a reply to your support team.</figcaption></figure>
+<figure data-zoom><img src="../../assets/img/access-open.jpg" alt="Access is open: copy the details and paste them into a reply to your support team." width="1800" height="1272" loading="lazy" decoding="async"><figcaption>Access is open: copy the details and paste them into a reply to your support team.</figcaption></figure>
 <p><strong>Copying again later:</strong> a reusable link comes back the same. A one-time link is replaced each time you copy after reloading the page, and the earlier link stops working.</p>
 <h2 id="the-status">The status<a class="anchor" href="#the-status" aria-label="Link to this section">#</a></h2>
 <p>While access is open, the page shows:</p>
@@ -155,10 +156,16 @@
 </tbody>
 </table>
 <h2 id="access-history">Access history<a class="anchor" href="#access-history" aria-label="Link to this section">#</a></h2>
-<figure data-zoom><img src="../../assets/img/access-history.jpg" alt="The access history: when access was given, when support logged in, and what they did." width="1800" height="485" loading="lazy" decoding="async"><figcaption>The access history: when access was given, when support logged in, and what they did.</figcaption></figure>
-<p>Below the status, <strong>Access history</strong> lists what happened: when access was given, extended and ended, when support logged in and out, and what they did on the site (changes, and optionally the pages they looked at).</p>
+<figure data-zoom><img src="../../assets/img/access-history.jpg" alt="The access history: when access was given, when support logged in, and what they did." width="1800" height="578" loading="lazy" decoding="async"><figcaption>The access history: when access was given, when support logged in, and what they did.</figcaption></figure>
+<p>Below the status, <strong>Access history</strong> lists what happened, with <strong>who did it</strong>:</p>
 <ul>
-<li><strong>Download (CSV):</strong> saves the whole history as a spreadsheet file.</li>
+<li><strong>You</strong> (purple): you gave access, extended it, ended it, copied the details.</li>
+<li><strong>Support</strong> (amber): they logged in or out, extended access (if you allowed it), ended it when they were done, started troubleshooting mode, and what they changed on the site. Tick <strong>Include every page support looked at</strong> to see those too.</li>
+<li><strong>Fixpass</strong> (grey): access ran out as planned, or ended because the support account was deleted or Fixpass was deactivated.</li>
+</ul>
+<p>Access events stand out, with a coloured edge: green for access given and logins, blue for extensions, red for access ending. The things support did on the site are listed in smaller text between them.</p>
+<ul>
+<li><strong>Download (CSV):</strong> saves the whole history as a spreadsheet file, with columns for the time, who did it, what happened and the IP address of logins.</li>
 <li><strong>Delete history:</strong> removes the record of past access and what support did, and the access that has ended. It can't be undone. Access that is open right now keeps its own history.</li>
 <li><strong>Keep the history for:</strong> 30, 90 (the default) or 365 days. Older entries are deleted automatically.</li>
 </ul>
@@ -166,6 +173,7 @@
 <h2 id="extend-or-end-access">Extend or end access<a class="anchor" href="#extend-or-end-access" aria-label="Link to this section">#</a></h2>
 <ul>
 <li><strong>Extend +24h</strong> adds a day. One access can last at most 30 days from when it was given.</li>
+<li>If you allowed it, support can extend by 1 or 24 hours themselves (see above).</li>
 <li><strong>End access now</strong> ends it straight away: the support account is deleted and the link stops working.</li>
 </ul>
 <p>However access ends, the support account is deleted for good.</p>
@@ -211,7 +219,7 @@
 			<div>
 				<h2>More projects</h2>
 				<ul>
-					<li><a href="https://george-stathopoulos.github.io/gatehouse/" title="AI governance and cost control for WordPress">Gatehouse</a></li><li><a href="https://george-stathopoulos.github.io/helpdesk-hero/" title="WordPress support with diagnostics and password-free access">Helpdesk Hero</a></li><li><a href="https://george-stathopoulos.github.io/sheetpilot/" title="Turn any spreadsheet into an interactive dashboard, in your browser">SheetPilot</a></li>
+					<li><a href="https://george-stathopoulos.github.io/gatehouse/" title="AI governance and cost control for WordPress">Gatehouse</a></li><li><a href="https://george-stathopoulos.github.io/helpdesk-hero/" title="WordPress support with diagnostics and password-free access">Helpdesk Hero</a></li><li><a href="https://george-stathopoulos.github.io/sheetpilot/" title="Turn any spreadsheet into an interactive dashboard, in your browser">SheetPilot</a></li><li><a href="https://george-stathopoulos.github.io/duenest/" title="Bills and subscriptions, calmly in one place. English and Greek">Duenest</a></li>
 					<li><a href="https://george-stathopoulos.github.io/#projects">All projects</a></li>
 					<li><a href="https://george-stathopoulos.github.io/blog/" title="The story behind every project">Blog</a></li>
 				</ul>
@@ -228,11 +236,11 @@
 		</div>
 		<div class="foot-bottom">
 			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="https://george-stathopoulos.github.io/">George Stathopoulos</a></span>
-			<span>Fixpass 1.0.3 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
+			<span>Fixpass 1.1.0 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
 		</div>
 	</div>
 </footer>
-<script src="../../assets/site.js?v=1.0.3.mv9i570u" defer></script>
+<script src="../../assets/site.js?v=1.1.0.mv9iqkub" defer></script>
 
 </body>
 </html>

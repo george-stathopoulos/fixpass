@@ -16,8 +16,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <!-- Cloudflare Web Analytics: counts visits anonymously, no cookies --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "64332b427a604e879f82853393ebdb0d"}'></script><!-- End Cloudflare Web Analytics -->
-<link rel="stylesheet" href="../assets/site.css?v=1.0.3.mv9i570u">
-<link rel="stylesheet" href="../assets/home.css?v=1.0.3.mv9i570u">
+<link rel="stylesheet" href="../assets/site.css?v=1.1.0.mv9iqkub">
+<link rel="stylesheet" href="../assets/home.css?v=1.1.0.mv9iqkub">
 <script>try{localStorage.removeItem('hdh-site-theme');var t=sessionStorage.getItem('hdh-site-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark';}catch(e){document.documentElement.dataset.theme='dark';}</script>
 
 </head>
@@ -45,6 +45,7 @@
 <section class="page-head"><div class="wrap"><span class="kicker">Changelog</span><h1>What's new</h1><p>Every Fixpass release, newest first.</p></div></section>
 <div class="wrap" style="padding:64px 24px 120px">
 	<div class="prose">
+		<section class="release"><h2 id="v1-1-0">Version 1.1.0</h2><ul><li>New: let support extend access themselves. Optional, off by default: support can add 1 or 24 hours at a time from their Support session page, up to a limit you set (1 week, 2 weeks or 30 days from now, or a specific date). You get an email each time, and support stays logged in.</li><li>New: the access history now says who did what (you, support or Fixpass), in plain words. Access given, extended and ended stand out with colour; what support did is shown in smaller text between them. The CSV has a &quot;Who&quot; column.</li><li>Fix: Fixpass's own screens no longer clutter the history with lines like &quot;Saved data through the REST API&quot;.</li></ul></section>
 		<section class="release"><h2 id="v1-0-3">Version 1.0.3</h2><ul><li>New: Access history on the Fixpass page: when access was given, extended and ended, when support logged in and out, and what support did. Download it (CSV), delete it, and choose to keep it for 30, 90 or 365 days.</li><li>New: the Spotlight button keeps pulsing on your site, with a hint beside it, after you choose &quot;Show the problem, then give access&quot;.</li><li>New: the Fixpass page checks for support logging in every few seconds, and as soon as you return to the tab.</li><li>Change: the login link choice and the delete option are always visible, and shown before the Give access button.</li><li>Change: &quot;Remove Fixpass when access ends&quot; is now &quot;Delete Fixpass when access ends&quot;, and says that the access history is deleted with it.</li><li>Change: Skip the tour now hides the tour for good (take it again any time from the page).</li><li>Change: shorter time estimates on the two start buttons.</li></ul></section>
 		<section class="release"><h2 id="v1-0-2">Version 1.0.2</h2><ul><li>Fix: in troubleshooting mode, Fixpass switched itself off for support (it showed as inactive and couldn't be activated) when the plugin folder wasn't called &quot;fixpass&quot;, for example after installing GitHub's &quot;Download ZIP&quot;. Fixpass now always stays on, whatever its folder is called.</li><li>Change: support can no longer install or delete themes, which could break the site for visitors. To try a default theme, support uses troubleshooting mode, which only changes their own browser.</li></ul></section>
 		<section class="release"><h2 id="v1-0-1">Version 1.0.1</h2><ul><li>New: the Fixpass page now starts with two big choices, &quot;Show the problem, then give access&quot; (recommended) and &quot;Just give access&quot;. The first walks you through Spotlight, shows your spots, and then gives access.</li><li>New: the welcome tour starts with Spotlight and explains the two choices.</li><li>Fix: the Fixpass page stayed on &quot;Loading…&quot; on WordPress 6.5, which has no JSX runtime script. It is now bundled.</li><li>Fix: a clear message instead of an endless &quot;Loading…&quot; if the plugin's built files are missing (for example after installing GitHub's &quot;Download ZIP&quot;).</li></ul></section>
@@ -81,7 +82,7 @@
 			<div>
 				<h2>More projects</h2>
 				<ul>
-					<li><a href="https://george-stathopoulos.github.io/gatehouse/" title="AI governance and cost control for WordPress">Gatehouse</a></li><li><a href="https://george-stathopoulos.github.io/helpdesk-hero/" title="WordPress support with diagnostics and password-free access">Helpdesk Hero</a></li><li><a href="https://george-stathopoulos.github.io/sheetpilot/" title="Turn any spreadsheet into an interactive dashboard, in your browser">SheetPilot</a></li>
+					<li><a href="https://george-stathopoulos.github.io/gatehouse/" title="AI governance and cost control for WordPress">Gatehouse</a></li><li><a href="https://george-stathopoulos.github.io/helpdesk-hero/" title="WordPress support with diagnostics and password-free access">Helpdesk Hero</a></li><li><a href="https://george-stathopoulos.github.io/sheetpilot/" title="Turn any spreadsheet into an interactive dashboard, in your browser">SheetPilot</a></li><li><a href="https://george-stathopoulos.github.io/duenest/" title="Bills and subscriptions, calmly in one place. English and Greek">Duenest</a></li>
 					<li><a href="https://george-stathopoulos.github.io/#projects">All projects</a></li>
 					<li><a href="https://george-stathopoulos.github.io/blog/" title="The story behind every project">Blog</a></li>
 				</ul>
@@ -98,11 +99,11 @@
 		</div>
 		<div class="foot-bottom">
 			<span>Made with <span class="heart" role="img" aria-label="love">♥</span> by <a href="https://george-stathopoulos.github.io/">George Stathopoulos</a></span>
-			<span>Fixpass 1.0.3 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
+			<span>Fixpass 1.1.0 · This website uses no cookies. Visits are counted anonymously, with no personal data.</span>
 		</div>
 	</div>
 </footer>
-<script src="../assets/site.js?v=1.0.3.mv9i570u" defer></script>
+<script src="../assets/site.js?v=1.1.0.mv9iqkub" defer></script>
 
 </body>
 </html>
