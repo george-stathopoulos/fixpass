@@ -4,7 +4,7 @@ Tags: support, remote access, temporary login, debugging, troubleshooting
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,10 @@ Every support account, Fixpass's tables and settings, the troubleshooting must-u
 Fixpass doesn't send data to any external service. The access details (login link, spots, site health, plugins and themes) only leave your site when you copy and send them. Spots keep the page address, your note, your screen size and browser, and errors on that page, for 90 days. Passwords, keys and email addresses are removed from the site details support sees.
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix: in troubleshooting mode, Fixpass switched itself off for support (it showed as inactive and couldn't be activated) when the plugin folder wasn't called "fixpass", for example after installing GitHub's "Download ZIP". Fixpass now always stays on, whatever its folder is called.
+* Change: support can no longer install or delete themes, which could break the site for visitors. To try a default theme, support uses troubleshooting mode, which only changes their own browser.
 
 = 1.0.1 =
 * New: the Fixpass page now starts with two big choices, "Show the problem, then give access" (recommended) and "Just give access". The first walks you through Spotlight, shows your spots, and then gives access.

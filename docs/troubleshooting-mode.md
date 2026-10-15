@@ -17,6 +17,8 @@ Only support, logged in with Fixpass, can use it (on the Support session page, *
 
 ## How it works
 
+Fixpass itself always stays switched on during troubleshooting, so support can still use it.
+
 Fixpass installs a small must-use plugin (`wp-content/mu-plugins/fixpass-troubleshoot.php`) while troubleshooting is in use. For requests carrying your troubleshooting cookie, it filters the list of active plugins (and the theme) before WordPress loads them. Nothing in the site's settings changes.
 
 - It stops by itself after four hours, or when access ends if that's sooner.

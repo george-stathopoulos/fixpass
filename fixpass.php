@@ -3,7 +3,7 @@
  * Plugin Name:       Fixpass
  * Plugin URI:        https://george-stathopoulos.github.io/fixpass/
  * Description:       Give your support team safe, temporary access to your site, and Spotlight the exact spot that's broken. Support gets site details, debugging tools and troubleshooting mode once they log in.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            George Stathopoulos
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FIXPASS_VERSION', '1.0.1' );
+define( 'FIXPASS_VERSION', '1.0.2' );
 define( 'FIXPASS_FILE', __FILE__ );
 define( 'FIXPASS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FIXPASS_URL', plugin_dir_url( __FILE__ ) );

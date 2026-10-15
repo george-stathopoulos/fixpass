@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Fixpass troubleshooting mode
  * Description: Disables chosen plugins for one browser session only, so support can test for conflicts without affecting visitors. Added by Fixpass and removed automatically when troubleshooting ends.
- * Version:     1.0.1
+ * Version:     1.0.2
  * License:     GPL-2.0-or-later
  *
  * @package Fixpass
@@ -25,7 +25,23 @@ if ( ! is_array( $fixpass_sessions ) || empty( $fixpass_sessions[ $fixpass_key ]
 define( 'FIXPASS_TROUBLESHOOTING', true );
 
 $fixpass_session = $fixpass_sessions[ $fixpass_key ];
-$fixpass_keep    = array_merge( (array) $fixpass_session['keep'], array( 'fixpass/fixpass.php' ) );
+// Fixpass itself always stays on, whatever its folder is called (a zip downloaded from GitHub
+// installs as "fixpass-main", for example).
+$fixpass_own  = ! empty( $fixpass_session['own'] ) ? array( (string) $fixpass_session['own'] ) : array( 'fixpass/fixpass.php' );
+$fixpass_keep = array_merge( (array) $fixpass_session['keep'], $fixpass_own );
+add_filter(
+	'option_active_plugins',
+	static function ( $plugins ) use ( &$fixpass_keep ) {
+		foreach ( (array) $plugins as $file ) {
+			// Sessions started before 1.0.2 don't know the folder name: recognise Fixpass by its file.
+			if ( preg_match( '#^fixpass[^/]*/fixpass\.php$#', (string) $file ) && ! in_array( $file, $fixpass_keep, true ) ) {
+				$fixpass_keep[] = $file;
+			}
+		}
+		return $plugins;
+	},
+	0
+);
 
 add_filter(
 	'option_active_plugins',

@@ -919,6 +919,11 @@ final class Fixpass_Access {
 		foreach ( array( 'create_users', 'promote_users', 'add_users', 'edit_users', 'delete_users', 'remove_users', 'manage_network_users' ) as $cap ) {
 			$allcaps[ $cap ] = false;
 		}
+		// Nor installs or deletes a theme: that can break the site for visitors. To test with a
+		// default theme, support uses troubleshooting mode, which only changes their own browser.
+		foreach ( array( 'install_themes', 'delete_themes' ) as $cap ) {
+			$allcaps[ $cap ] = false;
+		}
 		if ( 'restricted_admin' !== $grant['role'] ) {
 			return $allcaps;
 		}

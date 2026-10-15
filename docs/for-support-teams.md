@@ -53,6 +53,7 @@ Read-only tools:
 You're a full administrator, with two exceptions that protect the site owner:
 
 - You can't create, edit, promote or delete users, so no account outlives your access.
+- You can't install or delete themes: that could break the site for visitors. To test with a default theme, use [troubleshooting mode](troubleshooting-mode.md): it only changes your browser.
 - You can't deactivate or delete Fixpass.
 
 Password login is switched off for your account; the link is the only way in.

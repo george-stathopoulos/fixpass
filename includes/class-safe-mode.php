@@ -139,6 +139,7 @@ final class Fixpass_Safe_Mode {
 			'user'     => get_current_user_id(),
 			'grant_id' => $grant_id,
 			'keep'     => $keep,
+			'own'      => plugin_basename( FIXPASS_FILE ),
 			'theme'    => $use_theme ? self::default_theme() : '',
 			'expires'  => $expires,
 		);

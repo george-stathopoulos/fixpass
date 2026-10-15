@@ -6,7 +6,7 @@ Fixpass gives someone else administrator access to your site, so it's built to k
 
 - Support gets a **temporary full administrator** account, created when you give access. Only give access when you need help.
 - **No password:** WordPress creates the account, but password login is switched off for it. The login link is the only way in.
-- Support **can't manage users** (create, edit, promote or delete), so no account outlives their access, and **can't deactivate or delete Fixpass**.
+- Support **can't manage users** (create, edit, promote or delete), so no account outlives their access, **can't install or delete themes** (a bad theme could break your site for visitors; to test with a default theme, support uses [troubleshooting mode](troubleshooting-mode.md), which only changes their own browser), and **can't deactivate or delete Fixpass**.
 - Support's login session can't last longer than the access.
 - The account is listed in **Users**, labelled as a temporary support account.
 
