@@ -31,6 +31,7 @@ const PROJECTS = [
 	{ name: 'Gatehouse', url: 'https://george-stathopoulos.github.io/gatehouse/', text: 'AI governance and cost control for WordPress' },
 	{ name: 'Helpdesk Hero', url: 'https://george-stathopoulos.github.io/helpdesk-hero/', text: 'WordPress support with diagnostics and password-free access' },
 	{ name: 'Fixpass', url: 'https://george-stathopoulos.github.io/fixpass/', text: 'Spotlight the problem and give support safe, temporary access' },
+	{ name: 'SheetPilot', url: 'https://george-stathopoulos.github.io/sheetpilot/', text: 'Turn any spreadsheet into an interactive dashboard, in your browser' },
 ];
 
 const ROOT = process.cwd();
