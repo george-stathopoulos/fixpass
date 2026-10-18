@@ -1479,3 +1479,9 @@
 	font-weight: 800;
 	letter-spacing: -0.03em;
 }
+
+/* Cross-promotion box (e.g. "Not on WordPress?") */
+.fx-promo { padding: 56px 0; }
+.fx-promo__box { border: 1px solid var(--accent-line); background: var(--accent-soft); border-radius: 20px; padding: 32px; display: grid; gap: 12px; }
+.fx-promo__box h2 { margin: 0; }
+.fx-promo__box .cta-row { justify-content: flex-start; }

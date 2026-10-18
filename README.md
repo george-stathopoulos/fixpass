@@ -11,6 +11,8 @@ Fixpass is a free WordPress plugin for the moment something on your site goes wr
 
 Once support logs in, they get a Support session page with your spots, full site details, the debug log, scheduled tasks and **troubleshooting mode**, which switches plugins off in their browser only, so your visitors never notice.
 
+**Not on WordPress?** [FixSpot](https://george-stathopoulos.github.io/fixspot/) brings Spotlight to any website, as a free app and browser extension.
+
 > Lost in translation no more: your support team sees exactly what you see, and gets in without a password.
 
 ## Features
