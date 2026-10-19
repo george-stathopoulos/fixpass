@@ -241,6 +241,7 @@ ${ body }
 	</div>
 </footer>
 <script src="${ root }assets/site.js?v=${ ASSET_V }" defer></script>
+<script src="${ root }assets/share-heart.js?v=${ ASSET_V }" data-site="fixpass" data-url="${ SITE.url }" data-msg="Strong passwords are best shared as links, not as passwords." defer></script>
 ${ home ? `<script src="${ root }assets/home.js?v=${ ASSET_V }" defer></script>\n<script src="${ root }assets/hero-scene.js?v=${ ASSET_V }" defer></script>` : '' }
 </body>
 </html>
